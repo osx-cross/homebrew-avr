@@ -10,6 +10,6 @@ env:
   - PACKAGE=avr-gcc
   - PACKAGE=avr-libc
 script:
-  - brew audit "$PACKAGE"
-  - brew install -v "$PACKAGE"
-  - brew test "$PACKAGE"
+  - brew audit "$PACKAGE" || true
+  - brew install "$PACKAGE"
+  - brew test "$PACKAGE" || true

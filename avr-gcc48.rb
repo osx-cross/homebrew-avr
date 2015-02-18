@@ -5,7 +5,7 @@ require 'formula'
 
 class AvrGcc48 < Formula
 
-    homepage 'http://www.gnu.org/software/gcc/gcc.html'
+    homepage 'https://www.gnu.org/software/gcc/gcc.html'
     url 'http://ftp.gnu.org/gnu/gcc/gcc-4.8.3/gcc-4.8.3.tar.bz2'
     mirror 'ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.8.3/gcc-4.8.3.tar.bz2'
     sha256 '6a8e4f11b185f4fe2ed9d7fc053e80f8c7e73f800c045f51f9d8bea33f080f1e'
