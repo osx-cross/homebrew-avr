@@ -13,6 +13,7 @@ Current Versions
 - `gcc 4.9.2` and `gcc 4.8.3`
 - `binutils 2.24.0`
 - `avr-libc 1.8.1`
+- `gdb 7.8.2`
 
 Installing homebrew-avr formulae
 --------------------------------
