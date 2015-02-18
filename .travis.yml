@@ -1,0 +1,15 @@
+language: objective-c
+before_install:
+  - brew update
+install:
+  - mkdir -p "$(brew --repo)/Library/Taps"
+  - ln -s "$PWD" "$(brew --repo)/Library/Taps/${TRAVIS_REPO_SLUG#*/homebrew-}"
+  - brew tap --repair
+env:
+  - PACKAGE=avr-binutils
+  - PACKAGE=avr-gcc
+  - PACKAGE=avr-libc
+script:
+  - brew audit "$PACKAGE"
+  - brew install -v "$PACKAGE"
+  - brew test "$PACKAGE"
