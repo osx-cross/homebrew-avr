@@ -1,0 +1,13 @@
+language: objective-c
+before_install:
+  - brew update
+install:
+  - mkdir -p "$(brew --repo)/Library/Taps/${TRAVIS_REPO_SLUG%/*}"
+  - ln -s "$PWD" "$(brew --repo)/Library/Taps/${TRAVIS_REPO_SLUG}"
+  - brew tap --repair
+env:
+  - PACKAGE=avr-binutils
+  - PACKAGE=avr-gcc
+  - PACKAGE=avr-libc
+script:
+  - ./travis.sh "$PACKAGE"
