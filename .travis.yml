@@ -10,6 +10,4 @@ env:
   - PACKAGE=avr-gcc
   - PACKAGE=avr-libc
 script:
-  - brew audit "$PACKAGE" || true
-  - brew install -v "$PACKAGE"
-  - if grep -q "test do" "$PACKAGE.rb" ; then brew test "$PACKAGE" ; fi
+  - ./travis.sh
