@@ -8,7 +8,7 @@ log_filter () {
     sed \
        -e 'h;s/.\[[0-9;]*m//g' \
        -e 's/^==> Installing \(.*\) dependency: \(.*\)/travis_fold:start:\2/p' \
-       -e 'x;/^.\[[0-9;]*m==>/p;x' \
+       -e 'x;/^(.\[[0-9;]*m)\?==>/p;x' \
        -e '/^==> Summary/{N;s/.*Cellar\/\([^\/]*\)\/\([^\/]*\):.*/travis_fold:end:\1/p;}' \
        -e 'd'
 }
@@ -24,7 +24,8 @@ run_brew () {
     while ps -p "$pid" >/dev/null ; do
         let heartbeat=$heartbeat+1
 
-        if test "$heartbeat" -ge 60 ; then
+        if test "$heartbeat" -ge 120 ; then
+            heartbeat=0
             echo "still running..."
         fi
         sleep 1
