@@ -9,7 +9,7 @@ log_filter () {
        -e 'h;s/.\[[0-9;]*m//g' \
        -e 's/^==> Installing \(.*\) dependency: \(.*\)/travis_fold:start:\2/p' \
        -e 'x;/^.\[[0-9;]*m==>/p;x' \
-       -e '/^==> Summary/{N;s/.*Cellar\/\([^\/]*\)\/\([^\/]*\):.*/travis_fold:end:\1/p}' \
+       -e '/^==> Summary/{N;s/.*Cellar\/\([^\/]*\)\/\([^\/]*\):.*/travis_fold:end:\1/p;}' \
        -e 'd'
 }
 

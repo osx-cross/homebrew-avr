@@ -10,4 +10,4 @@ env:
   - PACKAGE=avr-gcc
   - PACKAGE=avr-libc
 script:
-  - ./travis.sh
+  - ./travis.sh "$PACKAGE"
