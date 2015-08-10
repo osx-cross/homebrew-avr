@@ -10,8 +10,6 @@ class AvrGcc48 < Formula
     mirror 'ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.8.3/gcc-4.8.3.tar.bz2'
     sha256 '6a8e4f11b185f4fe2ed9d7fc053e80f8c7e73f800c045f51f9d8bea33f080f1e'
 
-    keg_only "You are about to compile avr-libc #{version} with an older version of avr-gcc, i.e. avr-gcc #{Formula["avr-gcc48"].version}. Please refer to the Caveats section for more information."
-
     keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
 
     depends_on 'gmp'
