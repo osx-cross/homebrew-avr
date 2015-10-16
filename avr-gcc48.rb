@@ -6,9 +6,9 @@ require 'formula'
 class AvrGcc48 < Formula
 
     homepage 'http://www.gnu.org/software/gcc/gcc.html'
-    url 'http://ftp.gnu.org/gnu/gcc/gcc-4.8.3/gcc-4.8.3.tar.bz2'
-    mirror 'ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.8.3/gcc-4.8.3.tar.bz2'
-    sha256 '6a8e4f11b185f4fe2ed9d7fc053e80f8c7e73f800c045f51f9d8bea33f080f1e'
+    url 'http://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2'
+    mirror 'ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.8.5/gcc-4.8.5.tar.bz2'
+    sha256 '4338d73c01ecf788a7be8854b0e5799bce626c5077ec057bb1ee7618fb6a8cd1'
 
     keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
 
