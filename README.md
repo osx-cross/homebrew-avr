@@ -10,7 +10,7 @@ AVR is a popular family of microcontrollers, used for example in the
 Current Versions
 ----------------
 
-- `gcc 4.9.2` and `gcc 4.8.3`
+- `gcc 4.9.3` and `gcc 4.8.5`
 - `binutils 2.24.0`
 - `avr-libc 1.8.1`
 
