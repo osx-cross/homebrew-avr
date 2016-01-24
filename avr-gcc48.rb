@@ -15,7 +15,6 @@ class AvrGcc48 < Formula
     depends_on 'gmp'
     depends_on 'libmpc'
     depends_on 'mpfr'
-    depends_on 'cloog'
 
     depends_on 'avr-binutils'
 
@@ -46,7 +45,6 @@ class AvrGcc48 < Formula
             "--with-gmp=#{Formula["gmp"].opt_prefix}",
             "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
             "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-            "--with-cloog=#{Formula["cloog"].opt_prefix}",
             "--with-system-zlib"
         ]
 
