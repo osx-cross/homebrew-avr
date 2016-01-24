@@ -10,6 +10,11 @@ class AvrGcc < Formula
     mirror 'http://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2'
     sha256 '2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e'
 
+    resource 'avr-libc' do
+        url 'http://download.savannah.gnu.org/releases/avr-libc/avr-libc-1.8.1.tar.bz2'
+        sha256 'c3062a481b6b2c6959dc708571c00b0e26301897ba21171ed92acd0af7c4a969'
+    end
+
     depends_on 'gmp'
     depends_on 'libmpc'
     depends_on 'mpfr'
@@ -57,6 +62,20 @@ class AvrGcc < Formula
         # info and man7 files conflict with native gcc
         info.rmtree
         man7.rmtree
+
+        resource('avr-libc').stage do
+            ENV.prepend_path 'PATH', bin
+
+            ENV.delete 'CFLAGS'
+            ENV.delete 'CXXFLAGS'
+            ENV.delete 'LD'
+            ENV.delete 'CC'
+            ENV.delete 'CXX'
+
+            build = `./config.guess`.chomp
+
+            system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
+            system "make install"
+        end
     end
 end
-
