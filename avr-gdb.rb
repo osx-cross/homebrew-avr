@@ -8,6 +8,11 @@ class AvrGdb < Formula
     sha1 '67cfbc6efcff674aaac3af83d281cf9df0839ff9'
 
     depends_on 'avr-binutils'
+    depends_on 'gmp'
+    depends_on 'mpfr'
+    depends_on 'libmpc'
+    depends_on 'cloog'
+    depends_on 'isl012'
 
     def install
         args = [
@@ -23,7 +28,7 @@ class AvrGdb < Formula
             "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
             "--with-mpc=#{Formula["libmpc"].opt_prefix}",
             "--with-cloog=#{Formula["cloog"].opt_prefix}",
-            "--with-isl=#{Formula["isl"].opt_prefix}"
+            "--with-isl=#{Formula["isl012"].opt_prefix}"
         ]
 
         mkdir 'build' do
