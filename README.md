@@ -18,7 +18,9 @@ Current Versions
 Installing homebrew-avr formulae
 --------------------------------
 
-First, just `brew tap osx-cross/avr` and then `brew install <formula>`.
+First, make sure you have xcode command line developer tools installed with `xcode-select --install`
+
+Then, just `brew tap osx-cross/avr` and then `brew install <formula>`.
 
 To install the entire AVR toolchain, do:
 
