@@ -2,7 +2,7 @@ class AvrBinutils < Formula
   homepage "https://www.gnu.org/software/binutils/binutils.html"
   url "https://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz"
   mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.25.tar.gz"
-  sha256 "d955d7d6925bf44267b42e8f9df662a9e2f812f3a5cdc88a39f4cf5e72aeb8a1"
+  sha256 "cccf377168b41a52a76f46df18feb8f7285654b3c1bd69fc8265cb0fc6902f2d"
 
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
