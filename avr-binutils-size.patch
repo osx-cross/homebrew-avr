@@ -1,5 +1,9 @@
---- size-orig.c	2015-11-28 19:12:09.000000000 +0100
-+++ size.c	2015-11-28 19:13:55.000000000 +0100
+AVR only; support -C for AVR memory usage
+
+Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_plain;f=mhvavrtools/patches/binutils-001-avr-size.patch;h=e80d28eae46217551d996a2253256c97d10aa4b5;hb=refs/heads/master
+===========================================================
+--- binutils/size.c	2015-11-28 19:12:09.000000000 +0100
++++ binutils/size.c	2015-11-28 19:13:55.000000000 +0100
 @@ -34,10 +34,31 @@
  #include "getopt.h"
  #include "bucomm.h"
