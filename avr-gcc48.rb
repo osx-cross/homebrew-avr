@@ -86,7 +86,7 @@ class AvrGcc48 < Formula
 
     Please visite our Github repository for futher information or to report a bug.
 
-        http://github.com/weareleka/homebrew-avr
+        http://github.com/osx-cross/homebrew-avr
     EOS
   end
 end

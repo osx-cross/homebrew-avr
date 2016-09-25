@@ -51,7 +51,7 @@ class AvrLibc49 < Formula
 
     Please visite our Github repository for futher information or to report a bug.
 
-        https://github.com/weareleka/homebrew-avr
+        https://github.com/osx-cross/homebrew-avr
     EOS
   end
 end
