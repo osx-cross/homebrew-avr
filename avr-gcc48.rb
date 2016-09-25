@@ -12,8 +12,6 @@ class AvrGcc48 < Formula
   depends_on "gmp"
   depends_on "libmpc"
   depends_on "mpfr"
-  depends_on "cloog"
-  depends_on "isl"
 
   depends_on "avr-binutils"
 
