@@ -73,7 +73,7 @@ class AvrGcc48 < Formula
 
         $ brew install avr-libc
 
-    To use avr-gcc #{Formula["avr-gcc48"].version}, unlink all the binaries related to other versions of avr-libc before linking this one.
+    To use avr-gcc #{version}, unlink all the binaries related to other versions of avr-libc before linking this one.
 
         # unlink the latest/default avr-gcc #{Formula["avr-gcc"].version}
         $ brew unlink avr-libc avr-gcc
@@ -81,8 +81,11 @@ class AvrGcc48 < Formula
         # or for an older version of avr-gcc XX
         $ brew unlink avr-libcXX avr-gccXX
 
-        # and then link avr-gcc #{Formula["avr-gcc48"].version}
-        $ brew link avr-gcc48 avr-libc48
+        # install avr-libc compatible with avr-gcc #{version}
+        $ brew install avr-libc#{(name).gsub('avr-gcc', '')}
+
+        # and then link avr-gcc #{version} and avr-libc
+        $ brew link #{name} avr-libc#{(name).gsub('avr-gcc', '')}
 
     Please visite our Github repository for futher information or to report a bug.
 
