@@ -1,11 +1,11 @@
-class AvrLibc48 < Formula
+class AvrLibc49 < Formula
   homepage "http://www.nongnu.org/avr-libc/"
-  url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-1.8.1.tar.bz2"
-  sha256 "c3062a481b6b2c6959dc708571c00b0e26301897ba21171ed92acd0af7c4a969"
+  url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+  sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
 
   keg_only "You are about to compile avr-libc #{version} with an older version of avr-gcc. Please refer to the Caveats section for more information."
 
-  depends_on "avr-gcc48"
+  depends_on "avr-gcc49"
 
   def install
     ENV.delete "CFLAGS"
