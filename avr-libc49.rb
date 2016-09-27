@@ -14,7 +14,7 @@ class AvrLibc49 < Formula
     ENV.delete "CC"
     ENV.delete "CXX"
 
-    avr_gcc = Formula["avr-gcc48"]
+    avr_gcc = Formula["avr-gcc49"]
 
     build = `./config.guess`.chomp
 
