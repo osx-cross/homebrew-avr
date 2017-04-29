@@ -3,11 +3,16 @@
 
 class AvrGccAT4 < Formula
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.3/gcc-4.9.3.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
-  sha256 "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+  sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
 
   keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
+
+  resource "avr-libc" do
+    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+  end
 
   depends_on "gmp"
   depends_on "libmpc"
@@ -58,6 +63,22 @@ class AvrGccAT4 < Formula
     # info and man7 files conflict with native gcc
     info.rmtree
     man7.rmtree
+
+    resource("avr-libc").stage do 
+      ENV.prepend_path 'PATH', bin
+
+      ENV.delete 'CFLAGS'
+      ENV.delete 'CXXFLAGS'
+      ENV.delete 'LD'
+      ENV.delete 'CC'
+      ENV.delete 'CXX'
+
+      build = `./config.guess`.chomp
+
+      system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
+      system "make install"
+    end
+
   end
 
   def caveats; <<-EOS.undent
