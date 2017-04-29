@@ -1,7 +1,7 @@
 # print avr-gcc's builtin include paths
 # `avr-gcc -print-prog-name=cc1plus` -v
 
-class AvrGcc49 < Formula
+class AvrGccAT4 < Formula
   homepage "https://www.gnu.org/software/gcc/gcc.html"
   url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.3/gcc-4.9.3.tar.bz2"
   mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
