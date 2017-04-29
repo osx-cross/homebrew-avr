@@ -1,13 +1,13 @@
 # print avr-gcc's builtin include paths
 # `avr-gcc -print-prog-name=cc1plus` -v
 
-class AvrGccAT4 < Formula
+class AvrGccAT5 < Formula
   desc "GNU compiler collection for AVR"
 
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-  sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
+  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-5.4.0/gcc-5.4.0.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-5.4.0/gcc-5.4.0.tar.bz2"
+  sha256 "608df76dec2d34de6558249d8af4cbee21eceddbcb580d666f7a5a583ca3303a"
 
   keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
 
@@ -16,9 +16,9 @@ class AvrGccAT4 < Formula
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
-  depends_on "gmp"
-  depends_on "libmpc"
-  depends_on "mpfr"
+  depends_on "gmp@4"
+  depends_on "libmpc@0.8"
+  depends_on "mpfr@2"
 
   depends_on "avr-binutils"
 
@@ -48,9 +48,9 @@ class AvrGccAT4 < Formula
       "--disable-libstdcxx-pch",
       "--disable-libgomp",
 
-      "--with-gmp=#{Formula["gmp"].opt_prefix}",
-      "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
-      "--with-mpc=#{Formula["libmpc"].opt_prefix}",
+      "--with-gmp=#{Formula["gmp@4"].opt_prefix}",
+      "--with-mpfr=#{Formula["mpfr@2"].opt_prefix}",
+      "--with-mpc=#{Formula["libmpc@0.8"].opt_prefix}",
       "--with-system-zlib",
     ]
 

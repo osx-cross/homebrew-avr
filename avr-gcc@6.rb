@@ -1,15 +1,11 @@
 # print avr-gcc's builtin include paths
 # `avr-gcc -print-prog-name=cc1plus` -v
 
-class AvrGccAT4 < Formula
-  desc "GNU compiler collection for AVR"
-
+class AvrGcc < Formula
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-  sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
-
-  keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
+  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-6.3.0/gcc-6.3.0.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-6.3.0/gcc-6.3.0.tar.bz2"
+  sha256 "f06ae7f3f790fbf0f018f6d40e844451e6bc3b7bc96e128e63b09825c1f8b29f"
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
@@ -83,32 +79,4 @@ class AvrGccAT4 < Formula
 
   end
 
-  def caveats; <<-EOS.undent
-    You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}.
-
-    This formula will not be linked to #{HOMEBREW_PREFIX}/bin in order to avoid conflicts with the default/latest version of avr-gcc, eg. avr-gcc #{Formula["avr-gcc"].version}.
-
-    Unless you know what you are doing, it is recommended to use avr-gcc #{Formula["avr-gcc"].version}. Simply run the following:
-
-        $ brew install avr-libc
-
-    To use avr-gcc #{version}, unlink all the binaries related to other versions of avr-libc before linking this one.
-
-        # unlink the latest/default avr-gcc #{Formula["avr-gcc"].version}
-        $ brew unlink avr-libc avr-gcc
-
-        # or for an older version of avr-gcc XX
-        $ brew unlink avr-libcXX avr-gccXX
-
-        # install avr-libc compatible with avr-gcc #{version}
-        $ brew install avr-libc#{(name).gsub('avr-gcc', '')}
-
-        # and then link avr-gcc #{version} and avr-libc
-        $ brew link #{name} avr-libc#{(name).gsub('avr-gcc', '')}
-
-    Please visite our Github repository for futher information or to report a bug.
-
-        http://github.com/osx-cross/homebrew-avr
-    EOS
-  end
 end
