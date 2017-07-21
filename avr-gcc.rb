@@ -1,1 +1,1 @@
-avr-gcc@6.rb
+avr-gcc@7.rb
