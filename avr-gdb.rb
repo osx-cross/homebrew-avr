@@ -19,8 +19,6 @@ class AvrGdb < Formula
       "--with-gmp=#{Formula["gmp"].opt_prefix}",
       "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
       "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-      "--with-cloog=#{Formula["cloog"].opt_prefix}",
-      "--with-isl=#{Formula["isl"].opt_prefix}",
     ]
 
     mkdir "build" do

@@ -1,11 +1,11 @@
 # print avr-gcc's builtin include paths
 # `avr-gcc -print-prog-name=cc1plus` -v
 
-class AvrGcc48 < Formula
+class AvrGcc49 < Formula
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "https://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2"
-  mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.8.5/gcc-4.8.5.tar.bz2"
-  sha256 "22fb1e7e0f68a63cee631d85b20461d1ea6bda162f03096350e38c8d427ecf23"
+  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.3/gcc-4.9.3.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
+  sha256 "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
 
   keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
 
@@ -44,8 +44,6 @@ class AvrGcc48 < Formula
       "--with-gmp=#{Formula["gmp"].opt_prefix}",
       "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
       "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-      "--with-cloog=#{Formula["cloog"].opt_prefix}",
-      "--with-isl=#{Formula["isl"].opt_prefix}",
       "--with-system-zlib",
     ]
 
