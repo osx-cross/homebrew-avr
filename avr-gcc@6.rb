@@ -3,9 +3,9 @@
 
 class AvrGccAT6 < Formula
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-6.3.0/gcc-6.3.0.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-6.3.0/gcc-6.3.0.tar.bz2"
-  sha256 "f06ae7f3f790fbf0f018f6d40e844451e6bc3b7bc96e128e63b09825c1f8b29f"
+  url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.4.0/gcc-6.4.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-6.4.0/gcc-6.4.0.tar.xz"
+  sha256 "850bf21eafdfe5cd5f6827148184c08c4a0852a37ccf36ce69855334d2c914d4"
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
