@@ -38,7 +38,7 @@ class AvrGccAT7 < Formula
 
   def install
     # The C compiler is always built, C++ can be disabled
-    languages = %w[c]
+    languages = ["c"]
     languages << "c++" unless build.without? "cxx"
 
     args = [
