@@ -2,10 +2,16 @@
 # `avr-gcc -print-prog-name=cc1plus` -v
 
 class AvrGccAT7 < Formula
+  desc "GNU compiler collection"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.1.0/gcc-7.1.0.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-7.1.0/gcc-7.1.0.tar.bz2"
-  sha256 "8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17"
+
+  head "svn://gcc.gnu.org/svn/gcc/trunk"
+
+  stable do
+    url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.1.0/gcc-7.1.0.tar.bz2"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-7.1.0/gcc-7.1.0.tar.bz2"
+    sha256 "8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17"
+  end
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
