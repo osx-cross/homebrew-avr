@@ -1,5 +1,7 @@
 class AvrBinutils < Formula
+  desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/binutils.html"
+
   url "http://ftp.gnu.org/gnu/binutils/binutils-2.28.tar.bz2"
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.28.tar.bz2"
   sha256 "6297433ee120b11b4b0a1c8f3512d7d73501753142ab9e2daa13c5a3edd32a72"
@@ -12,15 +14,17 @@ class AvrBinutils < Formula
   end
 
   def install
-    args = %W[
-      --disable-debug
-      --disable-dependency-tracking
-      --target=avr
-      --prefix=#{prefix}
-      --infodir=#{info}
-      --mandir=#{man}
-      --disable-werror
-      --disable-nls
+    args = [
+      "--prefix=#{prefix}",
+      "--infodir=#{info}",
+      "--mandir=#{man}",
+
+      "--target=avr",
+
+      "--disable-nls",
+      "--disable-debug",
+      "--disable-dependency-tracking",
+      "--disable-werror"
     ]
 
     mkdir "build" do
