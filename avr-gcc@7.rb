@@ -24,6 +24,14 @@ class AvrGccAT7 < Formula
 
   depends_on "avr-binutils"
 
+  def version_suffix
+    if build.head?
+      (stable.version.to_s.slice(/\d/).to_i + 1).to_s
+    else
+      version.to_s.slice(/\d/)
+    end
+  end
+
   option "without-cxx", "Don't build the g++ compiler"
 
   deprecated_option "disable-cxx" => "without-cxx"
