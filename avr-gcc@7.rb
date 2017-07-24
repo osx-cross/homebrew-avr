@@ -18,19 +18,11 @@ class AvrGccAT7 < Formula
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
-  depends_on "gmp"
-  depends_on "libmpc"
-  depends_on "mpfr"
+  # depends_on "gmp"
+  # depends_on "libmpc"
+  # depends_on "mpfr"
 
   depends_on "avr-binutils"
-
-  def version_suffix
-    if build.head?
-      (stable.version.to_s.slice(/\d/).to_i + 1).to_s
-    else
-      version.to_s.slice(/\d/)
-    end
-  end
 
   option "without-cxx", "Don't build the g++ compiler"
 
@@ -42,26 +34,31 @@ class AvrGccAT7 < Formula
     languages << "c++" unless build.without? "cxx"
 
     args = [
-      "--target=avr",
       "--prefix=#{prefix}",
 
+      "--target=avr",
+
       "--enable-languages=#{languages.join(",")}",
+
       "--with-gnu-as",
       "--with-gnu-ld",
+
       "--with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}",
       "--with-as=#{Formula["avr-binutils"].opt_bin/"avr-as"}",
 
       "--disable-nls",
+      "--disable-libssp",
+      "--disable-libada",
       "--disable-shared",
       "--disable-threads",
-      "--disable-libssp",
-      "--disable-libstdcxx-pch",
+      # "--disable-libstdcxx-pch",
       "--disable-libgomp",
 
-      "--with-gmp=#{Formula["gmp"].opt_prefix}",
-      "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
-      "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-      "--with-system-zlib",
+      # "--with-gmp=#{Formula["gmp"].opt_prefix}",
+      # "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
+      # "--with-mpc=#{Formula["libmpc"].opt_prefix}",
+      # "--with-system-zlib",
+      "--with-dwarf2"
     ]
 
     mkdir "build" do
@@ -76,7 +73,7 @@ class AvrGccAT7 < Formula
     info.rmtree
     man7.rmtree
 
-    resource("avr-libc").stage do 
+    resource("avr-libc").stage do
       ENV.prepend_path 'PATH', bin
 
       ENV.delete 'CFLAGS'

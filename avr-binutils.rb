@@ -22,8 +22,8 @@ class AvrBinutils < Formula
       "--target=avr",
 
       "--disable-nls",
-      "--disable-debug",
-      "--disable-dependency-tracking",
+      # "--disable-debug",
+      # "--disable-dependency-tracking",
       "--disable-werror"
     ]
 
