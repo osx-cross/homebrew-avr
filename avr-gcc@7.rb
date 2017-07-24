@@ -33,8 +33,6 @@ class AvrGccAT7 < Formula
   option "with-system-zlib", "For OS X, build with system zlib"
   option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
-  deprecated_option "disable-cxx" => "without-cxx"
-
   def install
     languages = ["c"]
 
