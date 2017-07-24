@@ -5,6 +5,8 @@ class AvrGccAT7 < Formula
   desc "GNU compiler collection"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
+  keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
+
   head "svn://gcc.gnu.org/svn/gcc/trunk"
 
   stable do
@@ -18,48 +20,46 @@ class AvrGccAT7 < Formula
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
-  # depends_on "gmp"
-  # depends_on "libmpc"
-  # depends_on "mpfr"
+  depends_on "gmp"
+  depends_on "libmpc"
+  depends_on "mpfr"
 
   depends_on "avr-binutils"
 
   option "without-cxx", "Don't build the g++ compiler"
+  option "with-gmp", "Build with gmp support"
+  option "with-libmpc", "Build with libmpc support"
+  option "with-mpfr", "Build with mpfr support"
+  option "with-system-zlib", "For OS X, build with system zlib"
+  option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
   deprecated_option "disable-cxx" => "without-cxx"
 
   def install
-    # The C compiler is always built, C++ can be disabled
     languages = ["c"]
+
     languages << "c++" unless build.without? "cxx"
 
     args = [
+      "--target=avr",
       "--prefix=#{prefix}",
 
-      "--target=avr",
-
       "--enable-languages=#{languages.join(",")}",
-
-      "--with-gnu-as",
-      "--with-gnu-ld",
-
       "--with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}",
       "--with-as=#{Formula["avr-binutils"].opt_bin/"avr-as"}",
 
       "--disable-nls",
       "--disable-libssp",
-      "--disable-libada",
       "--disable-shared",
       "--disable-threads",
-      # "--disable-libstdcxx-pch",
       "--disable-libgomp",
-
-      # "--with-gmp=#{Formula["gmp"].opt_prefix}",
-      # "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
-      # "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-      # "--with-system-zlib",
-      "--with-dwarf2"
     ]
+
+    args << "--with-gmp=#{Formula["gmp"].opt_prefix}" if build.with? "gmp"
+    args << "--with-mpfr=#{Formula["mpfr"].opt_prefix}" if build.with? "mpfr"
+    args << "--with-mpc=#{Formula["libmpc"].opt_prefix}" if build.with? "libmpc"
+    args << "--with-system-zlib" if build.with? "system-zlib"
+    args << "--with-dwarf2" if build.with? "dward2"
 
     mkdir "build" do
       system "../configure", *args
