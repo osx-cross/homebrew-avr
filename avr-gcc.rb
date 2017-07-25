@@ -13,10 +13,12 @@ class AvrGcc < Formula
     sha256 "8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17"
   end
 
-  resource "avr-libc" do
-    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
-  end
+  option "without-cxx", "Don't build the g++ compiler"
+  option "with-gmp", "Build with gmp support"
+  option "with-libmpc", "Build with libmpc support"
+  option "with-mpfr", "Build with mpfr support"
+  option "with-system-zlib", "For OS X, build with system zlib"
+  option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
   depends_on "gmp"
   depends_on "libmpc"
@@ -24,12 +26,10 @@ class AvrGcc < Formula
 
   depends_on "avr-binutils"
 
-  option "without-cxx", "Don't build the g++ compiler"
-  option "with-gmp", "Build with gmp support"
-  option "with-libmpc", "Build with libmpc support"
-  option "with-mpfr", "Build with mpfr support"
-  option "with-system-zlib", "For OS X, build with system zlib"
-  option "without-dwarf2", "Don't build with Dwarf 2 enabled"
+  resource "avr-libc" do
+    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+  end
 
   def install
     languages = ["c"]
@@ -81,7 +81,7 @@ class AvrGcc < Formula
       build = `./config.guess`.chomp
 
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
-      system "make install"
+      system "make", "install"
     end
 
   end
