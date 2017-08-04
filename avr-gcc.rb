@@ -28,6 +28,8 @@ class AvrGcc < Formula
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
+  cxxstdlib_check :skip
+
   def install
     languages = ["c"]
 
