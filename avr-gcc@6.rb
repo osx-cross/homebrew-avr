@@ -77,20 +77,18 @@ class AvrGccAT6 < Formula
     bin.install_symlink Formula["avr-binutils"].opt_bin/"*"
 
     resource("avr-libc").stage do
-      ENV.prepend_path 'PATH', bin
+      ENV.prepend_path "PATH", bin
 
-      ENV.delete 'CFLAGS'
-      ENV.delete 'CXXFLAGS'
-      ENV.delete 'LD'
-      ENV.delete 'CC'
-      ENV.delete 'CXX'
+      ENV.delete "CFLAGS"
+      ENV.delete "CXXFLAGS"
+      ENV.delete "LD"
+      ENV.delete "CC"
+      ENV.delete "CXX"
 
       build = `./config.guess`.chomp
 
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
-
   end
-
 end
