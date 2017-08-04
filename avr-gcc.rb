@@ -1,6 +1,3 @@
-# print avr-gcc's builtin include paths
-# `avr-gcc -print-prog-name=cc1plus` -v
-
 class AvrGcc < Formula
   desc "GNU compiler collection"
   homepage "https://www.gnu.org/software/gcc/gcc.html"

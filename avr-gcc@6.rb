@@ -1,6 +1,3 @@
-# print avr-gcc's builtin include paths
-# `avr-gcc -print-prog-name=cc1plus` -v
-
 class AvrGccAT6 < Formula
   desc "GNU compiler collection"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
@@ -67,7 +64,7 @@ class AvrGccAT6 < Formula
     mkdir "build" do
       system "../configure", *args
       system "make"
-    #
+      #
       ENV.deparallelize
       system "make", "install"
     end
