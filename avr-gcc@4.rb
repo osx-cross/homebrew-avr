@@ -1,13 +1,20 @@
 # print avr-gcc's builtin include paths
 # `avr-gcc -print-prog-name=cc1plus` -v
 
-class AvrGcc48 < Formula
+class AvrGccAT4 < Formula
+  desc "GNU compiler collection for AVR"
+
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "https://ftp.gnu.org/gnu/gcc/gcc-4.8.5/gcc-4.8.5.tar.bz2"
-  mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.8.5/gcc-4.8.5.tar.bz2"
-  sha256 "22fb1e7e0f68a63cee631d85b20461d1ea6bda162f03096350e38c8d427ecf23"
+  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+  sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
 
   keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
+
+  resource "avr-libc" do
+    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+  end
 
   depends_on "gmp"
   depends_on "libmpc"
@@ -44,8 +51,6 @@ class AvrGcc48 < Formula
       "--with-gmp=#{Formula["gmp"].opt_prefix}",
       "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
       "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-      "--with-cloog=#{Formula["cloog"].opt_prefix}",
-      "--with-isl=#{Formula["isl"].opt_prefix}",
       "--with-system-zlib",
     ]
 
@@ -60,6 +65,22 @@ class AvrGcc48 < Formula
     # info and man7 files conflict with native gcc
     info.rmtree
     man7.rmtree
+
+    resource("avr-libc").stage do 
+      ENV.prepend_path 'PATH', bin
+
+      ENV.delete 'CFLAGS'
+      ENV.delete 'CXXFLAGS'
+      ENV.delete 'LD'
+      ENV.delete 'CC'
+      ENV.delete 'CXX'
+
+      build = `./config.guess`.chomp
+
+      system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
+      system "make install"
+    end
+
   end
 
   def caveats; <<-EOS.undent

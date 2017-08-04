@@ -1,14 +1,16 @@
-class AvrGcc < Formula
+class AvrGccAT6 < Formula
   desc "GNU compiler collection"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
-  head "svn://gcc.gnu.org/svn/gcc/trunk"
+  head "git://gcc.gnu.org/git/gcc.git"
 
   stable do
-    url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.1.0/gcc-7.1.0.tar.bz2"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-7.1.0/gcc-7.1.0.tar.bz2"
-    sha256 "8a8136c235f64c6fef69cac0d73a46a1a09bb250776a050aec8f9fc880bebc17"
+    url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.4.0/gcc-6.4.0.tar.xz"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-6.4.0/gcc-6.4.0.tar.xz"
+    sha256 "850bf21eafdfe5cd5f6827148184c08c4a0852a37ccf36ce69855334d2c914d4"
   end
+
+  keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
 
   option "without-cxx", "Don't build the g++ compiler"
   option "with-gmp", "Build with gmp support"
@@ -31,6 +33,9 @@ class AvrGcc < Formula
   cxxstdlib_check :skip
 
   def install
+    ENV.delete "LD"
+    ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
+
     languages = ["c"]
 
     languages << "c++" unless build.without? "cxx"
@@ -59,7 +64,7 @@ class AvrGcc < Formula
     mkdir "build" do
       system "../configure", *args
       system "make"
-
+      #
       ENV.deparallelize
       system "make", "install"
     end
@@ -67,6 +72,9 @@ class AvrGcc < Formula
     # info and man7 files conflict with native gcc
     info.rmtree
     man7.rmtree
+
+    # symlink avr-binutils to the bin folder
+    bin.install_symlink Formula["avr-binutils"].opt_bin/"*"
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
