@@ -9,7 +9,7 @@ class AvrBinutils < Formula
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch :p0 do
-    url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/update-formula/avr-binutils-size.patch"
+    url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/master/avr-binutils-size.patch"
     sha256 "4748f87aee912f954be9968a5a01f61e4f1897adf21e2549d0ac988b9fe8ef1d"
   end
 
