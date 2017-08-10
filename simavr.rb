@@ -7,6 +7,7 @@ class Simavr < Formula
   depends_on "libelf"
 
   def install
+    system "make", "all", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
     system "make", "install", "DESTDIR=#{prefix}", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
     prefix.install "examples"
   end
