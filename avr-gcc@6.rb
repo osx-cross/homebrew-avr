@@ -1,8 +1,6 @@
 class AvrGccAT6 < Formula
-  desc "GNU compiler collection"
+  desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-
-  head "git://gcc.gnu.org/git/gcc.git"
 
   stable do
     url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.4.0/gcc-6.4.0.tar.xz"
@@ -59,7 +57,7 @@ class AvrGccAT6 < Formula
     args << "--with-mpfr=#{Formula["mpfr"].opt_prefix}" if build.with? "mpfr"
     args << "--with-mpc=#{Formula["libmpc"].opt_prefix}" if build.with? "libmpc"
     args << "--with-system-zlib" if build.with? "system-zlib"
-    args << "--with-dwarf2" if build.with? "dward2"
+    args << "--with-dwarf2" unless build.without? "dwarf2"
 
     mkdir "build" do
       system "../configure", *args

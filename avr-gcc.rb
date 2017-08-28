@@ -1,5 +1,5 @@
 class AvrGcc < Formula
-  desc "GNU compiler collection"
+  desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
   head "svn://gcc.gnu.org/svn/gcc/trunk"
@@ -54,7 +54,7 @@ class AvrGcc < Formula
     args << "--with-mpfr=#{Formula["mpfr"].opt_prefix}" if build.with? "mpfr"
     args << "--with-mpc=#{Formula["libmpc"].opt_prefix}" if build.with? "libmpc"
     args << "--with-system-zlib" if build.with? "system-zlib"
-    args << "--with-dwarf2" if build.with? "dward2"
+    args << "--with-dwarf2" unless build.without? "dwarf2"
 
     mkdir "build" do
       system "../configure", *args
