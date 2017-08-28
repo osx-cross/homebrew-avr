@@ -1,20 +1,19 @@
-# print avr-gcc's builtin include paths
-# `avr-gcc -print-prog-name=cc1plus` -v
-
 class AvrGccAT4 < Formula
-  desc "GNU compiler collection for AVR"
-
+  desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
-  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-  sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
 
-  keg_only "You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}. Please refer to the Caveats section for more information."
-
-  resource "avr-libc" do
-    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+  stable do
+    url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+    sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
   end
+
+  option "without-cxx", "Don't build the g++ compiler"
+  option "with-gmp", "Build with gmp support"
+  option "with-libmpc", "Build with libmpc support"
+  option "with-mpfr", "Build with mpfr support"
+  option "with-system-zlib", "For OS X, build with system zlib"
+  option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
   depends_on "gmp"
   depends_on "libmpc"
@@ -22,13 +21,19 @@ class AvrGccAT4 < Formula
 
   depends_on "avr-binutils"
 
-  option "without-cxx", "Don't build the g++ compiler"
+  resource "avr-libc" do
+    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+  end
 
-  deprecated_option "disable-cxx" => "without-cxx"
+  cxxstdlib_check :skip
 
   def install
-    # The C compiler is always built, C++ can be disabled
-    languages = %w[c]
+    ENV.delete "LD"
+    ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
+
+    languages = ["c"]
+
     languages << "c++" unless build.without? "cxx"
 
     args = [
@@ -36,23 +41,21 @@ class AvrGccAT4 < Formula
       "--prefix=#{prefix}",
 
       "--enable-languages=#{languages.join(",")}",
-      "--with-gnu-as",
-      "--with-gnu-ld",
       "--with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}",
       "--with-as=#{Formula["avr-binutils"].opt_bin/"avr-as"}",
 
       "--disable-nls",
+      "--disable-libssp",
       "--disable-shared",
       "--disable-threads",
-      "--disable-libssp",
-      "--disable-libstdcxx-pch",
       "--disable-libgomp",
-
-      "--with-gmp=#{Formula["gmp"].opt_prefix}",
-      "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
-      "--with-mpc=#{Formula["libmpc"].opt_prefix}",
-      "--with-system-zlib",
     ]
+
+    args << "--with-gmp=#{Formula["gmp"].opt_prefix}" if build.with? "gmp"
+    args << "--with-mpfr=#{Formula["mpfr"].opt_prefix}" if build.with? "mpfr"
+    args << "--with-mpc=#{Formula["libmpc"].opt_prefix}" if build.with? "libmpc"
+    args << "--with-system-zlib" if build.with? "system-zlib"
+    args << "--with-dwarf2" unless build.without? "dwarf2"
 
     mkdir "build" do
       system "../configure", *args
@@ -80,35 +83,5 @@ class AvrGccAT4 < Formula
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
       system "make install"
     end
-
-  end
-
-  def caveats; <<-EOS.undent
-    You are about to compile an older version of avr-gcc, i.e. avr-gcc #{version}.
-
-    This formula will not be linked to #{HOMEBREW_PREFIX}/bin in order to avoid conflicts with the default/latest version of avr-gcc, eg. avr-gcc #{Formula["avr-gcc"].version}.
-
-    Unless you know what you are doing, it is recommended to use avr-gcc #{Formula["avr-gcc"].version}. Simply run the following:
-
-        $ brew install avr-libc
-
-    To use avr-gcc #{version}, unlink all the binaries related to other versions of avr-libc before linking this one.
-
-        # unlink the latest/default avr-gcc #{Formula["avr-gcc"].version}
-        $ brew unlink avr-libc avr-gcc
-
-        # or for an older version of avr-gcc XX
-        $ brew unlink avr-libcXX avr-gccXX
-
-        # install avr-libc compatible with avr-gcc #{version}
-        $ brew install avr-libc#{(name).gsub('avr-gcc', '')}
-
-        # and then link avr-gcc #{version} and avr-libc
-        $ brew link #{name} avr-libc#{(name).gsub('avr-gcc', '')}
-
-    Please visite our Github repository for futher information or to report a bug.
-
-        http://github.com/osx-cross/homebrew-avr
-    EOS
   end
 end
