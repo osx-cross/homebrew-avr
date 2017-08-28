@@ -8,6 +8,8 @@ class AvrGccAT4 < Formula
     sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
   end
 
+  keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
+
   option "without-cxx", "Don't build the g++ compiler"
   option "with-gmp", "Build with gmp support"
   option "with-libmpc", "Build with libmpc support"
@@ -69,7 +71,7 @@ class AvrGccAT4 < Formula
     info.rmtree
     man7.rmtree
 
-    resource("avr-libc").stage do 
+    resource("avr-libc").stage do
       ENV.prepend_path 'PATH', bin
 
       ENV.delete 'CFLAGS'
