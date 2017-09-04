@@ -3,7 +3,7 @@ class Simavr < Formula
   homepage "https://github.com/buserror/simavr"
   head "https://github.com/buserror/simavr.git"
 
-  depends_on "avr-libc"
+  depends_on "avr-gcc"
   depends_on "libelf"
 
   def install
