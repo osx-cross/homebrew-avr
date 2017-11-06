@@ -15,13 +15,13 @@ AVR is a popular family of microcontrollers, used for example in the [Arduino] p
 
 First, make sure you have xcode command line developer tools installed with `xcode-select --install`
 
-Then, just `brew tap osx-cross/avr` and then `brew install avr-gcc`. This will install the latest stable version of `avr-gcc`.
+Then, just `brew tap osx-cross/avr` and then `brew install osx-cross/avr/avr-gcc`. This will install the latest stable version of `avr-gcc`.
 
-To install an older version, you can use `brew install avr-gcc@X`, `X` being the version number such as `avr-gcc@6`
+To install an older version, you can use `brew install osx-cross/avr/avr-gcc@X`, `X` being the version number such as `avr-gcc@6`
 
 **Note**: only the latest version will be available in your `$PATH`. The older ones are `keg-only` and thus won't be availble in `/usr/local/bin`.
 
-You can run `brew info avr-gcc` for more information on the flags available.
+You can run `brew info osx-cross/avr/avr-gcc` for more information on the flags available.
 
 ## Docs
 
