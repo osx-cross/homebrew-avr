@@ -49,7 +49,7 @@ def version_suffix
     args = [
       "--target=avr",
       "--prefix=#{prefix}",
-      "--libdir=#{lib}/gcc/#{version_suffix}",
+      "--libdir=#{lib}/avr-gcc/#{version_suffix}",
 
       "--enable-languages=#{languages.join(",")}",
       "--with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}",
