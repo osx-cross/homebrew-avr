@@ -1,8 +1,8 @@
 class AvrGdb < Formula
   homepage "https://www.gnu.org/software/gdb/"
-  url "https://ftp.gnu.org/gnu/gdb/gdb-7.8.2.tar.gz"
-  mirror "https://ftpmirror.gnu.org/gnu/gdb/gdb-7.8.2.tar.gz"
-  sha256 "fd9a9784ca24528aac8a4e6b8d7ae7e8cf0784e128cd67a185c986deaf6b9929"
+  url "https://ftp.gnu.org/gnu/gdb/gdb-8.0.1.tar.gz"
+  mirror "https://ftpmirror.gnu.org/gnu/gdb/gdb-8.0.1.tar.gz"
+  sha256 "52017d33cab5b6a92455a1a904046d075357abf24153470178c0aadca2d479c5"
 
   depends_on "avr-binutils"
 
