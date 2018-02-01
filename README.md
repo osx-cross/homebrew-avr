@@ -46,15 +46,15 @@ You can run `brew info avr-gcc` for more information on the flags available.
 
 This repository is based on the works of:
 
--   [WeAreLeka]
+-   [Leka]
 -   [larsimmisch]
 -   [plietar]
 -   [0xPIT]
 
-  [Homebrew]: http://brew.sh
-  [Arduino]: http://arduino.cc
-  [wiki]: http://wiki.github.com/mxcl/homebrew
-  [WeAreLeka]: https://github.com/WeAreLeka/homebrew-avr
-  [larsimmisch]: https://github.com/larsimmisch/homebrew-avr
-  [plietar]: https://github.com/plietar/homebrew-avr/
-  [0xPIT]: https://github.com/0xPIT/homebrew-avr
+[Homebrew]: http://brew.sh
+[Arduino]: http://arduino.cc
+[wiki]: http://wiki.github.com/mxcl/homebrew
+[Leka]: https://github.com/Leka/homebrew-avr
+[larsimmisch]: https://github.com/larsimmisch/homebrew-avr
+[plietar]: https://github.com/plietar/homebrew-avr/
+[0xPIT]: https://github.com/0xPIT/homebrew-avr
