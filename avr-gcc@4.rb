@@ -28,7 +28,7 @@ class AvrGccAT4 < Formula
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
-def version_suffix
+  def version_suffix
     if build.head?
       (stable.version.to_s.slice(/\d/).to_i + 1).to_s
     else
