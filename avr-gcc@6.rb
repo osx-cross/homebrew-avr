@@ -39,6 +39,7 @@ class AvrGccAT6 < Formula
   cxxstdlib_check :skip
 
   def install
+    # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
     ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
 

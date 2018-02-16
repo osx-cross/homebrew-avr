@@ -39,6 +39,9 @@ class AvrGcc < Formula
   cxxstdlib_check :skip
 
   def install
+    # GCC will suffer build errors if forced to use a particular linker.
+    ENV.delete "LD"
+
     languages = ["c"]
 
     languages << "c++" unless build.without? "cxx"
