@@ -38,7 +38,17 @@ class AvrGccAT5 < Formula
 
   cxxstdlib_check :skip
 
+  # Fix build with Xcode 9
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82091
+  if DevelopmentTools.clang_build_version >= 900
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/078797f1b9/gcc%405/xcode9.patch"
+      sha256 "e1546823630c516679371856338abcbab381efaf9bd99511ceedcce3cf7c0199"
+    end
+  end
+
   def install
+    # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
     ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
 
