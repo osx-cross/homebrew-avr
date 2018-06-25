@@ -1,13 +1,13 @@
-class AvrGcc < Formula
+class AvrGccAT7 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
   head "svn://gcc.gnu.org/svn/gcc/trunk"
 
   stable do
-    url "https://gcc.gnu.org/pub/gcc/releases/gcc-8.1.0/gcc-8.1.0.tar.xz"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-8.1.0/gcc-8.1.0.tar.xz"
-    sha256 "1d1866f992626e61349a1ccd0b8d5253816222cdc13390dcfaa74b093aa2b153"
+    url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.3.0/gcc-7.3.0.tar.xz"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-7.3.0/gcc-7.3.0.tar.xz"
+    sha256 "832ca6ae04636adbb430e865a1451adf6979ab44ca1c8374f61fba65645ce15c"
   end
 
   option "without-cxx", "Don't build the g++ compiler"
