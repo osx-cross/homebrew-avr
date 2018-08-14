@@ -5,9 +5,9 @@ class AvrGcc < Formula
   head "svn://gcc.gnu.org/svn/gcc/trunk"
 
   stable do
-    url "https://gcc.gnu.org/pub/gcc/releases/gcc-8.1.0/gcc-8.1.0.tar.xz"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-8.1.0/gcc-8.1.0.tar.xz"
-    sha256 "1d1866f992626e61349a1ccd0b8d5253816222cdc13390dcfaa74b093aa2b153"
+    url "https://ftp.gnu.org/gnu/gcc/gcc-8.2.0/gcc-8.2.0.tar.xz"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-8.2.0/gcc-8.2.0.tar.xz"
+    sha256 "196c3c04ba2613f893283977e6011b2345d1cd1af9abeac58e916b1aab3e0080"
   end
 
   option "without-cxx", "Don't build the g++ compiler"
@@ -18,6 +18,7 @@ class AvrGcc < Formula
   option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
   depends_on "gmp"
+  depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
 
@@ -36,7 +37,12 @@ class AvrGcc < Formula
     end
   end
 
+  # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
+
+  # isl 0.20 compatibility
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86724
+  patch :DATA
 
   def install
     # GCC will suffer build errors if forced to use a particular linker.
@@ -72,7 +78,6 @@ class AvrGcc < Formula
       system "../configure", *args
       system "make"
 
-      ENV.deparallelize
       system "make", "install"
     end
 
@@ -96,3 +101,17 @@ class AvrGcc < Formula
     end
   end
 end
+
+__END__
+diff --git a/gcc/graphite.h b/gcc/graphite.h
+index 4e0e58c..be0a22b 100644
+--- a/gcc/graphite.h
++++ b/gcc/graphite.h
+@@ -37,6 +37,8 @@ along with GCC; see the file COPYING3.  If not see
+ #include <isl/schedule.h>
+ #include <isl/ast_build.h>
+ #include <isl/schedule_node.h>
++#include <isl/id.h>
++#include <isl/space.h>
+
+ typedef struct poly_dr *poly_dr_p;
