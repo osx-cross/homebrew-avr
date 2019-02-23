@@ -11,14 +11,11 @@ class AvrGdb < Formula
       "--target=avr",
       "--prefix=#{prefix}",
 
+      "--with-python=no",
       "--disable-nls",
       "--disable-libssp",
       "--disable-install-libbfd",
       "--disable-install-libiberty",
-
-      "--with-gmp=#{Formula["gmp"].opt_prefix}",
-      "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
-      "--with-mpc=#{Formula["libmpc"].opt_prefix}",
     ]
 
     mkdir "build" do

@@ -17,10 +17,10 @@ class AvrGcc < Formula
   option "with-system-zlib", "For OS X, build with system zlib"
   option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
-  depends_on "gmp"
-  depends_on "isl"
-  depends_on "libmpc"
-  depends_on "mpfr"
+  depends_on "gmp" => :build if OS.mac?
+  depends_on "isl" => :build if OS.mac?
+  depends_on "libmpc" => :build if OS.mac?
+  depends_on "mpfr" => :build if OS.mac?
 
   depends_on "avr-binutils"
 
