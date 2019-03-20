@@ -335,8 +335,8 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
    {"totals", no_argument, &show_totals, 1},
    {"version", no_argument, &show_version, 1},
    {"help", no_argument, &show_help, 1},
-@@ -140,7 +399,7 @@ main (int argc, char **argv)
-   bfd_init ();
+@@ -141,7 +400,7 @@ main (int argc, char **argv)
+     fatal (_("fatal error: libbfd ABI mismatch"));
    set_default_bfd_target ();
  
 -  while ((c = getopt_long (argc, argv, "ABHhVvdfotx", long_options,
@@ -344,7 +344,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  			   (int *) 0)) != EOF)
      switch (c)
        {
-@@ -149,11 +408,15 @@ main (int argc, char **argv)
+@@ -150,11 +409,15 @@ main (int argc, char **argv)
  	  {
  	  case 'B':
  	  case 'b':
@@ -362,7 +362,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  	    break;
  	  default:
  	    non_fatal (_("invalid argument to --format: %s"), optarg);
-@@ -161,6 +424,10 @@ main (int argc, char **argv)
+@@ -162,6 +425,10 @@ main (int argc, char **argv)
  	  }
  	break;
  
@@ -373,7 +373,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
        case OPTION_TARGET:
  	target = optarg;
  	break;
-@@ -189,11 +456,14 @@ main (int argc, char **argv)
+@@ -190,11 +457,14 @@ main (int argc, char **argv)
  	break;
  
        case 'A':
@@ -390,7 +390,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
        case 'v':
        case 'V':
  	show_version = 1;
-@@ -239,7 +509,7 @@ main (int argc, char **argv)
+@@ -240,7 +510,7 @@ main (int argc, char **argv)
      for (; optind < argc;)
        display_file (argv[optind++]);
  
@@ -399,7 +399,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
      {
        bfd_size_type total = total_textsize + total_datasize + total_bsssize;
  
-@@ -605,13 +875,117 @@ print_sysv_format (bfd *file)
+@@ -606,13 +876,117 @@ print_sysv_format (bfd *file)
    printf ("\n\n");
  }
  
