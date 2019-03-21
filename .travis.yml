@@ -1,5 +1,5 @@
 os: osx
 
 script:
-  - brew audit ./*.rb
+  - brew audit ./avr-gcc.rb ./avr-gcc@*.rb ./avr-gdb.rb ./avarice.rb ./simavr.rb
   - brew install -v ./avr-gcc.rb ./avr-gcc@*.rb ./avr-gdb.rb ./avarice.rb ./simavr.rb
