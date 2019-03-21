@@ -2,7 +2,7 @@ os: osx
 osx_image: xcode10.1
 
 before_script:
-  - brew update && brew upgrade
+  - brew update >/dev/null
   - brew tap osx-cross/avr
   - cd $(brew --repo)/Library/Taps/osx-cross
   - git checkout -b $TRAVIS_BRANCH orgin/$TRAVIS_BRANCH
