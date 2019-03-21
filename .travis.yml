@@ -4,8 +4,10 @@ osx_image: xcode10.1
 before_script:
   - brew update >/dev/null
   - brew tap osx-cross/avr
-  - cd $(brew --repo)/Library/Taps/osx-cross
-  - git checkout -b $TRAVIS_BRANCH orgin/$TRAVIS_BRANCH
+  - cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr
+  - git checkout --detach
+  - git fetch origin '+refs/heads/*:refs/heads/*'
+  - git checkout $TRAVIS_BRANCH
 
 script:
   - brew audit avarice.rb simavr.rb
