@@ -1,12 +1,19 @@
 os: osx
+osx_image: xcode10.1
+
+before_script:
+  - brew update && brew upgrade
+  - brew tap osx-cross/avr
+  - cd $(brew --repo)/Library/Taps/osx-cross
+  - git checkout -b $TRAVIS_BRANCH orgin/$TRAVIS_BRANCH
 
 script:
-  - brew audit ./avarice.rb ./simavr.rb
-  - brew audit ./avr-gdb.rb ./avr-binutils.rb ./avr-gcc.rb
-  - brew audit ./avr-gcc@4.rb ./avr-gcc@5.rb ./avr-gcc@6.rb ./avr-gcc@7.rb
+  - brew audit avarice.rb simavr.rb
+  - brew audit avr-gdb.rb avr-binutils.rb avr-gcc.rb
+  - brew audit avr-gcc@4.rb avr-gcc@5.rb avr-gcc@6.rb avr-gcc@7.rb
 
-  - brew install --HEAD ./avarice.rb
-  - brew install ./simavr.rb
-  - brew install ./avr-gdb.rb ./avr-binutils.rb ./avr-gcc.rb
-  - brew install ./avr-gcc@4.rb ./avr-gcc@5.rb ./avr-gcc@6.rb ./avr-gcc@7.rb
+  - brew install --HEAD avarice.rb
+  - brew install --HEAD simavr.rb
+  - brew install avr-gdb.rb avr-binutils.rb avr-gcc.rb
+  - brew install avr-gcc@4.rb avr-gcc@5.rb avr-gcc@6.rb avr-gcc@7.rb
 
