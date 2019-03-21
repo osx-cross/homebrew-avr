@@ -1,11 +1,17 @@
 class Avarice < Formula
-  desc "AVaRICE is a program which interfaces the GNU Debugger GDB with the AVR JTAG ICE available from Atmel."
+  desc "AVaRICE interfaces GDB with the AVR JTAG ICE available from Atmel."
   homepage "https://avarice.sourceforge.io/"
 
-  head "https://svn.code.sf.net/p/avarice/code/trunk"
+  head "svn://svn.code.sf.net/p/avarice/code/trunk"
 
-  depends_on "avr-binutils"
+  stable do
+    url "https://downloads.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
+    mirror "https://netix.dl.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
+    sha256 "a14738fe78e1a0a9321abcca7e685a00ce3ced207622ccbcd881ac32030c104a"
+  end
+
   depends_on "automake"
+  depends_on "avr-binutils"
   depends_on "hidapi"
 
   def install
