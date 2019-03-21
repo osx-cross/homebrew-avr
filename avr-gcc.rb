@@ -10,13 +10,6 @@ class AvrGcc < Formula
     sha256 "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
   end
 
-  option "without-cxx", "Don't build the g++ compiler"
-  option "with-gmp", "Build with gmp support"
-  option "with-libmpc", "Build with libmpc support"
-  option "with-mpfr", "Build with mpfr support"
-  option "with-system-zlib", "For OS X, build with system zlib"
-  option "without-dwarf2", "Don't build with Dwarf 2 enabled"
-
   depends_on "avr-binutils"
 
   depends_on "gmp"
@@ -29,7 +22,7 @@ class AvrGcc < Formula
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    mirror "http://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
@@ -46,9 +39,7 @@ class AvrGcc < Formula
     ENV.delete "LD"
     ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
 
-    languages = ["c"]
-
-    languages << "c++" unless build.without? "cxx"
+    languages = ["c", "c++"]
 
     args = [
       "--target=avr",
@@ -64,13 +55,8 @@ class AvrGcc < Formula
       "--disable-shared",
       "--disable-threads",
       "--disable-libgomp",
+      "--with-dwarf2",
     ]
-
-    args << "--with-gmp=#{Formula["gmp"].opt_prefix}" if build.with? "gmp"
-    args << "--with-mpfr=#{Formula["mpfr"].opt_prefix}" if build.with? "mpfr"
-    args << "--with-mpc=#{Formula["libmpc"].opt_prefix}" if build.with? "libmpc"
-    args << "--with-system-zlib" if build.with? "system-zlib"
-    args << "--with-dwarf2" unless build.without? "dwarf2"
 
     mkdir "build" do
       system "../configure", *args

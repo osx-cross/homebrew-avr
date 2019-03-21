@@ -12,13 +12,6 @@ class AvrGccAT6 < Formula
 
   keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
 
-  option "without-cxx", "Don't build the g++ compiler"
-  option "with-gmp", "Build with gmp support"
-  option "with-libmpc", "Build with libmpc support"
-  option "with-mpfr", "Build with mpfr support"
-  option "with-system-zlib", "For OS X, build with system zlib"
-  option "without-dwarf2", "Don't build with Dwarf 2 enabled"
-
   depends_on "avr-binutils"
 
   depends_on "gmp"
@@ -48,9 +41,7 @@ class AvrGccAT6 < Formula
     ENV.delete "LD"
     ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
 
-    languages = ["c"]
-
-    languages << "c++" unless build.without? "cxx"
+    languages = ["c", "c++"]
 
     args = [
       "--target=avr",
@@ -66,13 +57,8 @@ class AvrGccAT6 < Formula
       "--disable-shared",
       "--disable-threads",
       "--disable-libgomp",
+      "--with-dwarf2",
     ]
-
-    args << "--with-gmp=#{Formula["gmp"].opt_prefix}" if build.with? "gmp"
-    args << "--with-mpfr=#{Formula["mpfr"].opt_prefix}" if build.with? "mpfr"
-    args << "--with-mpc=#{Formula["libmpc"].opt_prefix}" if build.with? "libmpc"
-    args << "--with-system-zlib" if build.with? "system-zlib"
-    args << "--with-dwarf2" unless build.without? "dwarf2"
 
     mkdir "build" do
       system "../configure", *args
