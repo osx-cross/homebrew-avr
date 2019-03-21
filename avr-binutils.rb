@@ -24,7 +24,7 @@ class AvrBinutils < Formula
       "--disable-nls",
       # "--disable-debug",
       # "--disable-dependency-tracking",
-      "--disable-werror"
+      "--disable-werror",
     ]
 
     mkdir "build" do
@@ -35,5 +35,9 @@ class AvrBinutils < Formula
     end
 
     info.rmtree # info files conflict with native binutils
+  end
+
+  test do
+    system "true"
   end
 end

@@ -1,5 +1,5 @@
 class Avarice < Formula
-  desc "AVaRICE interfaces GDB with the AVR JTAG ICE available from Atmel."
+  desc "Lets you interfaces GDB with the AVR JTAG ICE available from Atmel"
   homepage "https://avarice.sourceforge.io/"
 
   head "svn://svn.code.sf.net/p/avarice/code/trunk"
@@ -22,6 +22,9 @@ class Avarice < Formula
       "--disable-silent-rules",
       "--prefix=#{prefix}"
     system "make", "install"
+  end
 
+  test do
+    system "true"
   end
 end

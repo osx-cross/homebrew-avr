@@ -38,4 +38,8 @@ class AvrGdb < Formula
     # info conflicts with binutils
     info.rmtree
   end
+
+  test do
+    system "true"
+  end
 end
