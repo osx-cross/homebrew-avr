@@ -2,6 +2,8 @@ class AvrGccAT4 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
+  head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-4_9-branch"
+
   stable do
     url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
     mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
@@ -17,15 +19,19 @@ class AvrGccAT4 < Formula
   option "with-system-zlib", "For OS X, build with system zlib"
   option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
+  depends_on "avr-binutils"
+
   depends_on "gmp"
+  depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
 
-  depends_on "avr-binutils"
+  # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
+  cxxstdlib_check :skip
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    mirror "http://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
@@ -36,8 +42,6 @@ class AvrGccAT4 < Formula
       version.to_s.slice(/\d/)
     end
   end
-
-  cxxstdlib_check :skip
 
   # Fix build with Xcode 9
   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82091
@@ -92,18 +96,18 @@ class AvrGccAT4 < Formula
     man7.rmtree
 
     resource("avr-libc").stage do
-      ENV.prepend_path 'PATH', bin
+      ENV.prepend_path "PATH", bin
 
-      ENV.delete 'CFLAGS'
-      ENV.delete 'CXXFLAGS'
-      ENV.delete 'LD'
-      ENV.delete 'CC'
-      ENV.delete 'CXX'
+      ENV.delete "CFLAGS"
+      ENV.delete "CXXFLAGS"
+      ENV.delete "LD"
+      ENV.delete "CC"
+      ENV.delete "CXX"
 
       build = `./config.guess`.chomp
 
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
-      system "make install"
+      system "make", "install"
     end
   end
 end

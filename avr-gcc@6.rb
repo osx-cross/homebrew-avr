@@ -2,6 +2,8 @@ class AvrGccAT6 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
+  head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-6-branch"
+
   stable do
     url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.4.0/gcc-6.4.0.tar.xz"
     mirror "https://ftpmirror.gnu.org/gcc/gcc-6.4.0/gcc-6.4.0.tar.xz"
@@ -17,16 +19,19 @@ class AvrGccAT6 < Formula
   option "with-system-zlib", "For OS X, build with system zlib"
   option "without-dwarf2", "Don't build with Dwarf 2 enabled"
 
+  depends_on "avr-binutils"
+
   depends_on "gmp"
   depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
 
-  depends_on "avr-binutils"
+  # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
+  cxxstdlib_check :skip
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    mirror "http://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
+    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
 
@@ -37,12 +42,6 @@ class AvrGccAT6 < Formula
       version.to_s.slice(/\d/)
     end
   end
-
-  cxxstdlib_check :skip
-
-  # isl 0.20 compatibility
-  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86724
-  patch :DATA
 
   def install
     # GCC will suffer build errors if forced to use a particular linker.
@@ -106,17 +105,3 @@ class AvrGccAT6 < Formula
     end
   end
 end
-
-__END__
-diff --git a/gcc/graphite.h b/gcc/graphite.h
-index 4e0e58c..be0a22b 100644
---- a/gcc/graphite.h
-+++ b/gcc/graphite.h
-@@ -37,6 +37,8 @@ along with GCC; see the file COPYING3.  If not see
- #include <isl/schedule.h>
- #include <isl/ast_build.h>
- #include <isl/schedule_node.h>
-+#include <isl/id.h>
-+#include <isl/space.h>
-
- typedef struct poly_dr *poly_dr_p;
