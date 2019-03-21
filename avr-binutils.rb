@@ -2,7 +2,7 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/binutils.html"
 
-  url "http://ftp.gnu.org/gnu/binutils/binutils-2.31.1.tar.bz2"
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.31.1.tar.bz2"
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.31.1.tar.bz2"
   sha256 "ffcc382695bf947da6135e7436b8ed52d991cf270db897190f19d6f9838564d0"
 
@@ -24,7 +24,7 @@ class AvrBinutils < Formula
       "--disable-nls",
       # "--disable-debug",
       # "--disable-dependency-tracking",
-      "--disable-werror"
+      "--disable-werror",
     ]
 
     mkdir "build" do
@@ -35,5 +35,9 @@ class AvrBinutils < Formula
     end
 
     info.rmtree # info files conflict with native binutils
+  end
+
+  test do
+    system "true"
   end
 end

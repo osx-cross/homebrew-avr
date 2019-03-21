@@ -1,6 +1,7 @@
 class Simavr < Formula
-  desc "a lean, mean and hackable AVR simulator for linux & OSX "
+  desc "Lean, mean and hackable AVR simulator for Linux & macOS"
   homepage "https://github.com/buserror/simavr"
+
   head "https://github.com/patrickelectric/simavr.git", :branch => "mac_correc"
 
   depends_on "avr-gcc"
@@ -10,5 +11,9 @@ class Simavr < Formula
     system "make", "all", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
     system "make", "install", "DESTDIR=#{prefix}", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
     prefix.install "examples"
+  end
+
+  test do
+    system "true"
   end
 end
