@@ -1,6 +1,12 @@
 os: osx
 
 script:
-  - brew audit ./avr-gcc.rb ./avr-gcc\@*.rb ./avr-gdb.rb ./avarice.rb ./simavr.rb
-  - brew install -v ./avr-gcc.rb ./avr-gcc\@*.rb ./avr-gdb.rb ./simavr.rb
+  - brew audit ./avarice.rb ./simavr.rb
+  - brew audit ./avr-gdb.rb ./avr-binutils.rb ./avr-gcc.rb
+  - brew audit ./avr-gcc@4.rb ./avr-gcc@5.rb ./avr-gcc@6.rb ./avr-gcc@7.rb
+
   - brew install --HEAD ./avarice.rb
+  - brew install ./simavr.rb
+  - brew install ./avr-gdb.rb ./avr-binutils.rb ./avr-gcc.rb
+  - brew install ./avr-gcc@4.rb ./avr-gcc@5.rb ./avr-gcc@6.rb ./avr-gcc@7.rb
+
