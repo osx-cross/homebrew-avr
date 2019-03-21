@@ -14,6 +14,10 @@ script:
   - brew audit avr-gcc@4.rb avr-gcc@5.rb avr-gcc@6.rb avr-gcc@7.rb
   - brew audit avarice.rb simavr.rb
 
+  - brew test avr-gdb.rb avr-binutils.rb avr-gcc.rb
+  - brew test avr-gcc@4.rb avr-gcc@5.rb avr-gcc@6.rb avr-gcc@7.rb
+  - brew test avarice.rb simavr.rb
+
   - travis_wait 80 brew install avr-gdb.rb avr-binutils.rb avr-gcc.rb
   - travis_wait 80 brew install avr-gcc@4.rb avr-gcc@5.rb avr-gcc@6.rb avr-gcc@7.rb
   - travis_wait 80 brew install --HEAD avarice.rb
