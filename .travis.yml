@@ -1,0 +1,9 @@
+os: osx
+
+before_install:
+  - brew update >/dev/null
+
+script:
+  - brew audit ./*.rb
+  - brew install -v ./avr-gcc.rb ./avr-gcc@*.rb ./avr-gdb.rb ./avarice.rb ./simavr.rb
+  - brew test ./*.rb
