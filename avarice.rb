@@ -1,10 +1,12 @@
 class Avarice < Formula
-  homepage "http://avarice.sourceforge.net/"
-  head "https://svn.code.sf.net/p/avarice/code/trunk", :using => :svn
+  desc "AVaRICE is a program which interfaces the GNU Debugger GDB with the AVR JTAG ICE available from Atmel."
+  homepage "https://avarice.sourceforge.io/"
+
+  head "https://svn.code.sf.net/p/avarice/code/trunk"
 
   depends_on "avr-binutils"
-  depends_on "hidapi"
   depends_on "automake"
+  depends_on "hidapi"
 
   def install
     system "./Bootstrap"
