@@ -2,6 +2,7 @@ os: osx
 language: ruby
 
 install:
+  - brew update >/dev/null
   - brew tap osx-cross/avr
   - cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr
   - git checkout --detach
