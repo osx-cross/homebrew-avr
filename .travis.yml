@@ -2,7 +2,6 @@ os: osx
 language: ruby
 
 install:
-  - brew update >/dev/null
   - brew tap osx-cross/avr
   - cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr
   - git checkout --detach
@@ -11,38 +10,39 @@ install:
 
 jobs:
   include:
-    - stage: audit-formulae
-      script:
-        - brew audit --strict avr-gdb.rb
-        - brew audit --strict avr-binutils.rb
-        - brew audit --strict avr-gcc.rb
-        - brew audit --strict avr-gcc@4.rb
-        - brew audit --strict avr-gcc@5.rb
-        - brew audit --strict avr-gcc@6.rb
-        - brew audit --strict avr-gcc@7.rb
-        - brew audit --strict avarice.rb
-        - brew audit --strict simavr.rb
+    allow_failures:
+      - stage: audit-formulae
+        script:
+          - brew audit --strict avr-gdb.rb
+          - brew audit --strict avr-binutils.rb
+          - brew audit --strict avr-gcc.rb
+          - brew audit --strict avr-gcc@4.rb
+          - brew audit --strict avr-gcc@5.rb
+          - brew audit --strict avr-gcc@6.rb
+          - brew audit --strict avr-gcc@7.rb
+          - brew audit --strict avarice.rb
+          - brew audit --strict simavr.rb
 
-    - stage: build-formulae
-      script:
-        - travis_wait 240 brew install avr-gdb.rb
-        - travis_wait 240 brew install avr-binutils.rb
-        - travis_wait 240 brew install avr-gcc.rb
-        - travis_wait 240 brew install avr-gcc@4.rb
-        - travis_wait 240 brew install avr-gcc@5.rb
-        - travis_wait 240 brew install avr-gcc@6.rb
-        - travis_wait 240 brew install avr-gcc@7.rb
-        - travis_wait 240 brew install --HEAD avarice.rb
-        - travis_wait 240 brew install --HEAD simavr.rb
+      - stage: build-formulae
+        script:
+          - travis_wait 240 brew install avr-gdb.rb
+          - travis_wait 240 brew install avr-binutils.rb
+          - travis_wait 240 brew install avr-gcc.rb
+          - travis_wait 240 brew install avr-gcc@4.rb
+          - travis_wait 240 brew install avr-gcc@5.rb
+          - travis_wait 240 brew install avr-gcc@6.rb
+          - travis_wait 240 brew install avr-gcc@7.rb
+          - travis_wait 240 brew install --HEAD avarice.rb
+          - travis_wait 240 brew install --HEAD simavr.rb
 
-    - stage: test-formulae
-      script:
-        - brew test avr-gdb.rb
-        - brew test avr-binutils.rb
-        - brew test avr-gcc.rb
-        - brew test avr-gcc@4.rb
-        - brew test avr-gcc@5.rb
-        - brew test avr-gcc@6.rb
-        - brew test avr-gcc@7.rb
-        - brew test avarice.rb
-        - brew test simavr.rb
+      - stage: test-formulae
+        script:
+          - brew test avr-gdb.rb
+          - brew test avr-binutils.rb
+          - brew test avr-gcc.rb
+          - brew test avr-gcc@4.rb
+          - brew test avr-gcc@5.rb
+          - brew test avr-gcc@6.rb
+          - brew test avr-gcc@7.rb
+          - brew test avarice.rb
+          - brew test simavr.rb
