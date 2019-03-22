@@ -1,5 +1,3 @@
-AVR only; support -C for AVR memory usage
-===========================================================
 --- binutils/size.c
 +++ binutils/size.c
 @@ -34,10 +34,31 @@

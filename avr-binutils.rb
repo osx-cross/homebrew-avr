@@ -10,7 +10,7 @@ class AvrBinutils < Formula
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch :p0 do
     url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/master/avr-binutils-size.patch"
-    sha256 "0ea746fcb90a26bad0ef63af506852326abfa2d9712cfa4207d63e4ed18735d8"
+    sha256 "43be7d0bf9ddf94a992346a391bca5e77159593150c244f2d421a75ec082f1d7"
   end
 
   def install
