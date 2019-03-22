@@ -337,55 +337,54 @@
  
 -  while ((c = getopt_long (argc, argv, "ABHhVvdfotx", long_options,
 +  while ((c = getopt_long (argc, argv, "ABCHhVvdfotx", long_options,
-         (int *) 0)) != EOF)
+ 			   (int *) 0)) != EOF)
      switch (c)
        {
 @@ -150,11 +409,15 @@
-    {
-    case 'B':
-    case 'b':
--     berkeley_format = 1;
-+     format = format_bsd;
-      break;
-    case 'S':
-    case 's':
--     berkeley_format = 0;
-+     format = format_sysv;
-+     break;
-+   case 'A':
-+   case 'a':
-+     format = format_avr;
-      break;
-    default:
-      non_fatal (_("invalid argument to --format: %s"), optarg);
+ 	  {
+ 	  case 'B':
+ 	  case 'b':
+-	    berkeley_format = 1;
++	    format = format_bsd;
+ 	    break;
+ 	  case 'S':
+ 	  case 's':
+-	    berkeley_format = 0;
++	    format = format_sysv;
++	    break;
++	  case 'A':
++	  case 'a':
++	    format = format_avr;
+ 	    break;
+ 	  default:
+ 	    non_fatal (_("invalid argument to --format: %s"), optarg);
 @@ -162,6 +425,10 @@
-    }
-  break;
+ 	  }
+ 	break;
  
 +      case OPTION_MCU:
-+ avrmcu = optarg;
-+ break;
++	avrmcu = optarg;
++	break;
 +
        case OPTION_TARGET:
-  target = optarg;
-  break;
-@@ -190,11 +457,14 @@
-  break;
+ 	target = optarg;
+ 	break;
+@@ -190,10 +457,13 @@
+ 	break;
  
        case 'A':
-- berkeley_format = 0;
-+ format = format_sysv;
-  break;
+-	berkeley_format = 0;
++	format = format_sysv;
+ 	break;
        case 'B':
-- berkeley_format = 1;
-+ format = format_bsd;
-  break;
+-	berkeley_format = 1;
++	format = format_bsd;
++	break;
 +      case 'C':
-+    format = format_avr;
-+    break;
++	format = format_avr;
+ 	break;
        case 'v':
        case 'V':
-  show_version = 1;
 @@ -240,7 +510,7 @@
      for (; optind < argc;)
        display_file (argv[optind++]);
