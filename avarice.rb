@@ -15,7 +15,7 @@ class Avarice < Formula
   depends_on "hidapi"
 
   def install
-    system "./Bootstrap"
+    system "./Bootstrap" if build.head?
     system "./configure",
       "--disable-debug",
       "--disable-dependency-tracking",
