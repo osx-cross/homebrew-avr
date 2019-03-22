@@ -1,6 +1,4 @@
 AVR only; support -C for AVR memory usage
-
-Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_plain;f=mhvavrtools/patches/binutils-001-avr-size.patch;h=e80d28eae46217551d996a2253256c97d10aa4b5;hb=refs/heads/master
 ===========================================================
 --- binutils/size.c
 +++ binutils/size.c
@@ -38,7 +36,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  /* Program options.  */
  
  static enum
-@@ -46,9 +67,8 @@ static enum
+@@ -46,9 +67,8 @@
    }
  radix = decimal;
  
@@ -49,7 +47,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  static int show_version = 0;
  static int show_help = 0;
  static int show_totals = 0;
-@@ -62,6 +82,246 @@ static bfd_size_type total_textsize;
+@@ -62,6 +82,246 @@
  /* Program exit status.  */
  static int return_code = 0;
  
@@ -81,213 +79,213 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +typedef struct
 +{
 +    char *name;
-+	long flash;
-+	long ram;
-+	long eeprom;
++ long flash;
++ long ram;
++ long eeprom;
 +} avr_device_t;
 +
 +avr_device_t avr[] =
 +{
-+	{"atxmega256a3",  AVR264K, AVR16K, AVR4K},
-+	{"atxmega256a3b", AVR264K, AVR16K, AVR4K},
-+	{"atxmega256d3",  AVR264K, AVR16K, AVR4K},
++ {"atxmega256a3",  AVR264K, AVR16K, AVR4K},
++ {"atxmega256a3b", AVR264K, AVR16K, AVR4K},
++ {"atxmega256d3",  AVR264K, AVR16K, AVR4K},
 +
-+	{"atmega2560",    AVR256K, AVR8K,  AVR4K},
-+	{"atmega2561",    AVR256K, AVR8K,  AVR4K},
++ {"atmega2560",    AVR256K, AVR8K,  AVR4K},
++ {"atmega2561",    AVR256K, AVR8K,  AVR4K},
 +
-+	{"atxmega192a3",  AVR200K, AVR16K, AVR2K},
-+	{"atxmega192d3",  AVR200K, AVR16K, AVR2K},
++ {"atxmega192a3",  AVR200K, AVR16K, AVR2K},
++ {"atxmega192d3",  AVR200K, AVR16K, AVR2K},
 +
-+	{"atxmega128a1",  AVR136K, AVR8K,  AVR2K},
-+	{"atxmega128a1u", AVR136K, AVR8K,  AVR2K},
-+	{"atxmega128a3",  AVR136K, AVR8K,  AVR2K},
-+	{"atxmega128d3",  AVR136K, AVR8K,  AVR2K},
++ {"atxmega128a1",  AVR136K, AVR8K,  AVR2K},
++ {"atxmega128a1u", AVR136K, AVR8K,  AVR2K},
++ {"atxmega128a3",  AVR136K, AVR8K,  AVR2K},
++ {"atxmega128d3",  AVR136K, AVR8K,  AVR2K},
 +
-+	{"at43usb320",    AVR128K, 608UL,  0UL},
-+	{"at90can128",    AVR128K, AVR4K,  AVR4K},
-+	{"at90usb1286",   AVR128K, AVR8K,  AVR4K},
-+	{"at90usb1287",   AVR128K, AVR8K,  AVR4K},
-+	{"atmega128",     AVR128K, AVR4K,  AVR4K},
-+	{"atmega1280",    AVR128K, AVR8K,  AVR4K},
-+	{"atmega1281",    AVR128K, AVR8K,  AVR4K},
-+	{"atmega1284p",   AVR128K, AVR16K, AVR4K},
-+	{"atmega128rfa1", AVR128K, AVR16K, AVR4K},
-+	{"atmega103",     AVR128K, 4000UL, AVR4K},
++ {"at43usb320",    AVR128K, 608UL,  0UL},
++ {"at90can128",    AVR128K, AVR4K,  AVR4K},
++ {"at90usb1286",   AVR128K, AVR8K,  AVR4K},
++ {"at90usb1287",   AVR128K, AVR8K,  AVR4K},
++ {"atmega128",     AVR128K, AVR4K,  AVR4K},
++ {"atmega1280",    AVR128K, AVR8K,  AVR4K},
++ {"atmega1281",    AVR128K, AVR8K,  AVR4K},
++ {"atmega1284p",   AVR128K, AVR16K, AVR4K},
++ {"atmega128rfa1", AVR128K, AVR16K, AVR4K},
++ {"atmega103",     AVR128K, 4000UL, AVR4K},
 +
-+	{"atxmega64a1",   AVR68K,  AVR4K,  AVR2K},
-+	{"atxmega64a1u",  AVR68K,  AVR4K,  AVR2K},
-+	{"atxmega64a3",   AVR68K,  AVR4K,  AVR2K},
-+	{"atxmega64d3",   AVR68K,  AVR4K,  AVR2K},
++ {"atxmega64a1",   AVR68K,  AVR4K,  AVR2K},
++ {"atxmega64a1u",  AVR68K,  AVR4K,  AVR2K},
++ {"atxmega64a3",   AVR68K,  AVR4K,  AVR2K},
++ {"atxmega64d3",   AVR68K,  AVR4K,  AVR2K},
 +
-+	{"at90can64",     AVR64K,  AVR4K,  AVR2K},
-+	{"at90scr100",    AVR64K,  AVR4K,  AVR2K},
-+	{"at90usb646",    AVR64K,  AVR4K,  AVR2K},
-+	{"at90usb647",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega64",      AVR64K,  AVR4K,  AVR2K},
-+	{"atmega640",     AVR64K,  AVR8K,  AVR4K},
-+	{"atmega644",     AVR64K,  AVR4K,  AVR2K},
-+	{"atmega644a",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega644p",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega644pa",   AVR64K,  AVR4K,  AVR2K},
-+	{"atmega645",     AVR64K,  AVR4K,  AVR2K},
-+	{"atmega645a",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega645p",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega6450",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega6450a",   AVR64K,  AVR4K,  AVR2K},
-+	{"atmega6450p",   AVR64K,  AVR4K,  AVR2K},
-+	{"atmega649",     AVR64K,  AVR4K,  AVR2K},
-+	{"atmega649a",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega649p",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega6490",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega6490a",   AVR64K,  AVR4K,  AVR2K},
-+	{"atmega6490p",   AVR64K,  AVR4K,  AVR2K},
-+	{"atmega64c1",    AVR64K,  AVR4K,  AVR2K},
-+	{"atmega64hve",   AVR64K,  AVR4K,  AVR1K},
-+	{"atmega64m1",    AVR64K,  AVR4K,  AVR2K},
-+	{"m3000",         AVR64K,  AVR4K,  0UL},
++ {"at90can64",     AVR64K,  AVR4K,  AVR2K},
++ {"at90scr100",    AVR64K,  AVR4K,  AVR2K},
++ {"at90usb646",    AVR64K,  AVR4K,  AVR2K},
++ {"at90usb647",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega64",      AVR64K,  AVR4K,  AVR2K},
++ {"atmega640",     AVR64K,  AVR8K,  AVR4K},
++ {"atmega644",     AVR64K,  AVR4K,  AVR2K},
++ {"atmega644a",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega644p",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega644pa",   AVR64K,  AVR4K,  AVR2K},
++ {"atmega645",     AVR64K,  AVR4K,  AVR2K},
++ {"atmega645a",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega645p",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega6450",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega6450a",   AVR64K,  AVR4K,  AVR2K},
++ {"atmega6450p",   AVR64K,  AVR4K,  AVR2K},
++ {"atmega649",     AVR64K,  AVR4K,  AVR2K},
++ {"atmega649a",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega649p",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega6490",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega6490a",   AVR64K,  AVR4K,  AVR2K},
++ {"atmega6490p",   AVR64K,  AVR4K,  AVR2K},
++ {"atmega64c1",    AVR64K,  AVR4K,  AVR2K},
++ {"atmega64hve",   AVR64K,  AVR4K,  AVR1K},
++ {"atmega64m1",    AVR64K,  AVR4K,  AVR2K},
++ {"m3000",         AVR64K,  AVR4K,  0UL},
 +
-+	{"atmega406",     AVR40K,  AVR2K,  AVR512},
++ {"atmega406",     AVR40K,  AVR2K,  AVR512},
 +
-+	{"atxmega32a4",   AVR36K,  AVR4K,  AVR1K},
-+	{"atxmega32d4",   AVR36K,  AVR4K,  AVR1K},
++ {"atxmega32a4",   AVR36K,  AVR4K,  AVR1K},
++ {"atxmega32d4",   AVR36K,  AVR4K,  AVR1K},
 +
-+	{"at90can32",     AVR32K,  AVR2K,  AVR1K},
-+	{"at94k",         AVR32K,  AVR4K,  0UL},
-+	{"atmega32",      AVR32K,  AVR2K,  AVR1K},
-+	{"atmega323",     AVR32K,  AVR2K,  AVR1K},
-+	{"atmega324a",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega324p",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega324pa",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega325",     AVR32K,  AVR2K,  AVR1K},
-+	{"atmega325a",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega325p",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega3250",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega3250a",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega3250p",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega328",     AVR32K,  AVR2K,  AVR1K},
-+	{"atmega328p",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega329",     AVR32K,  AVR2K,  AVR1K},
-+	{"atmega329a",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega329p",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega329pa",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega3290",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega3290a",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega3290p",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega32hvb",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega32c1",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega32hvb",   AVR32K,  AVR2K,  AVR1K},
-+	{"atmega32m1",    AVR32K,  AVR2K,  AVR1K},
-+	{"atmega32u2",    AVR32K,  AVR1K,  AVR1K},
-+	{"atmega32u4",    AVR32K,  2560UL, AVR1K},
-+	{"atmega32u6",    AVR32K,  2560UL, AVR1K},
++ {"at90can32",     AVR32K,  AVR2K,  AVR1K},
++ {"at94k",         AVR32K,  AVR4K,  0UL},
++ {"atmega32",      AVR32K,  AVR2K,  AVR1K},
++ {"atmega323",     AVR32K,  AVR2K,  AVR1K},
++ {"atmega324a",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega324p",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega324pa",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega325",     AVR32K,  AVR2K,  AVR1K},
++ {"atmega325a",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega325p",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega3250",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega3250a",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega3250p",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega328",     AVR32K,  AVR2K,  AVR1K},
++ {"atmega328p",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega329",     AVR32K,  AVR2K,  AVR1K},
++ {"atmega329a",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega329p",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega329pa",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega3290",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega3290a",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega3290p",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega32hvb",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega32c1",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega32hvb",   AVR32K,  AVR2K,  AVR1K},
++ {"atmega32m1",    AVR32K,  AVR2K,  AVR1K},
++ {"atmega32u2",    AVR32K,  AVR1K,  AVR1K},
++ {"atmega32u4",    AVR32K,  2560UL, AVR1K},
++ {"atmega32u6",    AVR32K,  2560UL, AVR1K},
 +
-+	{"at43usb355",    AVR24K,  1120UL,   0UL},
++ {"at43usb355",    AVR24K,  1120UL,   0UL},
 +
-+	{"atxmega16a4",   AVR20K,  AVR2K,  AVR1K},
-+	{"atxmega16d4",   AVR20K,  AVR2K,  AVR1K},
++ {"atxmega16a4",   AVR20K,  AVR2K,  AVR1K},
++ {"atxmega16d4",   AVR20K,  AVR2K,  AVR1K},
 +
-+	{"at76c711",      AVR16K,  AVR2K,  0UL},
-+	{"at90pwm216",    AVR16K,  AVR1K,  AVR512},
-+	{"at90pwm316",    AVR16K,  AVR1K,  AVR512},
-+	{"at90usb162",    AVR16K,  AVR512, AVR512},
-+	{"atmega16",      AVR16K,  AVR1K,  AVR512},
-+	{"atmega16a",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega161",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega162",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega163",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega164",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega164a",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega164p",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega165a",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega165",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega165p",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega168",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega168a",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega168p",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega169",     AVR16K,  AVR1K,  AVR512},
-+	{"atmega169a",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega169p",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega169pa",   AVR16K,  AVR1K,  AVR512},
-+	{"atmega16hva",   AVR16K,  768UL,  AVR256},
-+	{"atmega16hva2",  AVR16K,  AVR1K,  AVR256},
-+	{"atmega16hvb",   AVR16K,  AVR1K,  AVR512},
-+	{"atmega16m1",    AVR16K,  AVR1K,  AVR512},
-+	{"atmega16u2",    AVR16K,  AVR512, AVR512},
-+	{"atmega16u4",    AVR16K,  1280UL, AVR512},
-+	{"attiny167",     AVR16K,  AVR512, AVR512},
++ {"at76c711",      AVR16K,  AVR2K,  0UL},
++ {"at90pwm216",    AVR16K,  AVR1K,  AVR512},
++ {"at90pwm316",    AVR16K,  AVR1K,  AVR512},
++ {"at90usb162",    AVR16K,  AVR512, AVR512},
++ {"atmega16",      AVR16K,  AVR1K,  AVR512},
++ {"atmega16a",     AVR16K,  AVR1K,  AVR512},
++ {"atmega161",     AVR16K,  AVR1K,  AVR512},
++ {"atmega162",     AVR16K,  AVR1K,  AVR512},
++ {"atmega163",     AVR16K,  AVR1K,  AVR512},
++ {"atmega164",     AVR16K,  AVR1K,  AVR512},
++ {"atmega164a",    AVR16K,  AVR1K,  AVR512},
++ {"atmega164p",    AVR16K,  AVR1K,  AVR512},
++ {"atmega165a",    AVR16K,  AVR1K,  AVR512},
++ {"atmega165",     AVR16K,  AVR1K,  AVR512},
++ {"atmega165p",    AVR16K,  AVR1K,  AVR512},
++ {"atmega168",     AVR16K,  AVR1K,  AVR512},
++ {"atmega168a",    AVR16K,  AVR1K,  AVR512},
++ {"atmega168p",    AVR16K,  AVR1K,  AVR512},
++ {"atmega169",     AVR16K,  AVR1K,  AVR512},
++ {"atmega169a",    AVR16K,  AVR1K,  AVR512},
++ {"atmega169p",    AVR16K,  AVR1K,  AVR512},
++ {"atmega169pa",   AVR16K,  AVR1K,  AVR512},
++ {"atmega16hva",   AVR16K,  768UL,  AVR256},
++ {"atmega16hva2",  AVR16K,  AVR1K,  AVR256},
++ {"atmega16hvb",   AVR16K,  AVR1K,  AVR512},
++ {"atmega16m1",    AVR16K,  AVR1K,  AVR512},
++ {"atmega16u2",    AVR16K,  AVR512, AVR512},
++ {"atmega16u4",    AVR16K,  1280UL, AVR512},
++ {"attiny167",     AVR16K,  AVR512, AVR512},
 +
-+	{"at90c8534",     AVR8K,   352UL,  AVR512},
-+	{"at90pwm1",      AVR8K,   AVR512, AVR512},
-+	{"at90pwm2",      AVR8K,   AVR512, AVR512},
-+	{"at90pwm2b",     AVR8K,   AVR512, AVR512},
-+	{"at90pwm3",      AVR8K,   AVR512, AVR512},
-+	{"at90pwm3b",     AVR8K,   AVR512, AVR512},
-+	{"at90pwm81",     AVR8K,   AVR256, AVR512},
-+	{"at90s8515",     AVR8K,   AVR512, AVR512},
-+	{"at90s8535",     AVR8K,   AVR512, AVR512},
-+	{"at90usb82",     AVR8K,   AVR512, AVR512},
-+	{"ata6289",       AVR8K,   AVR512, 320UL},
-+	{"atmega8",       AVR8K,   AVR1K,  AVR512},
-+	{"atmega8515",    AVR8K,   AVR512, AVR512},
-+	{"atmega8535",    AVR8K,   AVR512, AVR512},
-+	{"atmega88",      AVR8K,   AVR1K,  AVR512},
-+	{"atmega88a",     AVR8K,   AVR1K,  AVR512},
-+	{"atmega88p",     AVR8K,   AVR1K,  AVR512},
-+	{"atmega88pa",    AVR8K,   AVR1K,  AVR512},
-+	{"atmega8hva",    AVR8K,   768UL,  AVR256},
-+	{"atmega8u2",     AVR8K,   AVR512, AVR512},
-+	{"attiny84",      AVR8K,   AVR512, AVR512},
-+	{"attiny84a",     AVR8K,   AVR512, AVR512},
-+	{"attiny85",      AVR8K,   AVR512, AVR512},
-+	{"attiny861",     AVR8K,   AVR512, AVR512},
-+	{"attiny861a",    AVR8K,   AVR512, AVR512},
-+	{"attiny87",      AVR8K,   AVR512, AVR512},
-+	{"attiny88",      AVR8K,   AVR512, AVR64},
++ {"at90c8534",     AVR8K,   352UL,  AVR512},
++ {"at90pwm1",      AVR8K,   AVR512, AVR512},
++ {"at90pwm2",      AVR8K,   AVR512, AVR512},
++ {"at90pwm2b",     AVR8K,   AVR512, AVR512},
++ {"at90pwm3",      AVR8K,   AVR512, AVR512},
++ {"at90pwm3b",     AVR8K,   AVR512, AVR512},
++ {"at90pwm81",     AVR8K,   AVR256, AVR512},
++ {"at90s8515",     AVR8K,   AVR512, AVR512},
++ {"at90s8535",     AVR8K,   AVR512, AVR512},
++ {"at90usb82",     AVR8K,   AVR512, AVR512},
++ {"ata6289",       AVR8K,   AVR512, 320UL},
++ {"atmega8",       AVR8K,   AVR1K,  AVR512},
++ {"atmega8515",    AVR8K,   AVR512, AVR512},
++ {"atmega8535",    AVR8K,   AVR512, AVR512},
++ {"atmega88",      AVR8K,   AVR1K,  AVR512},
++ {"atmega88a",     AVR8K,   AVR1K,  AVR512},
++ {"atmega88p",     AVR8K,   AVR1K,  AVR512},
++ {"atmega88pa",    AVR8K,   AVR1K,  AVR512},
++ {"atmega8hva",    AVR8K,   768UL,  AVR256},
++ {"atmega8u2",     AVR8K,   AVR512, AVR512},
++ {"attiny84",      AVR8K,   AVR512, AVR512},
++ {"attiny84a",     AVR8K,   AVR512, AVR512},
++ {"attiny85",      AVR8K,   AVR512, AVR512},
++ {"attiny861",     AVR8K,   AVR512, AVR512},
++ {"attiny861a",    AVR8K,   AVR512, AVR512},
++ {"attiny87",      AVR8K,   AVR512, AVR512},
++ {"attiny88",      AVR8K,   AVR512, AVR64},
 +
-+	{"at90s4414",     AVR4K,   352UL,  AVR256},
-+	{"at90s4433",     AVR4K,   AVR128, AVR256},
-+	{"at90s4434",     AVR4K,   352UL,  AVR256},
-+	{"atmega48",      AVR4K,   AVR512, AVR256},
-+	{"atmega48a",     AVR4K,   AVR512, AVR256},
-+	{"atmega48p",     AVR4K,   AVR512, AVR256},
-+	{"attiny4313",    AVR4K,   AVR256, AVR256},
-+	{"attiny43u",     AVR4K,   AVR256, AVR64},
-+	{"attiny44",      AVR4K,   AVR256, AVR256},
-+	{"attiny44a",     AVR4K,   AVR256, AVR256},
-+	{"attiny45",      AVR4K,   AVR256, AVR256},
-+	{"attiny461",     AVR4K,   AVR256, AVR256},
-+	{"attiny461a",    AVR4K,   AVR256, AVR256},
-+	{"attiny48",      AVR4K,   AVR256, AVR64},
++ {"at90s4414",     AVR4K,   352UL,  AVR256},
++ {"at90s4433",     AVR4K,   AVR128, AVR256},
++ {"at90s4434",     AVR4K,   352UL,  AVR256},
++ {"atmega48",      AVR4K,   AVR512, AVR256},
++ {"atmega48a",     AVR4K,   AVR512, AVR256},
++ {"atmega48p",     AVR4K,   AVR512, AVR256},
++ {"attiny4313",    AVR4K,   AVR256, AVR256},
++ {"attiny43u",     AVR4K,   AVR256, AVR64},
++ {"attiny44",      AVR4K,   AVR256, AVR256},
++ {"attiny44a",     AVR4K,   AVR256, AVR256},
++ {"attiny45",      AVR4K,   AVR256, AVR256},
++ {"attiny461",     AVR4K,   AVR256, AVR256},
++ {"attiny461a",    AVR4K,   AVR256, AVR256},
++ {"attiny48",      AVR4K,   AVR256, AVR64},
 +
-+	{"at86rf401",     AVR2K,   224UL,  AVR128},
-+	{"at90s2313",     AVR2K,   AVR128, AVR128},
-+	{"at90s2323",     AVR2K,   AVR128, AVR128},
-+	{"at90s2333",     AVR2K,   224UL,  AVR128},
-+	{"at90s2343",     AVR2K,   AVR128, AVR128},
-+	{"attiny20",      AVR2K,   AVR128, 0UL},
-+	{"attiny22",      AVR2K,   224UL,  AVR128},
-+	{"attiny2313",    AVR2K,   AVR128, AVR128},
-+	{"attiny2313a",   AVR2K,   AVR128, AVR128},
-+	{"attiny24",      AVR2K,   AVR128, AVR128},
-+	{"attiny24a",     AVR2K,   AVR128, AVR128},
-+	{"attiny25",      AVR2K,   AVR128, AVR128},
-+	{"attiny26",      AVR2K,   AVR128, AVR128},
-+	{"attiny261",     AVR2K,   AVR128, AVR128},
-+	{"attiny261a",    AVR2K,   AVR128, AVR128},
-+	{"attiny28",      AVR2K,   0UL,    0UL},
-+	{"attiny40",      AVR2K,   AVR256, 0UL},
++ {"at86rf401",     AVR2K,   224UL,  AVR128},
++ {"at90s2313",     AVR2K,   AVR128, AVR128},
++ {"at90s2323",     AVR2K,   AVR128, AVR128},
++ {"at90s2333",     AVR2K,   224UL,  AVR128},
++ {"at90s2343",     AVR2K,   AVR128, AVR128},
++ {"attiny20",      AVR2K,   AVR128, 0UL},
++ {"attiny22",      AVR2K,   224UL,  AVR128},
++ {"attiny2313",    AVR2K,   AVR128, AVR128},
++ {"attiny2313a",   AVR2K,   AVR128, AVR128},
++ {"attiny24",      AVR2K,   AVR128, AVR128},
++ {"attiny24a",     AVR2K,   AVR128, AVR128},
++ {"attiny25",      AVR2K,   AVR128, AVR128},
++ {"attiny26",      AVR2K,   AVR128, AVR128},
++ {"attiny261",     AVR2K,   AVR128, AVR128},
++ {"attiny261a",    AVR2K,   AVR128, AVR128},
++ {"attiny28",      AVR2K,   0UL,    0UL},
++ {"attiny40",      AVR2K,   AVR256, 0UL},
 +
-+	{"at90s1200",     AVR1K,   0UL,    AVR64},
-+	{"attiny9",       AVR1K,   32UL,   0UL},
-+	{"attiny10",      AVR1K,   32UL,   0UL},
-+	{"attiny11",      AVR1K,   0UL,    AVR64},
-+	{"attiny12",      AVR1K,   0UL,    AVR64},
-+	{"attiny13",      AVR1K,   AVR64,  AVR64},
-+	{"attiny13a",     AVR1K,   AVR64,  AVR64},
-+	{"attiny15",      AVR1K,   0UL,    AVR64},
++ {"at90s1200",     AVR1K,   0UL,    AVR64},
++ {"attiny9",       AVR1K,   32UL,   0UL},
++ {"attiny10",      AVR1K,   32UL,   0UL},
++ {"attiny11",      AVR1K,   0UL,    AVR64},
++ {"attiny12",      AVR1K,   0UL,    AVR64},
++ {"attiny13",      AVR1K,   AVR64,  AVR64},
++ {"attiny13a",     AVR1K,   AVR64,  AVR64},
++ {"attiny15",      AVR1K,   0UL,    AVR64},
 +
-+	{"attiny4",       AVR512,  32UL,   0UL},
-+	{"attiny5",       AVR512,  32UL,   0UL},
++ {"attiny4",       AVR512,  32UL,   0UL},
++ {"attiny5",       AVR512,  32UL,   0UL},
 +};
 +
 +static char *avrmcu = NULL;
@@ -296,7 +294,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  static char *target = NULL;
  
  /* Forward declarations.  */
-@@ -77,7 +337,8 @@ usage (FILE *stream, int status)
+@@ -77,7 +337,8 @@
    fprintf (stream, _(" Displays the sizes of sections inside binary files\n"));
    fprintf (stream, _(" If no input file(s) are specified, a.out is assumed\n"));
    fprintf (stream, _(" The options are:\n\
@@ -306,7 +304,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
    -o|-d|-x  --radix={8|10|16}         Display numbers in octal, decimal or hex\n\
    -t        --totals                  Display the total sizes (Berkeley only)\n\
              --common                  Display total size for *COM* syms\n\
-@@ -86,11 +347,7 @@ usage (FILE *stream, int status)
+@@ -86,11 +347,7 @@
    -h        --help                    Display this information\n\
    -v        --version                 Display the program's version\n\
  \n"),
@@ -319,7 +317,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  );
    list_supported_targets (program_name, stream);
    if (REPORT_BUGS_TO[0] && status == 0)
-@@ -101,6 +358,7 @@ usage (FILE *stream, int status)
+@@ -101,6 +358,7 @@
  #define OPTION_FORMAT (200)
  #define OPTION_RADIX (OPTION_FORMAT + 1)
  #define OPTION_TARGET (OPTION_RADIX + 1)
@@ -327,7 +325,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  
  static struct option long_options[] =
  {
-@@ -108,6 +366,7 @@ static struct option long_options[] =
+@@ -108,6 +366,7 @@
    {"format", required_argument, 0, OPTION_FORMAT},
    {"radix", required_argument, 0, OPTION_RADIX},
    {"target", required_argument, 0, OPTION_TARGET},
@@ -335,62 +333,62 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
    {"totals", no_argument, &show_totals, 1},
    {"version", no_argument, &show_version, 1},
    {"help", no_argument, &show_help, 1},
-@@ -141,7 +400,7 @@ main (int argc, char **argv)
+@@ -141,7 +400,7 @@
      fatal (_("fatal error: libbfd ABI mismatch"));
    set_default_bfd_target ();
  
 -  while ((c = getopt_long (argc, argv, "ABHhVvdfotx", long_options,
 +  while ((c = getopt_long (argc, argv, "ABCHhVvdfotx", long_options,
- 			   (int *) 0)) != EOF)
+         (int *) 0)) != EOF)
      switch (c)
        {
-@@ -150,11 +409,15 @@ main (int argc, char **argv)
- 	  {
- 	  case 'B':
- 	  case 'b':
--	    berkeley_format = 1;
-+	    format = format_bsd;
- 	    break;
- 	  case 'S':
- 	  case 's':
--	    berkeley_format = 0;
-+	    format = format_sysv;
-+	    break;
-+	  case 'A':
-+	  case 'a':
-+	    format = format_avr;
- 	    break;
- 	  default:
- 	    non_fatal (_("invalid argument to --format: %s"), optarg);
-@@ -162,6 +425,10 @@ main (int argc, char **argv)
- 	  }
- 	break;
+@@ -150,11 +409,15 @@
+    {
+    case 'B':
+    case 'b':
+-     berkeley_format = 1;
++     format = format_bsd;
+      break;
+    case 'S':
+    case 's':
+-     berkeley_format = 0;
++     format = format_sysv;
++     break;
++   case 'A':
++   case 'a':
++     format = format_avr;
+      break;
+    default:
+      non_fatal (_("invalid argument to --format: %s"), optarg);
+@@ -162,6 +425,10 @@
+    }
+  break;
  
 +      case OPTION_MCU:
-+	avrmcu = optarg;
-+	break;
++ avrmcu = optarg;
++ break;
 +
        case OPTION_TARGET:
- 	target = optarg;
- 	break;
-@@ -190,11 +457,14 @@ main (int argc, char **argv)
- 	break;
+  target = optarg;
+  break;
+@@ -190,11 +457,14 @@
+  break;
  
        case 'A':
--	berkeley_format = 0;
-+	format = format_sysv;
- 	break;
+- berkeley_format = 0;
++ format = format_sysv;
+  break;
        case 'B':
--	berkeley_format = 1;
-+	format = format_bsd;
- 	break;
+- berkeley_format = 1;
++ format = format_bsd;
+  break;
 +      case 'C':
 +    format = format_avr;
 +    break;
        case 'v':
        case 'V':
- 	show_version = 1;
-@@ -240,7 +510,7 @@ main (int argc, char **argv)
+  show_version = 1;
+@@ -240,7 +510,7 @@
      for (; optind < argc;)
        display_file (argv[optind++]);
  
@@ -399,7 +397,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
      {
        bfd_size_type total = total_textsize + total_datasize + total_bsssize;
  
-@@ -606,13 +876,117 @@ print_sysv_format (bfd *file)
+@@ -606,13 +876,117 @@
    printf ("\n\n");
  }
  
