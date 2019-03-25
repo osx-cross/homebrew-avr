@@ -5,9 +5,9 @@ class AvrGccAT5 < Formula
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-5-branch"
 
   stable do
-    url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-5.4.0/gcc-5.4.0.tar.bz2"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-5.4.0/gcc-5.4.0.tar.bz2"
-    sha256 "608df76dec2d34de6558249d8af4cbee21eceddbcb580d666f7a5a583ca3303a"
+    url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-5.5.0/gcc-5.5.0.tar.xz"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-5.5.0/gcc-5.5.0.tar.xz"
+    sha256 "530cea139d82fe542b358961130c69cfde8b3d14556370b65823d2f91f0ced87"
   end
 
   keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
@@ -15,12 +15,36 @@ class AvrGccAT5 < Formula
   depends_on "avr-binutils"
 
   depends_on "gmp"
-  depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
+
+  resource "isl" do
+    url "https://gcc.gnu.org/pub/gcc/infrastructure/isl-0.14.tar.bz2"
+    mirror "https://mirrorservice.org/sites/distfiles.macports.org/isl/isl-0.14.tar.bz2"
+    sha256 "7e3c02ff52f8540f6a85534f54158968417fd676001651c8289c705bd0228f36"
+  end
+
+  # Fix build with Xcode 9
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82091
+  if DevelopmentTools.clang_build_version >= 900
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/078797f1b9/gcc%405/xcode9.patch"
+      sha256 "e1546823630c516679371856338abcbab381efaf9bd99511ceedcce3cf7c0199"
+    end
+  end
+
+  # Fix Apple headers, otherwise they trigger a build failure in libsanitizer
+  # GCC bug report: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=83531
+  # Apple radar 36176941
+  if MacOS.version == :high_sierra
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/413cfac6/gcc%405/10.13_headers.patch"
+      sha256 "94aaec20c8c7bfd3c41ef8fb7725bd524b1c0392d11a411742303a3465d18d09"
+    end
+  end
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
@@ -36,19 +60,15 @@ class AvrGccAT5 < Formula
     end
   end
 
-  # Fix build with Xcode 9
-  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82091
-  if DevelopmentTools.clang_build_version >= 900
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/formula-patches/078797f1b9/gcc%405/xcode9.patch"
-      sha256 "e1546823630c516679371856338abcbab381efaf9bd99511ceedcce3cf7c0199"
-    end
-  end
-
   def install
     # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
-    ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
+
+    # Build ISL 0.14 from source during bootstrap
+    resource("isl").stage buildpath/"isl"
+
+    # pretend that make info is too old to build documentation and avoid errors
+    ENV["gcc_cv_prog_makeinfo_modern"] = "no"
 
     languages = ["c", "c++"]
 
@@ -147,7 +167,7 @@ class AvrGccAT5 < Formula
 
         uint8_t array[] = {1, 2, 3, 4};
 
-        for (auto n : array) {
+        for (uint8_t n : array) {
           uint8_t m = n;
           while (m > 0) {
             _delay_ms(500);
@@ -161,15 +181,9 @@ class AvrGccAT5 < Formula
     EOS
 
     hello_cpp_hex = <<~EOS
-      :1000000010E0A0E6B0E0ECE7F0E003C0C895319660
-      :100010000D92A436B107D1F700D000D0CDB7DEB72E
-      :10002000209A8091600090916100A0916200B0914F
-      :10003000630089839A83AB83BC83FE0131969E0162
-      :100040002B5F3F4F41E08191882371F05FEF64E3C4
-      :100050009CE0515060409040E1F700C0000095B135
-      :10006000942795B98150F0CFE217F30761F790E03C
-      :0C00700080E00F900F900F900F9008950B
-      :04007C000102030476
+      :10000000209A21E09923F1F33FEF44E38CE0315053
+      :1000100040408040E1F700C0000085B1822785B9EB
+      :040020009150F0CF3C
       :00000001FF
     EOS
 
