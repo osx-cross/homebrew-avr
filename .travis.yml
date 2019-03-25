@@ -1,33 +1,41 @@
 os: osx
-language: ruby
+language: objective-c
+
+before_install:
+  - brew update >/dev/null
 
 install:
-  - brew update >/dev/null
   - brew tap osx-cross/avr
   - cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr
   - git checkout --detach
   - git fetch origin '+refs/heads/*:refs/heads/*'
   - git checkout $TRAVIS_BRANCH
 
-jobs:
-  include:
+script:
+  - brew audit --strict avr-binutils
+  - brew install avr-binutils --verbose
+  - brew test avr-binutils
 
-    - stage: avr-binutils
-      script:
-        - brew audit --strict avr-binutils.rb
-        - brew install avr-binutils --verbose
-        - brew test avr-binutils
+  - brew audit --strict avr-gcc
+  - brew install avr-gcc --verbose
+  - brew test avr-gcc --verbose
 
-    - stage: avr-gcc
-      script:
-        - brew audit --strict avr-gcc.rb
-        - brew install avr-gcc --verbose
-        - brew test avr-gcc --verbose
+  - brew audit --strict avr-gcc@4
+  - brew install avr-gcc@4 --verbose
+  - brew test avr-gcc@4 --verbose
 
-        # - brew audit --strict avr-gdb.rb
-        # - brew audit --strict avr-gcc@4.rb
-        # - brew audit --strict avr-gcc@5.rb
-        # - brew audit --strict avr-gcc@6.rb
-        # - brew audit --strict avr-gcc@7.rb
-        # - brew audit --strict avarice.rb
-        # - brew audit --strict simavr.rb
+  - brew audit --strict avr-gcc@5
+  - brew install avr-gcc@5 --verbose
+  - brew test avr-gcc@5 --verbose
+
+  - brew audit --strict avr-gcc@6
+  - brew install avr-gcc@6 --verbose
+  - brew test avr-gcc@6 --verbose
+
+  - brew audit --strict avr-gcc@7
+  - brew install avr-gcc@7 --verbose
+  - brew test avr-gcc@7 --verbose
+
+  # - brew audit --strict avr-gdb
+  # - brew audit --strict avarice
+  # - brew audit --strict simavr
