@@ -38,6 +38,14 @@ class AvrBinutils < Formula
   end
 
   test do
-    system "true"
+    version_output = <<~EOS
+      GNU ar (GNU Binutils) 2.32
+      Copyright (C) 2019 Free Software Foundation, Inc.
+      This program is free software; you may redistribute it under the terms of
+      the GNU General Public License version 3 or (at your option) any later version.
+      This program has absolutely no warranty.
+    EOS
+
+    assert_equal `avr-ar --version`, version_output
   end
 end
