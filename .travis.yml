@@ -13,12 +13,18 @@ jobs:
   include:
     - stage: audit-formulae
       script:
-        - brew audit --strict avr-gdb.rb
-        - brew audit --strict avr-binutils.rb
+        # - brew audit --strict avr-gdb.rb
+        # - brew audit --strict avr-binutils.rb
         - brew audit --strict avr-gcc.rb
-        - brew audit --strict avr-gcc@4.rb
-        - brew audit --strict avr-gcc@5.rb
-        - brew audit --strict avr-gcc@6.rb
-        - brew audit --strict avr-gcc@7.rb
-        - brew audit --strict avarice.rb
-        - brew audit --strict simavr.rb
+        # - brew audit --strict avr-gcc@4.rb
+        # - brew audit --strict avr-gcc@5.rb
+        # - brew audit --strict avr-gcc@6.rb
+        # - brew audit --strict avr-gcc@7.rb
+        # - brew audit --strict avarice.rb
+        # - brew audit --strict simavr.rb
+    - stage: install-formulae
+      script:
+        - brew install avr-gcc --verbose
+    - stage: test-formulae
+      script:
+        - brew test avr-gcc --verbose
