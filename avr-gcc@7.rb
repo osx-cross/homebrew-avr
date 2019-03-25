@@ -5,9 +5,9 @@ class AvrGccAT7 < Formula
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-7-branch"
 
   stable do
-    url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.3.0/gcc-7.3.0.tar.xz"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-7.3.0/gcc-7.3.0.tar.xz"
-    sha256 "832ca6ae04636adbb430e865a1451adf6979ab44ca1c8374f61fba65645ce15c"
+    url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.4.0/gcc-7.4.0.tar.xz"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-7.4.0/gcc-7.4.0.tar.xz"
+    sha256 "eddde28d04f334aec1604456e536416549e9b1aa137fc69204e65eb0c009fe51"
   end
 
   keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
@@ -27,10 +27,6 @@ class AvrGccAT7 < Formula
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
   end
-
-  # isl 0.20 compatibility
-  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=86724
-  patch :DATA
 
   def version_suffix
     if build.head?
@@ -155,15 +151,16 @@ class AvrGccAT7 < Formula
     EOS
 
     hello_cpp_hex = <<~EOS
-      :1000000010E0A0E6B0E0ECE7F0E003C0C895319660
-      :100010000D92A436B107D1F700D000D0CDB7DEB72E
-      :10002000209A8091600090916100A0916200B0914F
-      :10003000630089839A83AB83BC83FE0131969E0162
-      :100040002B5F3F4F41E08191882371F05FEF64E3C4
-      :100050009CE0515060409040E1F700C0000095B135
-      :10006000942795B98150F0CFE217F30761F790E03C
-      :0C00700080E00F900F900F900F9008950B
-      :04007C000102030476
+      :1000000010E0A0E6B0E0E4E8F0E003C0C895319667
+      :100010000D92A436B107D1F7CF93DF9300D000D073
+      :10002000CDB7DEB7209A8091600090916100A091D9
+      :100030006200B091630089839A83AB83BC83FE0125
+      :1000400031969E012B5F3F4F41E08191882371F0F3
+      :100050005FEF64E39CE0515060409040E1F700C0E6
+      :10006000000095B1942795B98150F0CFE217F307BE
+      :1000700061F790E080E00F900F900F900F90DF916C
+      :04008000CF9108957F
+      :04008400010203046E
       :00000001FF
     EOS
 
@@ -178,17 +175,3 @@ class AvrGccAT7 < Formula
     assert_equal `cat hello.cpp.hex`, hello_cpp_hex
   end
 end
-
-__END__
-diff --git a/gcc/graphite.h b/gcc/graphite.h
-index 4e0e58c..be0a22b 100644
---- a/gcc/graphite.h
-+++ b/gcc/graphite.h
-@@ -37,6 +37,8 @@ along with GCC; see the file COPYING3.  If not see
- #include <isl/schedule.h>
- #include <isl/ast_build.h>
- #include <isl/schedule_node.h>
-+#include <isl/id.h>
-+#include <isl/space.h>
-
- typedef struct poly_dr *poly_dr_p;
