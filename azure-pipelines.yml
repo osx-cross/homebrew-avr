@@ -12,14 +12,6 @@ pr:
 variables:
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
-  gco: |
-    brew tap osx-cross/avr ; \
-    cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr ; \
-    git checkout --detach ; \
-    git fetch origin '+refs/heads/*:refs/heads/*' ; \
-    git checkout $(System.PullRequest.SourceBranch)
-  bundle_install: |
-    gem install bundler
 
 pool:
   vmImage: 'macOS 10.13'
@@ -35,23 +27,22 @@ strategy:
         package: avarice
 
 steps:
-  - bash: echo "\nBranch $(System.PullRequest.SourceBranch)\nBranch Name $(System.PullRequest.SourceBranchName)\n"
-    displayName: Echo branch names
-  - bash: echo $(bundle_install)
+  - bash: gem install bundler
     displayName: bundle install
 
-  - bash: echo $(gco)
+  - bash: |
+      brew tap osx-cross/avr 
+      cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr 
+      git checkout --detach 
+      git fetch origin '+refs/heads/*:refs/heads/*' 
+      git checkout $(System.PullRequest.SourceBranch)
     displayName: Git checkout $(System.PullRequest.SourceBranch)
 
   - bash: |
-      brew list
-      echo $(gco)
-      brew list
       brew audit --strict $(package)
     displayName: Audit $(package)
 
   - bash: |
-      echo $(gco)
       brew install $(package)
     displayName: Build $(package)
     timeoutInMinutes: 360
