@@ -35,7 +35,7 @@ jobs:
   pool:
     vmImage: macOS-10.13
   strategy:
-    maxParallel: 8
+    maxParallel: 3
     matrix: 
       binutils:
           package: avr-binutils
