@@ -44,10 +44,14 @@ steps:
     displayName: Git checkout $(System.PullRequest.SourceBranch)
 
   - bash: |
+      brew list
+      echo $(gco)
+      brew list
       brew audit --strict $(package)
     displayName: Audit $(package)
 
   - bash: |
+      echo $(gco)
       brew install $(package)
     displayName: Build $(package)
     timeoutInMinutes: 360
