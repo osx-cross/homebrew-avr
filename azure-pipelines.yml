@@ -14,7 +14,7 @@ variables:
   HOMEBREW_NO_AUTO_UPDATE: 1
 
 jobs:
-- job: macOS
+- job: "Run brew test-bot"
   pool:
     vmImage: macOS-10.13
   steps:
@@ -29,7 +29,7 @@ jobs:
         brew test-bot
       displayName: Run brew test-bot
 
-- job: audit_build_test
+- job: "Audit, Build & Test"
   pool:
     vmImage: macOS-10.13
   strategy:
