@@ -19,8 +19,7 @@ variables:
     git fetch origin '+refs/heads/*:refs/heads/*' && \
     git checkout $(Build.SourceBranchName)
   bundle_install: |
-    gem install bundler && \
-    bundle install --retry=3 --jobs=4
+    gem install bundler
 
 pool:
   vmImage: 'macOS 10.13'
