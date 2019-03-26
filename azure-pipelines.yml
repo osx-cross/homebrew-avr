@@ -26,9 +26,6 @@ variables:
 pool:
   vmImage: 'macOS 10.13'
 
-strategy:
-  parallel: 8
-
 jobs:
   - job: job1
     displayName: AVR Binutils
