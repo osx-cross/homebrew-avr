@@ -12,10 +12,6 @@ pr:
 pool:
   vmImage: 'macOS 10.13'
 
-env:
-  HOMEBREW_NO_ANALYTICS: 1
-  HOMEBREW_NO_AUTO_UPDATE: 1
-
 steps:
 - bash: |
     brew tap osx-cross/avr
@@ -24,6 +20,9 @@ steps:
     git fetch origin '+refs/heads/*:refs/heads/*'
     git checkout azure-pipeline
   displayName: Checkout and change branch
+  env:
+    HOMEBREW_NO_ANALYTICS: 1
+    HOMEBREW_NO_AUTO_UPDATE: 1
 
 - bash: |
     brew audit --strict avr-binutils
@@ -31,6 +30,9 @@ steps:
     brew test avr-binutils
   displayName: Audit, build & test avr-binutils
   timeoutInMinutes: 360
+  env:
+    HOMEBREW_NO_ANALYTICS: 1
+    HOMEBREW_NO_AUTO_UPDATE: 1
 
 - bash: |
     brew audit --strict avr-gcc
@@ -38,3 +40,6 @@ steps:
     brew test avr-gcc
   displayName: Audit, build & test avr-gcc
   timeoutInMinutes: 360
+  env:
+    HOMEBREW_NO_ANALYTICS: 1
+    HOMEBREW_NO_AUTO_UPDATE: 1
