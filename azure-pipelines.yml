@@ -38,8 +38,6 @@ strategy:
       variables:
         package: avarice
 
-timeoutInMinutes: 360
-
 steps:
   - bash: echo $(bundle_install)
     displayName: bundle install
@@ -54,6 +52,7 @@ steps:
   - bash: |
       brew install $(package)
     displayName: Build $(package)
+    timeoutInMinutes: 360
 
   - bash: |
       brew test $(package)
