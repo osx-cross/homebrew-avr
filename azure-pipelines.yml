@@ -10,7 +10,6 @@ pr:
 - master
 
 variables:
-
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   gco: |
@@ -26,57 +25,36 @@ variables:
 pool:
   vmImage: 'macOS 10.13'
 
-jobs:
-  - job: job1
-    displayName: AVR Binutils
-    variables:
-      package: avr-binutils
+strategy:
+  maxParallel: 8
+  matrix: 
+    binutils:
+      variables:
+        package: avr-binutils
+    avr_gcc:
+      variables:
+        package: avr-gcc
+    avarice:
+      variables:
+        package: avarice
 
-    steps:
-      - bash: echo $(bundle_install)
-        displayName: bundle install
+timeoutInMinutes: 360
 
-      - bash: echo $(gco)
-        displayName: Git checkout $(SourceBranchName)
+steps:
+  - bash: echo $(bundle_install)
+    displayName: bundle install
 
-      - bash: |
-          brew audit --strict $(package)
-        displayName: Audit $(package)
-        timeoutInMinutes: 360
+  - bash: echo $(gco)
+    displayName: Git checkout $(SourceBranchName)
 
-      - bash: |
-          brew install $(package)
-        displayName: Build $(package)
-        timeoutInMinutes: 360
+  - bash: |
+      brew audit --strict $(package)
+    displayName: Audit $(package)
 
-      - bash: |
-          brew test $(package)
-        displayName: Test $(package)
-        timeoutInMinutes: 360
+  - bash: |
+      brew install $(package)
+    displayName: Build $(package)
 
-  - job: job2
-    displayName: AVR GCC
-    variables:
-      package: avr-gcc
-
-    steps:
-      - bash: echo $(bundle_install)
-        displayName: bundle install
-
-      - bash: echo $(gco)
-        displayName: Git checkout $(SourceBranchName)
-
-      - bash: |
-          brew audit --strict $(package)
-        displayName: Audit $(package)
-        timeoutInMinutes: 360
-
-      - bash: |
-          brew install $(package)
-        displayName: Build $(package)
-        timeoutInMinutes: 360
-
-      - bash: |
-          brew test $(package)
-        displayName: Test $(package)
-        timeoutInMinutes: 360
+  - bash: |
+      brew test $(package)
+    displayName: Test $(package)
