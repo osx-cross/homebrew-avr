@@ -3,7 +3,7 @@ class AvrBinutils < Formula
   homepage "https://www.gnu.org/software/binutils/binutils.html"
 
   url "https://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.bz2"
+  mirror "http://ftpmirror.gnu.org/binutils/binutils-2.32.tar.bz2"
   sha256 "de38b15c902eb2725eac6af21183a5f34ea4634cb0bcef19612b50e5ed31072d"
 
   # Support for -C in avr-size. See issue

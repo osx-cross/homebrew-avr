@@ -20,7 +20,6 @@ jobs:
     vmImage: macOS-10.13
   steps:
     - bash: |
-        set -e
         sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
         brew update
         HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr"
@@ -54,7 +53,6 @@ jobs:
 
   steps:
     - bash: |
-        set -e
         sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
         brew update
         brew cleanup
@@ -62,7 +60,6 @@ jobs:
 
     - bash: |
         gem install bundler
-        brew audit
       displayName: Install Bundler for brew audit
 
     - bash: |
