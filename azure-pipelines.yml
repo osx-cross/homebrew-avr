@@ -18,7 +18,7 @@ steps:
     cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr
     git checkout --detach
     git fetch origin '+refs/heads/*:refs/heads/*'
-    git checkout --track origin/azure-pipeline
+    git checkout --track origin/azure-pipelines
   displayName: Checkout and change branch
   env:
     HOMEBREW_NO_ANALYTICS: 1
