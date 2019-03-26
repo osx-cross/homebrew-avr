@@ -17,7 +17,7 @@ variables:
     cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr \
     git checkout --detach \
     git fetch origin '+refs/heads/*:refs/heads/*' \
-    git checkout $(SourceBranchName)
+    git checkout $(Build.SourceBranchName)
   bundle_install: |
     gem install bundler \
     bundle install --retry=3 --jobs=4
@@ -40,7 +40,7 @@ steps:
     displayName: bundle install
 
   - bash: echo $(gco)
-    displayName: Git checkout $(SourceBranchName)
+    displayName: Git checkout $(Build.SourceBranchName)
 
   - bash: |
       brew audit --strict $(package)
