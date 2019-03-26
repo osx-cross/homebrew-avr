@@ -13,27 +13,27 @@ install:
 
 script:
   - brew audit --strict avr-binutils
-  - brew install avr-binutils --verbose
+  - travis_wait 120 brew install avr-binutils
   - brew test avr-binutils
 
   - brew audit --strict avr-gcc
-  - brew install avr-gcc --verbose
+  - travis_wait 120 avr-gcc
   - brew test avr-gcc --verbose
 
   - brew audit --strict avr-gcc@4
-  - brew install avr-gcc@4 --verbose
+  - travis_wait 120 avr-gcc@4
   - brew test avr-gcc@4 --verbose
 
   - brew audit --strict avr-gcc@5
-  - brew install avr-gcc@5 --verbose
+  - travis_wait 120 avr-gcc@5
   - brew test avr-gcc@5 --verbose
 
   - brew audit --strict avr-gcc@6
-  - brew install avr-gcc@6 --verbose
+  - travis_wait 120 avr-gcc@6
   - brew test avr-gcc@6 --verbose
 
   - brew audit --strict avr-gcc@7
-  - brew install avr-gcc@7 --verbose
+  - travis_wait 120 avr-gcc@7
   - brew test avr-gcc@7 --verbose
 
   # - brew audit --strict avr-gdb
