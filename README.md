@@ -15,7 +15,7 @@ Other GCC versions available:
 
 - `7.4.0`
 - `6.5.0`
-- `5.4.0`
+- `5.5.0`
 - `4.9.4`
 
 ## Installing homebrew-avr formulae
