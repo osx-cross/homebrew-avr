@@ -6,14 +6,35 @@
 trigger:
 - master
 
+pr:
+- master
+
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: 'macOS 10.13'
+
+env:
+  HOMEBREW_NO_ANALYTICS: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- bash: |
+    brew tap osx-cross/avr
+    cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr
+    git checkout --detach
+    git fetch origin '+refs/heads/*:refs/heads/*'
+    git checkout azure-pipeline
+  displayName: Checkout and change branch
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- bash: |
+    brew audit --strict avr-binutils
+    brew install avr-binutils
+    brew test avr-binutils
+  displayName: Audit, build & test avr-binutils
+  timeoutInMinutes: 360
+
+- bash: |
+    brew audit --strict avr-gcc
+    brew install avr-gcc
+    brew test avr-gcc
+  displayName: Audit, build & test avr-gcc
+  timeoutInMinutes: 360
