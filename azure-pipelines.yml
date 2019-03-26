@@ -29,13 +29,10 @@ strategy:
   maxParallel: 8
   matrix: 
     binutils:
-      variables:
         package: avr-binutils
     avr_gcc:
-      variables:
         package: avr-gcc
     avarice:
-      variables:
         package: avarice
 
 steps:
