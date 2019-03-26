@@ -17,7 +17,7 @@ variables:
     cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr && \
     git checkout --detach && \
     git fetch origin '+refs/heads/*:refs/heads/*' && \
-    git checkout $(System.SourceBranchName)
+    git checkout $(System.PullRequest.SourceBranch)
   bundle_install: |
     gem install bundler
 
@@ -35,13 +35,13 @@ strategy:
         package: avarice
 
 steps:
-  - bash: echo "\nBranch $(System.SourceBranch)\nBranch Name $(System.SourceBranchName)\n"
+  - bash: echo "\nBranch $(System.PullRequest.SourceBranch)\nBranch Name $(System.PullRequest.SourceBranchName)\n"
     displayName: Echo branch names
   - bash: echo $(bundle_install)
     displayName: bundle install
 
   - bash: echo $(gco)
-    displayName: Git checkout $(System.SourceBranchName)
+    displayName: Git checkout $(System.PullRequest.SourceBranch)
 
   - bash: |
       brew audit --strict $(package)
