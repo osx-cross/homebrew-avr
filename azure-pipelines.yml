@@ -13,10 +13,10 @@ variables:
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   gco: |
-    brew tap osx-cross/avr && \
-    cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr && \
-    git checkout --detach && \
-    git fetch origin '+refs/heads/*:refs/heads/*' && \
+    brew tap osx-cross/avr ; \
+    cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr ; \
+    git checkout --detach ; \
+    git fetch origin '+refs/heads/*:refs/heads/*' ; \
     git checkout $(System.PullRequest.SourceBranch)
   bundle_install: |
     gem install bundler
