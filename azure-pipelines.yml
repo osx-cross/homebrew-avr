@@ -13,40 +13,73 @@ variables:
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
 
-pool:
-  vmImage: 'macOS 10.13'
+jobs:
+- job: macOS
+  pool:
+    vmImage: macOS-10.13
+  steps:
+    - bash: |
+        set -e
+        sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+        brew update
+        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr"
+        mkdir -p "$HOMEBREW_TAP_DIR"
+        rm -rf "$HOMEBREW_TAP_DIR"
+        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
+        brew test-bot
+      displayName: Run brew test-bot
 
-strategy:
-  maxParallel: 8
-  matrix: 
-    binutils:
-        package: avr-binutils
-    avr_gcc:
-        package: avr-gcc
-    avarice:
-        package: avarice
+- job: audit_build_test
+  pool:
+    vmImage: macOS-10.13
+  strategy:
+    maxParallel: 8
+    matrix: 
+      binutils:
+          package: avr-binutils
+      avr-gcc:
+          package: avr-gcc
+      avr-gcc@4:
+          package: avr-gcc@4
+      avr-gcc@5:
+          package: avr-gcc@5
+      avr-gcc@6:
+          package: avr-gcc@6
+      avr-gcc@7:
+          package: avr-gcc@7
+      avarice:
+          package: avarice
 
-steps:
-  - bash: gem install bundler
-    displayName: bundle install
+  steps:
+    - bash: |
+        set -e
+        sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
+        brew update
+        brew cleanup
+      displayName: Update & Cleanup brew
 
-  - bash: |
-      brew tap osx-cross/avr 
-      cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr 
-      git checkout --detach 
-      git fetch origin '+refs/heads/*:refs/heads/*' 
-      git checkout $(System.PullRequest.SourceBranch)
-    displayName: Git checkout $(System.PullRequest.SourceBranch)
+    - bash: |
+        gem install bundler
+        brew audit
+      displayName: Install Bundler for brew audit
 
-  - bash: |
-      brew audit --strict $(package)
-    displayName: Audit $(package)
+    - bash: |
+        brew tap osx-cross/avr 
+        cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr 
+        git checkout --detach 
+        git fetch origin '+refs/heads/*:refs/heads/*' 
+        git checkout $(System.PullRequest.SourceBranch)
+      displayName: Git checkout $(System.PullRequest.SourceBranch)
 
-  - bash: |
-      brew install $(package)
-    displayName: Build $(package)
-    timeoutInMinutes: 360
+    - bash: |
+        brew audit --strict $(package)
+      displayName: Audit $(package)
 
-  - bash: |
-      brew test $(package)
-    displayName: Test $(package)
+    - bash: |
+        brew install $(package)
+      displayName: Build $(package)
+      timeoutInMinutes: 360
+
+    - bash: |
+        brew test $(package)
+      displayName: Test $(package)
