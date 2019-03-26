@@ -3,6 +3,7 @@ language: objective-c
 
 before_install:
   - brew update >/dev/null
+  - brew cleanup >/dev/null
 
 install:
   - brew tap osx-cross/avr
@@ -17,24 +18,24 @@ script:
   - brew test avr-binutils
 
   - brew audit --strict avr-gcc
-  - travis_wait 120 avr-gcc
-  - brew test avr-gcc --verbose
+  - travis_wait 120 brew install avr-gcc
+  - brew test avr-gcc
 
   - brew audit --strict avr-gcc@4
-  - travis_wait 120 avr-gcc@4
-  - brew test avr-gcc@4 --verbose
+  - travis_wait 120 brew install avr-gcc@4
+  - brew test avr-gcc@4
 
   - brew audit --strict avr-gcc@5
-  - travis_wait 120 avr-gcc@5
-  - brew test avr-gcc@5 --verbose
+  - travis_wait 120 brew install avr-gcc@5
+  - brew test avr-gcc@5
 
   - brew audit --strict avr-gcc@6
-  - travis_wait 120 avr-gcc@6
-  - brew test avr-gcc@6 --verbose
+  - travis_wait 120 brew install avr-gcc@6
+  - brew test avr-gcc@6
 
   - brew audit --strict avr-gcc@7
-  - travis_wait 120 avr-gcc@7
-  - brew test avr-gcc@7 --verbose
+  - travis_wait 120 brew install avr-gcc@7
+  - brew test avr-gcc@7
 
   # - brew audit --strict avr-gdb
   # - brew audit --strict avarice
