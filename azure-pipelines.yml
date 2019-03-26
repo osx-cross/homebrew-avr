@@ -33,12 +33,40 @@ jobs:
     displayName: AVR Binutils
     variables:
       - package: avr-binutils
+
     steps:
       - bash: echo $(bundle_install)
-      displayName: bundle install
+        displayName: bundle install
 
       - bash: echo $(gco)
-      displayName: Git checkout $(SourceBranchName)
+        displayName: Git checkout $(SourceBranchName)
+
+      - bash: |
+          brew audit --strict $(package)
+        displayName: Audit $(package)
+        timeoutInMinutes: 360
+
+      - bash: |
+          brew install $(package)
+        displayName: Build $(package)
+        timeoutInMinutes: 360
+
+      - bash: |
+          brew test $(package)
+        displayName: Test $(package)
+        timeoutInMinutes: 360
+
+  - job:
+    displayName: AVR GCC
+    variables:
+      - package: avr-gcc
+
+    steps:
+      - bash: echo $(bundle_install)
+        displayName: bundle install
+
+      - bash: echo $(gco)
+        displayName: Git checkout $(SourceBranchName)
 
       - bash: |
           brew audit --strict $(package)
@@ -50,28 +78,6 @@ jobs:
         displayName: Build $(package)
         timeoutInMinutes: 360
         
-      - bash: |
-          brew test $(package)
-        displayName: Test $(package)
-        timeoutInMinutes: 360
-
-  - job:
-    displayName: AVR GCC
-    variables:
-      - package: avr-gcc
-    steps:
-      - bash: echo $(bundle_install)
-      displayName: bundle install
-      - bash: echo $(gco)
-      displayName: Git checkout $(SourceBranchName)
-      - bash: |
-          brew audit --strict $(package)
-        displayName: Audit $(package)
-        timeoutInMinutes: 360
-      - bash: |
-          brew install $(package)
-        displayName: Build $(package)
-        timeoutInMinutes: 360
       - bash: |
           brew test $(package)
         displayName: Test $(package)
