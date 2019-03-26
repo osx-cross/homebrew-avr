@@ -10,17 +10,18 @@ pr:
 - master
 
 variables:
-  - HOMEBREW_NO_ANALYTICS: 1
-  - HOMEBREW_NO_AUTO_UPDATE: 1
-  - gco: |
-      brew tap osx-cross/avr \
-      cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr \
-      git checkout --detach \
-      git fetch origin '+refs/heads/*:refs/heads/*' \
-      git checkout $(SourceBranchName)
-  - bundle_install: |
-      gem install bundler \
-      bundle install --retry=3 --jobs=4
+
+  HOMEBREW_NO_ANALYTICS: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  gco: |
+    brew tap osx-cross/avr \
+    cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr \
+    git checkout --detach \
+    git fetch origin '+refs/heads/*:refs/heads/*' \
+    git checkout $(SourceBranchName)
+  bundle_install: |
+    gem install bundler \
+    bundle install --retry=3 --jobs=4
 
 pool:
   vmImage: 'macOS 10.13'
@@ -29,10 +30,10 @@ strategy:
   parallel: 8
 
 jobs:
-  - job:
+  - job: job1
     displayName: AVR Binutils
     variables:
-      - package: avr-binutils
+      package: avr-binutils
 
     steps:
       - bash: echo $(bundle_install)
@@ -56,10 +57,10 @@ jobs:
         displayName: Test $(package)
         timeoutInMinutes: 360
 
-  - job:
+  - job: job2
     displayName: AVR GCC
     variables:
-      - package: avr-gcc
+      package: avr-gcc
 
     steps:
       - bash: echo $(bundle_install)
@@ -77,7 +78,7 @@ jobs:
           brew install $(package)
         displayName: Build $(package)
         timeoutInMinutes: 360
-        
+
       - bash: |
           brew test $(package)
         displayName: Test $(package)
