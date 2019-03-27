@@ -1,5 +1,5 @@
 class Avarice < Formula
-  desc "Lets you interfaces GDB with the AVR JTAG ICE available from Atmel"
+  desc "Lets you interface GDB with the AVR JTAG ICE available from Atmel"
   homepage "https://avarice.sourceforge.io/"
 
   head "svn://svn.code.sf.net/p/avarice/code/trunk"
