@@ -29,10 +29,6 @@ variables:
   - name: HOMEBREW_NO_AUTO_UPDATE
     value: 1
 
-env:
-  HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
-  HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
-
 jobs:
 
 - job: audit_test_build
@@ -42,6 +38,10 @@ jobs:
 
   pool:
     vmImage: macOS-10.14
+
+  env:
+    HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
+    HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
 
   strategy:
     maxParallel: 8
