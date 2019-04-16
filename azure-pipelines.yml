@@ -34,7 +34,7 @@ jobs:
 - job: audit_test_build
 
   displayName: "Test condition for PR"
-  condition: eq(variables['Build.Reason'], 'PullRequest')
+  #condition: eq(variables['Build.Reason'], 'PullRequest')
 
   pool:
     vmImage: macOS-10.14
