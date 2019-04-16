@@ -28,22 +28,22 @@ variables:
 
 jobs:
 - job: audit_test_build
-  displayName: "Audit, Build & Test on macOS 10.14"
+  displayName: "Test condition for PR"
   condition: eq(variables['Build.Reason'], 'PullRequest')
   pool:
     vmImage: macOS-10.14
   steps:
     - bash: |
         echo "I'm being run on a pull request"
-      displayName: Test condition
+      displayName: Test condition for PR
 
 - job: audit_test_build_2
-  displayName: "Audit, Build & Test on macOS 10.14"
+  displayName: "Test condition for Individual, Manual or Scheduled"
   condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
   pool:
     vmImage: macOS-10.14
   steps:
     - bash: |
         echo "I'm being run on a manual, individual or scheduled"
-      displayName: Test condition
+      displayName: Test condition for Individual
 
