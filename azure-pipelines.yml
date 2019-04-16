@@ -4,81 +4,46 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - avr-binutils-size.patch
 
 pr:
-- master
+  branches:
+    include:
+    - master
+    - develop
+  paths:
+    exclude:
+    - README.md
+    - avr-binutils-size.patch
 
 variables:
   HOMEBREW_NO_ANALYTICS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
 
 jobs:
-- job: brew_test_bot
-  displayName: "Run brew test-bot"
-  pool:
-    vmImage: macOS-10.13
-  steps:
-    - bash: |
-        sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
-        brew update
-        HOMEBREW_TAP_DIR="/usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr"
-        mkdir -p "$HOMEBREW_TAP_DIR"
-        rm -rf "$HOMEBREW_TAP_DIR"
-        ln -s "$PWD" "$HOMEBREW_TAP_DIR"
-        brew test-bot avr-binutils
-      displayName: Run brew test-bot
-
 - job: audit_test_build
-  displayName: "Audit, Build & Test"
+  displayName: "Audit, Build & Test on macOS 10.14"
+  condition: eq(variables['Build.Reason'], 'PullRequest')
   pool:
-    vmImage: macOS-10.13
-  strategy:
-    maxParallel: 8
-    matrix: 
-      binutils:
-          package: avr-binutils
-      avr-gcc:
-          package: avr-gcc
-      avr-gcc@4:
-          package: avr-gcc@4
-      avr-gcc@5:
-          package: avr-gcc@5
-      avr-gcc@6:
-          package: avr-gcc@6
-      avr-gcc@7:
-          package: avr-gcc@7
-      avarice:
-          package: avarice
-
+    vmImage: macOS-10.14
   steps:
     - bash: |
-        sudo xcode-select --switch /Applications/Xcode_10.1.app/Contents/Developer
-        brew update
-        brew cleanup
-      displayName: Update & Cleanup brew
+        echo "I'm being run on a pull request"
+      displayName: Test condition
 
+- job: audit_test_build_2
+  displayName: "Audit, Build & Test on macOS 10.14"
+  condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
+  pool:
+    vmImage: macOS-10.14
+  steps:
     - bash: |
-        gem install bundler
-      displayName: Install Bundler for brew audit
+        echo "I'm being run on a manual, individual or scheduled"
+      displayName: Test condition
 
-    - bash: |
-        brew tap osx-cross/avr 
-        cd $(brew --repo)/Library/Taps/osx-cross/homebrew-avr 
-        git checkout --detach 
-        git fetch origin '+refs/heads/*:refs/heads/*' 
-        git checkout $(System.PullRequest.SourceBranch)
-      displayName: Git checkout $(System.PullRequest.SourceBranch)
-
-    - bash: |
-        brew audit --strict $(package)
-      displayName: Audit $(package)
-
-    - bash: |
-        brew install $(package)
-      displayName: Build $(package)
-      timeoutInMinutes: 360
-
-    - bash: |
-        brew test $(package)
-      displayName: Test $(package)
