@@ -39,10 +39,6 @@ jobs:
   pool:
     vmImage: macOS-10.14
 
-  env:
-    HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
-    HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
-
   strategy:
     maxParallel: 8
     matrix:
@@ -66,6 +62,10 @@ jobs:
     - bash: |
         brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --bintray-org="osx-cross" --verbose
       displayName: Brew test-bot --ci-upload $(package)
+      env:
+        HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
+        HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+
 
 # - job: audit_test_build_2
 #   displayName: "Test condition for Individual, Manual or Scheduled"
