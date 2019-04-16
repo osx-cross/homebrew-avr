@@ -51,7 +51,8 @@ jobs:
         set -e
         sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
         brew update-reset /usr/local/Homebrew
-        ln -s "$PWD" "/usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr"
+        echo $PWD
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
       displayName: Setup environment
 
     - bash: |
