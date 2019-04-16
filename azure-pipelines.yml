@@ -23,27 +23,52 @@ pr:
     - avr-binutils-size.patch
 
 variables:
-  HOMEBREW_NO_ANALYTICS: 1
-  HOMEBREW_NO_AUTO_UPDATE: 1
+  - group: bintray
+  - name: HOMEBREW_NO_ANALYTICS
+    value: 1
+  - name: HOMEBREW_NO_AUTO_UPDATE
+    value: 1
 
 jobs:
+
 - job: audit_test_build
+
   displayName: "Test condition for PR"
   condition: eq(variables['Build.Reason'], 'PullRequest')
+
   pool:
     vmImage: macOS-10.14
+
+  strategy:
+    maxParallel: 8
+    matrix:
+      binutils:
+        package: avr-binutils
+
   steps:
     - bash: |
         echo "I'm being run on a pull request"
-      displayName: Test condition for PR
+        set -e
+        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
+        brew update-reset /usr/local/Homebrew
+        ln -s "$PWD" "/usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr"
+      displayName: Setup environment
 
-- job: audit_test_build_2
-  displayName: "Test condition for Individual, Manual or Scheduled"
-  condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
-  pool:
-    vmImage: macOS-10.14
-  steps:
     - bash: |
-        echo "I'm being run on a manual, individual or scheduled"
-      displayName: Test condition for Individual
+        brew test-bot $(package) --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --verbose
+      displayName: Brew test-bot $(package)
+
+    - bash: |
+        brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --bintray-org="osx-cross" --verbose
+      displayName: Brew test-bot --ci-upload $(package)
+
+# - job: audit_test_build_2
+#   displayName: "Test condition for Individual, Manual or Scheduled"
+#   condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
+#   pool:
+#     vmImage: macOS-10.14
+#   steps:
+#     - bash: |
+#         echo "I'm being run on a manual, individual or scheduled"
+#       displayName: Test condition for Individual
 
