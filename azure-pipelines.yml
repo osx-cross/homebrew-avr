@@ -23,27 +23,129 @@ pr:
     - avr-binutils-size.patch
 
 variables:
-  HOMEBREW_NO_ANALYTICS: 1
-  HOMEBREW_NO_AUTO_UPDATE: 1
+  - group: bintray
+  - name: HOMEBREW_NO_ANALYTICS
+    value: 1
+  - name: HOMEBREW_NO_AUTO_UPDATE
+    value: 1
+  - name: HOMEBREW_NO_COLOR
+    value: 1
+  - name: HOMEBREW_NO_EMOJI
+    value: 1
 
 jobs:
-- job: audit_test_build
-  displayName: "Audit, Build & Test on macOS 10.14"
-  condition: eq(variables['Build.Reason'], 'PullRequest')
-  pool:
-    vmImage: macOS-10.14
-  steps:
-    - bash: |
-        echo "I'm being run on a pull request"
-      displayName: Test condition
 
-- job: audit_test_build_2
-  displayName: "Audit, Build & Test on macOS 10.14"
+- job: brew_test_bot
+
+  displayName: "Create bottles"
   condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
+
   pool:
     vmImage: macOS-10.14
+
+  strategy:
+    maxParallel: 8
+    matrix:
+      binutils:
+        package: avr-binutils
+
   steps:
     - bash: |
-        echo "I'm being run on a manual, individual or scheduled"
-      displayName: Test condition
+        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
+        brew update-reset /usr/local/Homebrew
+        mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
+      displayName: Setup environment
 
+    - bash: |
+        brew test-bot $(package) --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --verbose
+      displayName: Brew test-bot $(package)
+
+    - bash: |
+        brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --bintray-org="osx-cross" --verbose
+      displayName: Brew test-bot --ci-upload $(package)
+      env:
+        HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
+        HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
+
+
+- job: audit
+
+  displayName: "Audit"
+
+  pool:
+    vmImage: macOS-10.14
+
+  strategy:
+    maxParallel: 8
+    matrix:
+      binutils:
+        package: avr-binutils
+      avr-gcc:
+        package: avr-gcc
+      avr-gcc@4:
+        package: avr-gcc@4
+      avr-gcc@5:
+        package: avr-gcc@5
+      avr-gcc@6:
+        package: avr-gcc@6
+      avr-gcc@7:
+        package: avr-gcc@7
+      avarice:
+        package: avarice
+
+  steps:
+    - bash: |
+        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
+        brew update-reset /usr/local/Homebrew
+        mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
+      displayName: Setup environment for $(package)
+
+    - bash: |
+        brew audit --strict --online $(package) --verbose
+      displayName: Audit $(package)
+
+
+- job: build_test
+
+  displayName: "Build & Test"
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  pool:
+    vmImage: macOS-10.14
+
+  strategy:
+    maxParallel: 8
+    matrix:
+      binutils:
+        package: avr-binutils
+      avr-gcc:
+        package: avr-gcc
+      avr-gcc@4:
+        package: avr-gcc@4
+      avr-gcc@5:
+        package: avr-gcc@5
+      avr-gcc@6:
+        package: avr-gcc@6
+      avr-gcc@7:
+        package: avr-gcc@7
+      avarice:
+        package: avarice
+
+  steps:
+    - bash: |
+        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
+        brew update-reset /usr/local/Homebrew
+        mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
+        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
+      displayName: Setup environment for $(package)
+
+    - bash: |
+        brew install $(package) --verbose
+      displayName: Build $(package)
+      timeoutInMinutes: 360
+
+    - bash: |
+        brew test $(package) --verbose
+      displayName: Test $(package)
