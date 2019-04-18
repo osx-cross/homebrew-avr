@@ -14,7 +14,7 @@ class AvrBinutils < Formula
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch :p0 do
-    url "https://gist.githubusercontent.com/ladislas/82be0a780fc4a4b4eac446b6ddc209dc/raw/9cd1b094e28fcd765242008950e9a5c4676a00e4/avr-binutils-size.patch"
+    url "https://dl.bintray.com/osx-cross/avr-patches/avr-binutils-2.32-size.patch"
     sha256 "a484bdc3490ff0d421b2baab30d9976c996b11ec83f89bf07d129895f205dabc"
   end
 
