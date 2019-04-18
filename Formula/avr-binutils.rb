@@ -6,6 +6,11 @@ class AvrBinutils < Formula
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.bz2"
   sha256 "de38b15c902eb2725eac6af21183a5f34ea4634cb0bcef19612b50e5ed31072d"
 
+  bottle do
+    root_url "https://dl.bintray.com/ladislas/bottles-avr"
+    sha256 "aadf25e50f494bd5823a21ed64ad94c9da200924af06ec2db1e2754a0e2450b7" => :mojave
+  end
+
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch :p0 do
