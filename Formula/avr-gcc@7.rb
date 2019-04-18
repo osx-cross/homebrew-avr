@@ -12,6 +12,11 @@ class AvrGccAT7 < Formula
 
   keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
 
+  option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
+
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+
   depends_on "avr-binutils"
 
   depends_on "gmp"
@@ -21,11 +26,18 @@ class AvrGccAT7 < Formula
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
+  
+  localBuild = build
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+	
+    patch do
+      url "https://dl.bintray.com/osx-cross/avr-patches/avr-libc-2.0.0-atmega168pb.patch"
+      sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
+    end if localBuild.with? "ATMega168pbSupport"
   end
 
   def version_suffix
@@ -70,6 +82,8 @@ class AvrGccAT7 < Formula
     # info and man7 files conflict with native gcc
     info.rmtree
     man7.rmtree
+    
+    localBuild = build
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
@@ -82,6 +96,7 @@ class AvrGccAT7 < Formula
 
       build = `./config.guess`.chomp
 
+      system "./bootstrap" if localBuild.with? "ATMega168pbSupport"
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
