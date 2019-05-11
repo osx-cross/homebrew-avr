@@ -1,14 +1,16 @@
-class AvrGcc < Formula
+class AvrGccAT8 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
-  head "svn://gcc.gnu.org/svn/gcc/trunk"
+  head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-8-branch"
 
   stable do
-    url "https://ftp.gnu.org/gnu/gcc/gcc-9.1.0/gcc-9.1.0.tar.xz"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-9.1.0/gcc-9.1.0.tar.xz"
-    sha256 "79a66834e96a6050d8fe78db2c3b32fb285b230b855d0a66288235bc04b327a0"
+    url "https://ftp.gnu.org/gnu/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz"
+    mirror "https://ftpmirror.gnu.org/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz"
+    sha256 "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
   end
+
+  keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
@@ -165,14 +167,14 @@ class AvrGcc < Formula
 
     hello_cpp_hex = <<~EOS
       :1000000010E0A0E6B0E0ECE7F0E003C0C895319660
-      :100010000D92A636B107D1F700D000D0CDB7DEB72C
+      :100010000D92A436B107D1F700D000D0CDB7DEB72E
       :10002000209A8091600090916100A0916200B0914F
       :10003000630089839A83AB83BC83FE0131969E0162
       :100040002B5F3F4F41E08191882371F05FEF64E3C4
       :100050009CE0515060409040E1F700C0000095B135
       :10006000942795B98150F0CFE217F30761F790E03C
       :0C00700080E00F900F900F900F9008950B
-      :06007C0001020304000074
+      :04007C000102030476
       :00000001FF
     EOS
 

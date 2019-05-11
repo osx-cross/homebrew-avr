@@ -91,6 +91,8 @@ jobs:
         package: avr-gcc@6
       avr-gcc@7:
         package: avr-gcc@7
+      avr-gcc@8:
+        package: avr-gcc@8
       avarice:
         package: avarice
 
@@ -130,6 +132,8 @@ jobs:
         package: avr-gcc@6
       avr-gcc@7:
         package: avr-gcc@7
+      avr-gcc@8:
+        package: avr-gcc@8
       avarice:
         package: avarice
 
