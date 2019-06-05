@@ -28,10 +28,10 @@ class AvrGcc < Formula
 
   depends_on "avr-binutils"
 
-  depends_on "gmp"
-  depends_on "isl"
-  depends_on "libmpc"
-  depends_on "mpfr"
+  depends_on "gmp" => :build
+  depends_on "isl" => :build
+  depends_on "libmpc" => :build
+  depends_on "mpfr" => :build
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
