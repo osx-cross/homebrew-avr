@@ -1,16 +1,10 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# File: azure-pipelines.yml
 
 trigger:
   branches:
     include:
     - master
-  paths:
-    exclude:
-    - README.md
-    - avr-binutils-size.patch
+
 
 pr:
   branches:
@@ -20,136 +14,77 @@ pr:
   paths:
     exclude:
     - README.md
-    - avr-binutils-size.patch
+  #   - .azure-ci/*
+  #   - azure-pipelines.yml
+
 
 variables:
+
   - group: bintray
-  - name: HOMEBREW_NO_ANALYTICS
-    value: 1
-  - name: HOMEBREW_NO_AUTO_UPDATE
-    value: 1
-  - name: HOMEBREW_NO_COLOR
-    value: 1
-  - name: HOMEBREW_NO_EMOJI
-    value: 1
+  - group: ssh
+  - group: github
 
-jobs:
+  - name: brew_tap_path
+    value: /usr/local/Homebrew/Library/Taps
 
-- job: brew_test_bot
+  - name: test_bot_dev_repo
+    value: ladislas/homebrew-test-bot
+  - name: test_bot_homebrew_repo
+    value: homebrew/homebrew-test-bot
 
-  displayName: "Create bottles"
-  condition: or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'Schedule'))
+  # Github variables
+  - name: github_user_name
+    value: Ladislas de Toldi
+  - name: github_user
+    value: ladislas
+  - name: github_email
+    value: ladislas@detoldi.me
+  - name: github_token
+    value: $(github.token)
+  - name: github_tap_repo
+    value: homebrew-greetings
 
-  pool:
-    vmImage: macOS-10.14
+  # Bintray variables
+  - name: bintray_org
+    value: ladislas
+  - name: bintray_repo
+    value: greetings
+  - name: bintray_root_url # computed, do not change
+    value: https://dl.bintray.com/$(bintray_org)/bottles-$(bintray_repo)
 
-  strategy:
-    maxParallel: 8
-    matrix:
-      binutils:
-        package: avr-binutils
+  - name: ssh_hostname
+    value: $(ssh.hostname)
+  - name: ssh_public_key
+    value: $(ssh.public_key)
+  # - name: ssh_passphraseds
+  #   value: $(ssh.passphrase)
+  - name: ssh_secure_file
+    value: $(ssh.secure_file)
 
-  steps:
-    - bash: |
-        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
-        brew update-reset /usr/local/Homebrew
-        mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
-        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
-      displayName: Setup environment
+  - name: homebrew_bintray_user
+    value: $(bintray.user)
+  - name: homebrew_bintray_key
+    value: $(bintray.key)
 
-    - bash: |
-        brew test-bot $(package) --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --verbose
-      displayName: Brew test-bot $(package)
-
-    - bash: |
-        brew test-bot $(package) --ci-upload --root-url="https://dl.bintray.com/osx-cross/bottles-avr/" --bintray-org="osx-cross" --verbose
-      displayName: Brew test-bot --ci-upload $(package)
-      env:
-        HOMEBREW_BINTRAY_USER: $(HOMEBREW_BINTRAY_USER)
-        HOMEBREW_BINTRAY_KEY: $(HOMEBREW_BINTRAY_KEY)
-
-
-- job: audit
-
-  displayName: "Audit"
-
-  pool:
-    vmImage: macOS-10.14
-
-  strategy:
-    maxParallel: 8
-    matrix:
-      binutils:
-        package: avr-binutils
-      avr-gcc:
-        package: avr-gcc
-      avr-gcc@4:
-        package: avr-gcc@4
-      avr-gcc@5:
-        package: avr-gcc@5
-      avr-gcc@6:
-        package: avr-gcc@6
-      avr-gcc@7:
-        package: avr-gcc@7
-      avr-gcc@8:
-        package: avr-gcc@8
-      avarice:
-        package: avarice
-
-  steps:
-    - bash: |
-        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
-        brew update-reset /usr/local/Homebrew
-        mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
-        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
-      displayName: Setup environment for $(package)
-
-    - bash: |
-        brew audit --strict --online $(package) --verbose
-      displayName: Audit $(package)
+  - name: UPSTREAM_GIT_URL
+    value: $(Build.Repository.Uri)
+  - name: UPSTREAM_PULL_REQUEST
+    value: $(System.PullRequest.PullRequestNumber)
 
 
-- job: build_test
+stages:
 
-  displayName: "Build & Test"
-  condition: eq(variables['Build.Reason'], 'PullRequest')
+  # Stage 1 - Testing formulae on master
+  - template: /.azure-ci/stages/stage-test-formulae.yml
 
-  pool:
-    vmImage: macOS-10.14
+  # Stage 2 - Cron job to test formulae
+  - template: /.azure-ci/stages/stage-scheduled-test.yml
 
-  strategy:
-    maxParallel: 8
-    matrix:
-      binutils:
-        package: avr-binutils
-      avr-gcc:
-        package: avr-gcc
-      avr-gcc@4:
-        package: avr-gcc@4
-      avr-gcc@5:
-        package: avr-gcc@5
-      avr-gcc@6:
-        package: avr-gcc@6
-      avr-gcc@7:
-        package: avr-gcc@7
-      avr-gcc@8:
-        package: avr-gcc@8
-      avarice:
-        package: avarice
+  # Stage 3 - Building bottles on PR
+  - template: /.azure-ci/stages/stage-build-bottles.yml
 
-  steps:
-    - bash: |
-        sudo xcode-select --switch /Applications/Xcode_10.2.app/Contents/Developer
-        brew update-reset /usr/local/Homebrew
-        mkdir -p /usr/local/Homebrew/Library/Taps/osx-cross
-        ln -s $PWD /usr/local/Homebrew/Library/Taps/osx-cross/homebrew-avr
-      displayName: Setup environment for $(package)
+  # Stage 4 - Uploading bottles to Bintray
+  - template: /.azure-ci/stages/stage-upload-bottles.yml
 
-    - bash: |
-        brew install $(package) --verbose
-      displayName: Build $(package)
-      timeoutInMinutes: 360
-
-    - bash: |
-        brew test $(package) --verbose
-      displayName: Test $(package)
+  # Stage 5 - Auto pull/publish revision bumps
+  - template: /.azure-ci/stages/stage-pull-revision-bump.yml

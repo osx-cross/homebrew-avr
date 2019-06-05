@@ -1,0 +1,41 @@
+# File: .azure-ci/stages/stage-test-formulae.yml
+
+# Stage 1 - Testing formulae on master
+
+stages:
+
+  - stage: stage_test_formulae_on_master
+    displayName: Stage - Test Formulae on master
+
+    condition: |
+      or(
+        eq(variables['Build.Reason'], 'IndividualCI')
+        ,and(
+          eq(variables['Build.Reason'], 'PullRequest')
+          ,contains(variables['System.PullRequest.SourceBranch'], 'dev_test_formulae')
+        )
+      )
+
+    jobs:
+
+      - job: job_test_formulae
+        displayName: Job - Test formulae on master
+
+        pool:
+          vmImage: macOS-10.14
+
+        steps:
+
+          # Setup CI environment
+          - template: /.azure-ci/steps/setup-ci-env.yml
+
+          # Install tap
+          - template: /.azure-ci/steps/install-tap.yml
+
+          # When working on a fork of homebrew/test-bot, run this step to tap your
+          # repository and checkout the correct feature branch
+          - template: /.azure-ci/steps/tap-dev-test-bot.yml
+
+          - bash: |
+              brew test-bot --verbose
+            displayName: Run brew test-bot

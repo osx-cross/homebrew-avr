@@ -1,0 +1,27 @@
+# File: .azure-ci/stages/stage-build-bottles.yml
+
+# Stage 3 - Building bottles on PR
+
+stages:
+
+  - stage: stage_build_bottles
+    displayName: Stage - Build bottles
+
+    condition: |
+      eq(variables['Build.Reason'], 'PullRequest')
+
+    jobs:
+
+      - template: /.azure-ci/jobs/bottles-build.yml
+        parameters:
+          name: brew_test_bot_macOS_10_14
+          displayName: for macOS Mojave (10.14)
+          vmImage: macOS-10.14
+          xcode: Xcode_10.2
+
+      - template: /.azure-ci/jobs/bottles-build.yml
+        parameters:
+          name: brew_test_bot_macOS_10_13
+          displayName: for macOS High Sierra (10.13)
+          vmImage: macOS-10.13
+          xcode: Xcode_10.1

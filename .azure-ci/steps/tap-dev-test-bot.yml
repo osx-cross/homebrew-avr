@@ -1,0 +1,9 @@
+# File: /.azure-ci/steps/tap-dev-test-bot.yml
+
+steps:
+
+  - bash: |
+      brew tap --full $(test_bot_dev_repo)
+      cp -r $(brew_tap_path)/$(test_bot_dev_repo) $(brew_tap_path)/$(test_bot_homebrew_repo)
+      git -C $(brew_tap_path)/$(test_bot_homebrew_repo) show
+    displayName: Tap $(test_bot_dev_repo) for development purposes

@@ -1,0 +1,128 @@
+# File: .azure-ci/stages/stage-scheduled-test.yml
+
+# Stage 2 - Cron job to test formulae
+
+stages:
+
+  - stage: stage_scheduled_test
+    displayName: Stage - Scheduled Test on master
+
+    condition: |
+      or(
+        eq(variables['Build.Reason'], 'Schedule')
+        ,and(
+          eq(variables['Build.Reason'], 'PullRequest')
+          ,contains(variables['System.PullRequest.SourceBranch'], 'dev_scheduled_test')
+        )
+      )
+
+    jobs:
+
+      - job: job_scheduled_test
+        displayName: Job - Scheduled Test on master
+
+        pool:
+          vmImage: macOS-10.14
+
+        steps:
+
+          - bash: |
+              FAILING_FORMULAE=()
+
+              for formula in Formula/* ; do
+
+                echo "\n"
+                echo "Installing $formula"
+                brew install $formula
+
+                echo "\n"
+                brew test $formula && brew linkage --test $formula
+
+                if [ $? -eq 1 ]; then
+                  FAILING_FORMULAE+=$formula
+                fi
+
+              done
+
+              if [ ${#FAILING_FORMULAE[@]} -eq 0 ]; then
+
+                echo "All formulae passed the test, there's nothing to worry about. 🎉"
+                echo "We'll try again next time... 💪"
+
+              else
+
+                echo "💥 The following formulae failed: ⚠️"
+                echo "\t$FAILING_FORMULAE"
+                echo "🚧 A new PR will be created to bump the revision and rebuild"
+                echo "the formulae.🏗"
+
+                echo "##vso[task.setvariable variable=failing_formulae;isOutput=true]$FAILING_FORMULAE"
+
+              fi
+            displayName: Step - Test Formulae
+            name: test_formulae
+
+      - job: job_create_revision_bump_pr
+        displayName: Job - Create revision bump PR
+
+        pool:
+          vmImage: macOS-10.14
+
+        dependsOn: job_scheduled_test
+
+        condition: |
+          and(
+            succeeded('job_scheduled_test'),
+            ne(dependencies.job_scheduled_test.outputs['test_formulae.failing_formulae'], '')
+          )
+
+        variables:
+          failing_formulae: $[ dependencies.job_scheduled_test.outputs['test_formulae.failing_formulae'] ]
+
+        steps:
+
+          # Setup CI environment
+          - template: /.azure-ci/steps/setup-ci-env.yml
+
+          - bash: |
+              DATE_TIME=$( date +"%Y%m%d_%H%M_%Z" )
+              DATE_TIME_LONG=$( date +"%Y/%m/%d at %T %Z" )
+
+              FAILING_FORMULAE_LIST=$(
+                IFS=$'_';
+                echo "${FAILING_FORMULAE[*]}" |
+                sed 's/Formulae\///g' |
+                sed 's/\.rb//g'
+              )
+
+              FAILING_FORMULAE_LIST_SPACE=$(
+                IFS=$' ';
+                echo "${FAILING_FORMULAE[*]}" |
+                sed 's/Formulae\///g' |
+                sed 's/\.rb//g'
+              )
+
+              brew install hub
+
+              git config --global user.name "$(github_user_name)"
+              git config --global user.email "$(github_email)"
+              git config --global hub.protocol https
+
+              git config credential.helper '!f() { sleep 1; echo "username=${GITHUB_USER}"; echo "password=${GITHUB_TOKEN}"; }; f'
+
+              hub fetch origin
+              hub checkout master
+              git reset --hard origin/master
+
+              git checkout -b revision-bump/$DATE_TIME-$FAILING_FORMULAE_LIST
+
+              for formula in $FAILING_FORMULAE; do
+                brew bump-revision $formula --message="- scheduled CI test on $DATE_TIME_LONG"
+              done
+
+              hub pull-request --push -m "revision bump for $FAILING_FORMULAE_LIST on $DATE_TIME_LONG"
+            displayName: Step - Create revision bump PR
+            env:
+              FAILING_FORMULAE: $(failing_formulae)
+              GITHUB_USER: $(github_user)
+              GITHUB_TOKEN: $(github.token)
