@@ -30,7 +30,7 @@ stages:
             inputs:
               hostName: $(ssh_hostname)
               sshPublicKey: $(ssh_public_key)
-              #sshPassphrase: $(ssh_passphrase) # Optional
+              sshPassphrase: $(ssh_passphrase) # Optional
               sshKeySecureFile: $(ssh_secure_file)
 
           - template: /.azure-ci/steps/setup-ci-env.yml

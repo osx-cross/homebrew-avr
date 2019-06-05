@@ -56,8 +56,8 @@ variables:
     value: $(ssh.hostname)
   - name: ssh_public_key
     value: $(ssh.public_key)
-  # - name: ssh_passphraseds
-  #   value: $(ssh.passphrase)
+  - name: ssh_passphrase
+    value: $(ssh.passphrase)
   - name: ssh_secure_file
     value: $(ssh.secure_file)
 
