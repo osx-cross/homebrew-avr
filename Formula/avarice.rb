@@ -8,6 +8,13 @@ class Avarice < Formula
 
   head "svn://svn.code.sf.net/p/avarice/code/trunk"
 
+  bottle do
+    root_url "https://dl.bintray.com/osx-cross/bottles-avr"
+    cellar :any_skip_relocation
+    sha256 "5c14d159ab24ac955a7f2e940a4da6e9c1d632803d93492fdd9c2db0e7677721" => :mojave
+    sha256 "fec57621e9aa8d136899005b7b9b75756587b372fa6c3022bb05413b50d69ff4" => :high_sierra
+  end
+
   depends_on "automake"
   depends_on "avr-binutils"
   depends_on "hidapi"
