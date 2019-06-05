@@ -36,7 +36,7 @@ variables:
   - name: github_user_name
     value: osx-cross Test Bot
   - name: github_user
-    value: osx-crossTestBot
+    value: osx-cross
   - name: github_email
     value: osx-crossTestBot@leka.io
   - name: github_token
