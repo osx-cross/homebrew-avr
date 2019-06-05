@@ -34,11 +34,11 @@ variables:
 
   # Github variables
   - name: github_user_name
-    value: Ladislas de Toldi
+    value: osx-cross Test Bot
   - name: github_user
-    value: ladislas
+    value: osx-crossTestBot
   - name: github_email
-    value: ladislas@detoldi.me
+    value: osx-crossTestBot@leka.io
   - name: github_token
     value: $(github.token)
   - name: github_tap_repo
@@ -46,9 +46,9 @@ variables:
 
   # Bintray variables
   - name: bintray_org
-    value: ladislas
+    value: osx-cross
   - name: bintray_repo
-    value: greetings
+    value: avr
   - name: bintray_root_url # computed, do not change
     value: https://dl.bintray.com/$(bintray_org)/bottles-$(bintray_repo)
 
