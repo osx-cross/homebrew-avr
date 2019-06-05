@@ -36,13 +36,13 @@ variables:
   - name: github_user_name
     value: osx-cross Test Bot
   - name: github_user
-    value: osx-crossTestBot
+    value: osx-cross
   - name: github_email
     value: osx-crossTestBot@leka.io
   - name: github_token
     value: $(github.token)
   - name: github_tap_repo
-    value: homebrew-greetings
+    value: homebrew-avr
 
   # Bintray variables
   - name: bintray_org
