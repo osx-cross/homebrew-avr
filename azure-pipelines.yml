@@ -42,7 +42,7 @@ variables:
   - name: github_token
     value: $(github.token)
   - name: github_tap_repo
-    value: homebrew-greetings
+    value: homebrew-avr
 
   # Bintray variables
   - name: bintray_org
