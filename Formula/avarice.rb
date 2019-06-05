@@ -2,13 +2,11 @@ class Avarice < Formula
   desc "Lets you interface GDB with the AVR JTAG ICE available from Atmel"
   homepage "https://avarice.sourceforge.io/"
 
-  head "svn://svn.code.sf.net/p/avarice/code/trunk"
+  url "https://downloads.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
+  mirror "https://netix.dl.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
+  sha256 "a14738fe78e1a0a9321abcca7e685a00ce3ced207622ccbcd881ac32030c104a"
 
-  stable do
-    url "https://downloads.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
-    mirror "https://netix.dl.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
-    sha256 "a14738fe78e1a0a9321abcca7e685a00ce3ced207622ccbcd881ac32030c104a"
-  end
+  head "svn://svn.code.sf.net/p/avarice/code/trunk"
 
   depends_on "automake"
   depends_on "avr-binutils"
