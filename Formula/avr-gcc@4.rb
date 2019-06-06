@@ -8,6 +8,12 @@ class AvrGccAT4 < Formula
 
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-4_9-branch"
 
+  bottle do
+    root_url "https://dl.bintray.com/osx-cross/bottles-avr"
+    sha256 "9c8027b9704fb2b99810272890bbea927398e9639ed28efa880d841ba34824bf" => :mojave
+    sha256 "7fd70610882731913b0dbcb949686d61ffe6f78d04f30be1388872190440378c" => :high_sierra
+  end
+
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? do
