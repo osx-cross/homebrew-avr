@@ -2,12 +2,17 @@ class AvrGccAT6 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
+  url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.5.0/gcc-6.5.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-6.5.0/gcc-6.5.0.tar.xz"
+  sha256 "7ef1796ce497e89479183702635b14bb7a46b53249209a5e0f999bebf4740945"
+
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-6-branch"
 
-  stable do
-    url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.5.0/gcc-6.5.0.tar.xz"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-6.5.0/gcc-6.5.0.tar.xz"
-    sha256 "7ef1796ce497e89479183702635b14bb7a46b53249209a5e0f999bebf4740945"
+  # The bottles are built on systems with the CLT installed, and do not work
+  # out of the box on Xcode-only systems due to an incorrect sysroot.
+  pour_bottle? do
+    reason "The bottle needs the Xcode CLT to be installed."
+    satisfy { MacOS::CLT.installed? }
   end
 
   keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
@@ -27,17 +32,19 @@ class AvrGccAT6 < Formula
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
 
-  localBuild = build
+  local_build = build
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
-	
-    patch do
-      url "https://dl.bintray.com/osx-cross/avr-patches/avr-libc-2.0.0-atmega168pb.patch"
-      sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
-    end if localBuild.with? "ATMega168pbSupport"
+
+    if local_build.with? "ATMega168pbSupport"
+      patch do
+        url "https://dl.bintray.com/osx-cross/avr-patches/avr-libc-2.0.0-atmega168pb.patch"
+        sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
+      end
+    end
   end
 
   def version_suffix
@@ -86,8 +93,8 @@ class AvrGccAT6 < Formula
 
     # symlink avr-binutils to the bin folder
     bin.install_symlink Formula["avr-binutils"].opt_bin/"*"
-    
-    localBuild = build
+
+    local_build = build
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
@@ -100,7 +107,7 @@ class AvrGccAT6 < Formula
 
       build = `./config.guess`.chomp
 
-      system "./bootstrap" if localBuild.with? "ATMega168pbSupport"
+      system "./bootstrap" if local_build.with? "ATMega168pbSupport"
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
