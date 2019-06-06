@@ -2,12 +2,17 @@ class AvrGccAT4 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
+  url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
+  sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
+
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-4_9-branch"
 
-  stable do
-    url "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-    mirror "https://ftpmirror.gnu.org/gcc/gcc-4.9.4/gcc-4.9.4.tar.bz2"
-    sha256 "6c11d292cd01b294f9f84c9a59c230d80e9e4a47e5c6355f046bb36d4f358092"
+  # The bottles are built on systems with the CLT installed, and do not work
+  # out of the box on Xcode-only systems due to an incorrect sysroot.
+  pour_bottle? do
+    reason "The bottle needs the Xcode CLT to be installed."
+    satisfy { MacOS::CLT.installed? }
   end
 
   keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
@@ -26,18 +31,20 @@ class AvrGccAT4 < Formula
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
-  
-  localBuild = build
+
+  local_build = build
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
-	
-    patch do
-      url "https://dl.bintray.com/osx-cross/avr-patches/avr-libc-2.0.0-atmega168pb.patch"
-      sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
-    end if localBuild.with? "ATMega168pbSupport"
+
+    if local_build.with? "ATMega168pbSupport"
+      patch do
+        url "https://dl.bintray.com/osx-cross/avr-patches/avr-libc-2.0.0-atmega168pb.patch"
+        sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
+      end
+    end
   end
 
   def version_suffix
@@ -92,8 +99,8 @@ class AvrGccAT4 < Formula
     # info and man7 files conflict with native gcc
     info.rmtree
     man7.rmtree
-    
-    localBuild = build
+
+    local_build = build
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
@@ -106,7 +113,7 @@ class AvrGccAT4 < Formula
 
       build = `./config.guess`.chomp
 
-      system "./bootstrap" if localBuild.with? "ATMega168pbSupport"
+      system "./bootstrap" if local_build.with? "ATMega168pbSupport"
       system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
