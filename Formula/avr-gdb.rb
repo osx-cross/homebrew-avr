@@ -8,6 +8,12 @@ class AvrGdb < Formula
 
   head "https://sourceware.org/git/binutils-gdb.git"
 
+  bottle do
+    root_url "https://dl.bintray.com/osx-cross/bottles-avr"
+    sha256 "53a4a7b3d705a6f210de9b109b129689b07b5d41dc7196a412c66a6be9fbb8d5" => :mojave
+    sha256 "356d5291b9a16997e5acaa7d9532c59a758e7c9b70ccb9f121af50745114699c" => :high_sierra
+  end
+
   depends_on "pkg-config" => :build
   depends_on "avr-binutils"
 
