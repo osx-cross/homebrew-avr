@@ -2,44 +2,48 @@ class AvrGdb < Formula
   desc "GDB lets you to see what is going on inside a program while it executes"
   homepage "https://www.gnu.org/software/gdb/"
 
-  head "git://sourceware.org/git/binutils-gdb.git"
+  url "https://ftp.gnu.org/gnu/gdb/gdb-8.3.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gdb/gdb-8.3.tar.xz"
+  sha256 "802f7ee309dcc547d65a68d61ebd6526762d26c3051f52caebe2189ac1ffd72e"
 
-  stable do
-    url "https://ftp.gnu.org/gnu/gdb/gdb-8.1.1.tar.gz"
-    mirror "https://ftpmirror.gnu.org/gnu/gdb/gdb-8.1.1.tar.gz"
-    sha256 "038623e5693d40a3048b014cd62c965e720f7bdbf326ff341b25de344a33fe11"
-  end
+  head "https://sourceware.org/git/binutils-gdb.git"
 
+  depends_on "pkg-config" => :build
   depends_on "avr-binutils"
 
   def install
-    args = [
-      "--target=avr",
-      "--prefix=#{prefix}",
+    args = %W[
+      --target=avr
+      --prefix=#{prefix}
 
-      "--disable-nls",
-      "--disable-libssp",
-      "--disable-install-libbfd",
-      "--disable-install-libiberty",
+      --disable-debug
+      --disable-dependency-tracking
 
-      "--with-gmp=#{Formula["gmp"].opt_prefix}",
-      "--with-mpfr=#{Formula["mpfr"].opt_prefix}",
-      "--with-mpc=#{Formula["libmpc"].opt_prefix}",
+      --disable-binutils
+
+      --disable-nls
+      --disable-libssp
+      --disable-install-libbfd
+      --disable-install-libiberty
     ]
 
-    mkdir "build" do
-      system "../configure", *args
-      system "make"
+    system "./configure", *args
+    system "make"
 
-      ENV.deparallelize
-      system "make", "install"
-    end
+    # Don't install bfd or opcodes, as they are provided by binutils
+    system "make", "install-gdb"
+  end
 
-    # info conflicts with binutils
-    info.rmtree
+  def caveats; <<~EOS
+    avr-gdb requires special privileges to access Mach ports.
+    You will need to codesign the binary. For instructions, see:
+      https://sourceware.org/gdb/wiki/BuildingOnDarwin
+    On 10.12 (Sierra) or later with SIP, you need to run this:
+      echo "set startup-with-shell off" >> ~/.gdbinit
+  EOS
   end
 
   test do
-    system "true"
+    system bin/"avr-gdb", bin/"avr-gdb", "-configuration"
   end
 end
