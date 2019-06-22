@@ -18,6 +18,15 @@ pr:
   #   - azure-pipelines.yml
 
 
+schedules:
+  - cron: "0 */6 * * *"
+    displayName: Daily 4-times-a-day build
+    branches:
+      include:
+      - master
+    always: true
+
+
 variables:
 
   - group: bintray
