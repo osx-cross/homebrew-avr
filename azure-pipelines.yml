@@ -19,7 +19,7 @@ pr:
 
 
 schedules:
-- cron: '* * * * *'
+- cron: '* */6 * * *'
   displayName: Daily 4-times-a-day build
   branches:
     include:
