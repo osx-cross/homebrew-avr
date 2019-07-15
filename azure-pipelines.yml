@@ -19,11 +19,11 @@ pr:
 
 
 schedules:
-- cron: "0 */6 * * *"
+- cron: '* * * * *'
   displayName: Daily 4-times-a-day build
   branches:
     include:
-    - master
+      - master
   always: true
 
 
