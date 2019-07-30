@@ -6,6 +6,8 @@ class AvrBinutils < Formula
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.bz2"
   sha256 "de38b15c902eb2725eac6af21183a5f34ea4634cb0bcef19612b50e5ed31072d"
 
+  depends_on "gpatch" => :build if OS.linux?
+
   bottle do
     root_url "https://dl.bintray.com/osx-cross/bottles-avr"
     sha256 "f58c54e4d7f4de467292d9e9da11806876af1b9c746c22b69362479ccbdc4534" => :mojave
