@@ -10,8 +10,8 @@ class AvrGcc < Formula
 
   bottle do
     root_url "https://dl.bintray.com/osx-cross/bottles-avr"
-    sha256 "ebbd894c14e899a695a2e34d9b61e7dc1b20b159ec4a415c3d267f58fbbfe2b6" => :mojave
-    sha256 "2da6eb447c4a8d10b96fe281433152f3a3a30ce908901b34a66e6b5e047c2f0a" => :high_sierra
+    sha256 "2936cf2f2d6bf2ce3eccada2aa404c962f63699765e0f07f9f5b238de17019da" => :mojave
+    sha256 "c4a31032fd5e33467f71081badd9b16590fc086ccd6f898edcdd334e0390493b" => :high_sierra
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
