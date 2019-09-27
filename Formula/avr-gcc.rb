@@ -2,9 +2,8 @@ class AvrGcc < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-9.1.0/gcc-9.1.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.1.0/gcc-9.1.0.tar.xz"
-  sha256 "79a66834e96a6050d8fe78db2c3b32fb285b230b855d0a66288235bc04b327a0"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.xz"
+  sha256 "ea6ef08f121239da5695f76c9b33637a118dcf63e24164422231917fa61fb206"
 
   head "svn://gcc.gnu.org/svn/gcc/trunk"
 
