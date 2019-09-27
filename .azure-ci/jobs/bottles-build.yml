@@ -4,7 +4,6 @@ parameters:
   name: ''
   displayName: ''
   vmImage: ''
-  xcode: ''
 
 jobs:
 
@@ -17,15 +16,12 @@ jobs:
   dependsOn: []
 
   variables:
-    xcode_version: ${{ parameters.xcode }}
     os_version: ${{ parameters.vmImage }}
 
   steps:
 
     # Setup CI environment
     - template: /.azure-ci/steps/setup-ci-env.yml
-      parameters:
-        xcode: $(xcode_version)
 
     # Checkout PR branch
     - template: /.azure-ci/steps/checkout-pr.yml
