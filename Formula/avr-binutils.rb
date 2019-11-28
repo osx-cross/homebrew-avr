@@ -10,8 +10,8 @@ class AvrBinutils < Formula
 
   bottle do
     root_url "https://dl.bintray.com/osx-cross/bottles-avr"
-    sha256 "f58c54e4d7f4de467292d9e9da11806876af1b9c746c22b69362479ccbdc4534" => :mojave
-    sha256 "5d2b803c4460afd81fd487bd6e8c1850b0d74663013c582c37ca8584cee1a09f" => :high_sierra
+    sha256 "6263047af337a4e40713bbcebc1597f99c656bb060414986e6965f0cdffd8116" => :mojave
+    sha256 "17c99f6f55bf431adc0a816e97a7af58fc156bf8c884f4bd2e9230b6cf6c4be4" => :high_sierra
   end
 
   uses_from_macos "zlib"
