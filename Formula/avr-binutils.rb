@@ -2,9 +2,9 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/binutils.html"
 
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.32.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.32.tar.bz2"
-  sha256 "de38b15c902eb2725eac6af21183a5f34ea4634cb0bcef19612b50e5ed31072d"
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.33.1.tar.gz"
+  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.33.1.tar.gz"
+  sha256 "98aba5f673280451a09df3a8d8eddb3aa0c505ac183f1e2f9d00c67aa04c6f7d"
 
   depends_on "gpatch" => :build if OS.linux?
 
@@ -14,11 +14,13 @@ class AvrBinutils < Formula
     sha256 "5d2b803c4460afd81fd487bd6e8c1850b0d74663013c582c37ca8584cee1a09f" => :high_sierra
   end
 
+  uses_from_macos "zlib"
+
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch :p0 do
-    url "https://dl.bintray.com/osx-cross/avr-patches/avr-binutils-2.32-size.patch"
-    sha256 "a484bdc3490ff0d421b2baab30d9976c996b11ec83f89bf07d129895f205dabc"
+    url "https://dl.bintray.com/osx-cross/avr-patches/avr-binutils-2.33-size.patch"
+    sha256 "1f2f5087b6988e610ef0db1e930f1255ab3b1547328cbfca0d41137414a0d298"
   end
 
   def install
@@ -30,8 +32,8 @@ class AvrBinutils < Formula
       "--target=avr",
 
       "--disable-nls",
-      # "--disable-debug",
-      # "--disable-dependency-tracking",
+      "--disable-debug",
+      "--disable-dependency-tracking",
       "--disable-werror",
     ]
 
@@ -47,7 +49,7 @@ class AvrBinutils < Formula
 
   test do
     version_output = <<~EOS
-      GNU ar (GNU Binutils) 2.32
+      GNU ar (GNU Binutils) 2.33.1
       Copyright (C) 2019 Free Software Foundation, Inc.
       This program is free software; you may redistribute it under the terms of
       the GNU General Public License version 3 or (at your option) any later version.
