@@ -3,7 +3,9 @@
 steps:
 
   - bash: |
-      brew tap --full $(test_bot_dev_repo)
-      cp -r $(brew_tap_path)/$(test_bot_dev_repo) $(brew_tap_path)/$(test_bot_homebrew_repo)
-      git -C $(brew_tap_path)/$(test_bot_homebrew_repo) show
-    displayName: Tap $(test_bot_dev_repo) for development purposes
+      brew tap --full $(brew_test_bot_repo)
+      if $(brew_test_bot_repo_is_for_dev); then
+        cp -r $(brew_tap_path)/$(brew_test_bot_repo) $(brew_tap_path)/homebrew/homebrew-test-bot
+      fi
+      git -C $(brew_tap_path)/homebrew/homebrew-test-bot show
+    displayName: Tap $(brew_test_bot_repo)

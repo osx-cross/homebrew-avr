@@ -36,10 +36,11 @@ variables:
   - name: brew_tap_path
     value: /usr/local/Homebrew/Library/Taps
 
-  - name: test_bot_dev_repo
-    value: ladislas/homebrew-test-bot
-  - name: test_bot_homebrew_repo
+  - name: brew_test_bot_repo
     value: homebrew/homebrew-test-bot
+    #value: ladislas/homebrew-test-bot
+  - name: is_brew_test_bot_repo_for_dev
+    value: false
 
   # Github variables
   - name: github_user_name
