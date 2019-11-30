@@ -39,7 +39,7 @@ variables:
   - name: brew_test_bot_repo
     value: homebrew/homebrew-test-bot
     #value: ladislas/homebrew-test-bot
-  - name: is_brew_test_bot_repo_for_dev
+  - name: brew_test_bot_repo_is_for_dev
     value: false
 
   # Github variables
