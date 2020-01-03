@@ -9,5 +9,5 @@ steps:
   - bash: |
       set -ex
       brew update
-      brew cleanup
+      # brew cleanup
     displayName: Setup CI Environment
