@@ -32,7 +32,7 @@ stages:
               for formula in Formula/* ; do
 
                 echo ""
-                echo "\nInstalling $formula"
+                echo "Installing $formula"
 
                 if brew install $formula 2>/dev/null ; then
 
