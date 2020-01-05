@@ -5,6 +5,7 @@ class AvrGccAT6 < Formula
   url "https://gcc.gnu.org/pub/gcc/releases/gcc-6.5.0/gcc-6.5.0.tar.xz"
   mirror "https://ftpmirror.gnu.org/gcc/gcc-6.5.0/gcc-6.5.0.tar.xz"
   sha256 "7ef1796ce497e89479183702635b14bb7a46b53249209a5e0f999bebf4740945"
+  revision 1
 
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-6-branch"
 
