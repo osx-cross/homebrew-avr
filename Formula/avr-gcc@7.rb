@@ -5,6 +5,7 @@ class AvrGccAT7 < Formula
   url "https://gcc.gnu.org/pub/gcc/releases/gcc-7.4.0/gcc-7.4.0.tar.xz"
   mirror "https://ftpmirror.gnu.org/gcc/gcc-7.4.0/gcc-7.4.0.tar.xz"
   sha256 "eddde28d04f334aec1604456e536416549e9b1aa137fc69204e65eb0c009fe51"
+  revision 1
 
   head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-7-branch"
 
