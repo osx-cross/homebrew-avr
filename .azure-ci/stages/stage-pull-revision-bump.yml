@@ -51,6 +51,9 @@ stages:
               --bintray-org=$(bintray_org) --test-bot-user=$(github_user) \
               https://github.com/$(github_user)/$(github_tap_repo)/pull/$(System.PullRequest.PullRequestNumber)
 
+              brew_pull_commit_message=$(git log -1 --pretty=%B)
+              git commit --amend -m "$brew_pull_commit_message - [skip ci]"
+
               hub push
             displayName: Step - Pull revision bump
             env:

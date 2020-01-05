@@ -43,5 +43,6 @@ steps:
       done
     displayName: Step - Create revision bump PR
     env:
+      FAILING_FORMULAE: $(failing_formulae)
       GITHUB_USER: $(github_user)
       GITHUB_TOKEN: $(github.token)
