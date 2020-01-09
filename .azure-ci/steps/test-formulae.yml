@@ -20,6 +20,9 @@ steps:
             echo ""
             echo "💥 $formula test failed"
             FAILING_FORMULAE+=" $formula"
+          else
+            echo ""
+            echo "✅ $formula test succeeded"
           fi
 
         else
@@ -32,7 +35,8 @@ steps:
 
       if [[ -z $FAILING_FORMULAE ]]; then
 
-        echo "All formulae passed the test, there's nothing to worry about. 🎉"
+        echo ""
+        echo "All formulae have passed the test, there's nothing to worry about. 🎉"
         echo "We'll try again next time... 💪"
 
       else
