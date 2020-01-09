@@ -6,10 +6,10 @@ AVR is a popular family of micro-controllers, used for example in the [Arduino] 
 
 ## Current Versions
 
--   `gcc 9.1.0`
--   `binutils 2.32`
+-   `gcc 9.2.0`
+-   `binutils 2.33.1`
 -   `avr-libc 2.0.0`
--   `gdb 8.1.1`
+-   `gdb 8.3.1`
 
 Other GCC versions available:
 
