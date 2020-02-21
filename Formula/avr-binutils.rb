@@ -20,7 +20,7 @@ class AvrBinutils < Formula
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch do
     url "https://git.archlinux.org/svntogit/community.git/plain/avr-binutils/trunk/avr-size.patch"
-    sha256 "e213fac20bd234542fda595fc9e506170e06db94c26ab07a8af9e7782df5952e"
+    sha256 "7aed303887a8541feba008943d0331dc95dd90a309575f81b7a195650e4cba1e"
   end
 
   def install
