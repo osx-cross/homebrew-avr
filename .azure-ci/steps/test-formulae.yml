@@ -54,7 +54,7 @@ steps:
         echo "##vso[task.setvariable variable=failing_formulae;isOutput=true]$FAILING_FORMULAE"
 
       fi
-    displayName: Step - Test Formulae
+    displayName: Test Formulae
     name: test_formulae
 
 
