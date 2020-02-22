@@ -7,6 +7,8 @@ stages:
   - stage: stage_scheduled_test
     displayName: Stage - Scheduled Test on master
 
+    dependsOn: []
+
     condition: |
       or(
         eq(variables['Build.Reason'], 'Schedule')
