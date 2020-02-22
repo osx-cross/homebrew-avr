@@ -10,7 +10,7 @@ stages:
     condition: |
       and(
         eq(variables['Build.Reason'], 'PullRequest')
-        ,not(contains(variables['Build.SourceVersionMessage', 'skip-bottles'))
+        ,not(contains(variables['Build.SourceVersionMessage'], 'skip-bottles'))
       )
 
     jobs:
