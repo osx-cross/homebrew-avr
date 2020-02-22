@@ -19,7 +19,7 @@ stages:
     jobs:
 
       - job: brew_test_bot_ci_upload
-        displayName: Upload bottles
+        displayName: Job - Upload bottles
 
         pool:
           vmImage: macOS-10.14
