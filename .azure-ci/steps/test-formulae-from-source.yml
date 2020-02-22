@@ -1,4 +1,4 @@
-# File: /.azure-ci/steps/test-formulae.yml
+# File: /.azure-ci/steps/test-formulae-from-source.yml
 
 steps:
 
