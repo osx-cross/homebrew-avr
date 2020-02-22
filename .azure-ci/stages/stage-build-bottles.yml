@@ -7,6 +7,8 @@ stages:
   - stage: stage_build_bottles
     displayName: Stage - Build bottles
 
+    dependsOn: []
+
     condition: |
       and(
         eq(variables['Build.Reason'], 'PullRequest')
