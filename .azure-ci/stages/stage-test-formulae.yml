@@ -34,7 +34,7 @@ stages:
 
           # When working on a fork of homebrew/test-bot, run this step to tap your
           # repository and checkout the correct feature branch
-          # - template: /.azure-ci/steps/tap-dev-test-bot.yml
+          - template: /.azure-ci/steps/tap-dev-test-bot.yml
 
           # Test formulae
           - template: /.azure-ci/steps/test-formulae.yml

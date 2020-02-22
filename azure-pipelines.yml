@@ -37,10 +37,9 @@ variables:
     value: /usr/local/Homebrew/Library/Taps
 
   - name: brew_test_bot_repo
-    value: homebrew/homebrew-test-bot
-    #value: ladislas/homebrew-test-bot
+    value: osx-cross/homebrew-test-bot
   - name: brew_test_bot_repo_is_for_dev
-    value: false
+    value: true
 
   # Github variables
   - name: github_user_name
