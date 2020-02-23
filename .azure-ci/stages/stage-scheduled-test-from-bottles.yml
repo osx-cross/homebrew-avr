@@ -1,4 +1,4 @@
-# File: .azure-ci/stages/stage-scheduled-test.yml
+# File: .azure-ci/stages/stage-scheduled-test-from-bottles.yml
 
 # Stage 2 - Cron job to test formulae
 
@@ -35,7 +35,7 @@ stages:
           - template: /.azure-ci/steps/install-tap.yml
 
           # Test formulae
-          - template: /.azure-ci/steps/test-formulae.yml
+          - template: /.azure-ci/steps/test-formulae-from-bottles.yml
 
       - job: job_create_revision_bump_pr
         displayName: Job - Create revision bump PR
@@ -47,7 +47,7 @@ stages:
 
         condition: |
           and(
-            succeeded('job_scheduled_test'),
+            failed('job_scheduled_test'),
             ne(dependencies.job_scheduled_test.outputs['test_formulae.failing_formulae'], '')
           )
 

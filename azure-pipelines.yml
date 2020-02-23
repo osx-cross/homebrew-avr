@@ -86,8 +86,8 @@ stages:
   # Stage 1 - Testing formulae on master
   - template: /.azure-ci/stages/stage-test-formulae.yml
 
-  # Stage 2 - Cron job to test formulae
-  - template: /.azure-ci/stages/stage-scheduled-test.yml
+  # Stage 2 - Cron job to test formulae from bottles
+  - template: /.azure-ci/stages/stage-scheduled-test-from-bottles.yml
 
   # Stage 2bis - Cron job to test formulae from source
   - template: /.azure-ci/stages/stage-scheduled-test-from-source.yml

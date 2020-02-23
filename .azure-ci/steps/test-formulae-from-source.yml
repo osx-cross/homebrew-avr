@@ -42,6 +42,7 @@ steps:
 
         echo ""
         echo "🚧 Check the issues and create PRs 🏗"
+        exit 1
 
       fi
     displayName: Test Formulae
