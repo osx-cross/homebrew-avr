@@ -10,8 +10,8 @@ class AvrGdb < Formula
 
   bottle do
     root_url "https://dl.bintray.com/osx-cross/bottles-avr"
-    sha256 "ada0bdce421350800b8db218aecb25391c7e75da7d8b60dcaf04f1f29db31f57" => :mojave
-    sha256 "13944fcdcc4a275f41bf2b8b8d6ee754eb766940926c553b443ba08fa3dc5141" => :high_sierra
+    sha256 "ec8b5fd6b277c0c7b2feae51844279e80851420049a70c84db9ddc2a76df0511" => :mojave
+    sha256 "9b330c3f2e4781d7a57f86f9df24c7f401239099af1000b2b94fb56b5253ed6d" => :high_sierra
   end
 
   depends_on "pkg-config" => :build
