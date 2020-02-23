@@ -12,7 +12,7 @@ steps:
         echo ""
         echo "🏗️ Installing $formula"
 
-        brew reinstall --build-from-source $formula && brew test $formula && brew linkage --test $formula
+        brew reinstall --build-from-source --verbose $formula && brew test $formula && brew linkage --test $formula
 
         if [ $? -eq 1 ]; then
           echo ""
@@ -41,9 +41,7 @@ steps:
         done
 
         echo ""
-        echo "🚧 A new PR will be created to bump the revision and rebuild the formulae. 🏗"
-
-        echo "##vso[task.setvariable variable=failing_formulae;isOutput=true]$FAILING_FORMULAE"
+        echo "🚧 Check the issues and create PRs 🏗"
 
       fi
     displayName: Test Formulae
