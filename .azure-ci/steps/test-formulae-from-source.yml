@@ -5,9 +5,9 @@ steps:
   - bash: |
       FAILING_FORMULAE=""
 
-      for formula in Formula/* ; do
+      FORMULAE_TO_TEST=(avr-binutils avr-gcc avr-gdb)
 
-        formula=$(basename $formula ".rb")
+      for formula in "${FORMULAE_TO_TEST[@]}" ; do
 
         echo ""
         echo "🏗️ Installing $formula"
