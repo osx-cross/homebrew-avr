@@ -2,9 +2,8 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/binutils.html"
 
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.33.1.tar.gz"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.33.1.tar.gz"
-  sha256 "98aba5f673280451a09df3a8d8eddb3aa0c505ac183f1e2f9d00c67aa04c6f7d"
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.34.tar.xz"
+  sha256 "f00b0e8803dc9bab1e2165bd568528135be734df3fabf8d0161828cd56028952"
 
   depends_on "gpatch" => :build if OS.linux?
 
@@ -20,7 +19,7 @@ class AvrBinutils < Formula
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch do
     url "https://git.archlinux.org/svntogit/community.git/plain/avr-binutils/trunk/avr-size.patch"
-    sha256 "e213fac20bd234542fda595fc9e506170e06db94c26ab07a8af9e7782df5952e"
+    sha256 "7aed303887a8541feba008943d0331dc95dd90a309575f81b7a195650e4cba1e"
   end
 
   def install
@@ -49,8 +48,8 @@ class AvrBinutils < Formula
 
   test do
     version_output = <<~EOS
-      GNU ar (GNU Binutils) 2.33.1
-      Copyright (C) 2019 Free Software Foundation, Inc.
+      GNU ar (GNU Binutils) 2.34
+      Copyright (C) 2020 Free Software Foundation, Inc.
       This program is free software; you may redistribute it under the terms of
       the GNU General Public License version 3 or (at your option) any later version.
       This program has absolutely no warranty.
