@@ -2,9 +2,9 @@ class AvrGdb < Formula
   desc "GDB lets you to see what is going on inside a program while it executes"
   homepage "https://www.gnu.org/software/gdb/"
 
-  url "https://ftp.gnu.org/gnu/gdb/gdb-8.3.1.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gdb/gdb-8.3.1.tar.xz"
-  sha256 "1e55b4d7cdca7b34be12f4ceae651623aa73b2fd640152313f9f66a7149757c4"
+  url "https://ftp.gnu.org/gnu/gdb/gdb-9.1.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gdb/gdb-9.1.tar.xz"
+  sha256 "699e0ec832fdd2f21c8266171ea5bf44024bd05164fdf064e4d10cc4cf0d1737"
 
   head "https://sourceware.org/git/binutils-gdb.git"
 
@@ -33,11 +33,13 @@ class AvrGdb < Formula
       --disable-install-libiberty
     ]
 
-    system "./configure", *args
-    system "make"
+    mkdir "build" do
+      system "../configure", *args
+      system "make"
 
-    # Don't install bfd or opcodes, as they are provided by binutils
-    system "make", "install-gdb"
+      # Don't install bfd or opcodes, as they are provided by binutils
+      system "make", "install-gdb"
+    end
   end
 
   def caveats; <<~EOS
