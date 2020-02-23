@@ -12,7 +12,7 @@ steps:
         echo ""
         echo "🏗️ Installing $formula"
 
-        brew reinstall --build-from-source --verbose $formula && brew test $formula && brew linkage --test $formula
+        brew reinstall --build-from-source $formula && brew test $formula && brew linkage --test $formula
 
         if [ $? -eq 1 ]; then
           echo ""
