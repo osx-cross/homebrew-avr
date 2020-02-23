@@ -1,4 +1,4 @@
-# File: /.azure-ci/steps/test-formulae.yml
+# File: /.azure-ci/steps/test-formulae-from-bottles.yml
 
 steps:
 
@@ -53,8 +53,10 @@ steps:
 
         echo "##vso[task.setvariable variable=failing_formulae;isOutput=true]$FAILING_FORMULAE"
 
+        exit 1
+
       fi
-    displayName: Step - Test Formulae
+    displayName: Test Formulae
     name: test_formulae
 
 

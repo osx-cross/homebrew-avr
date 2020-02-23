@@ -13,6 +13,8 @@ stages:
     condition: |
       and(
         succeeded('stage_build_bottles'),
+        eq(variables['System.PullRequest.IsFork'], False),
+        not(contains(variables['Build.SourceVersionMessage'], 'skip-upload')),
         eq(variables['Build.Reason'], 'PullRequest')
       )
 

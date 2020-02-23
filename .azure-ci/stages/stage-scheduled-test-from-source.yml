@@ -7,6 +7,8 @@ stages:
   - stage: stage_scheduled_test_from_source
     displayName: Stage - Scheduled Test on master (build from source)
 
+    dependsOn: []
+
     condition: |
       or(
         eq(variables['Build.Reason'], 'Schedule')
@@ -38,33 +40,3 @@ stages:
 
           # Test formulae
           - template: /.azure-ci/steps/test-formulae-from-source.yml
-
-      - job: job_create_revision_bump_pr
-        displayName: Job - Create revision bump PR
-
-        pool:
-          vmImage: macOS-10.14
-
-        dependsOn: job_scheduled_test
-
-        condition: |
-          and(
-            succeeded('job_scheduled_test'),
-            ne(dependencies.job_scheduled_test.outputs['test_formulae.failing_formulae'], '')
-          )
-
-        variables:
-          failing_formulae: $[ dependencies.job_scheduled_test.outputs['test_formulae.failing_formulae'] ]
-
-        steps:
-
-          # Setup CI environment
-          - template: /.azure-ci/steps/setup-ci-env.yml
-
-          # Install tap
-          - template: /.azure-ci/steps/install-tap.yml
-
-          # Test formulae
-          - template: /.azure-ci/steps/create-bump-revision-pr.yml
-            parameters:
-              stage_name: "scheduled CI"

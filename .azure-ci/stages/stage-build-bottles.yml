@@ -7,8 +7,13 @@ stages:
   - stage: stage_build_bottles
     displayName: Stage - Build bottles
 
+    dependsOn: []
+
     condition: |
-      eq(variables['Build.Reason'], 'PullRequest')
+      and(
+        eq(variables['Build.Reason'], 'PullRequest')
+        ,not(contains(variables['Build.SourceVersionMessage'], 'skip-bottles'))
+      )
 
     jobs:
 

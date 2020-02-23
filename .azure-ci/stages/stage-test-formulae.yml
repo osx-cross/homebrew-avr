@@ -37,7 +37,7 @@ stages:
           - template: /.azure-ci/steps/tap-dev-test-bot.yml
 
           # Test formulae
-          - template: /.azure-ci/steps/test-formulae.yml
+          - template: /.azure-ci/steps/test-formulae-from-bottles.yml
 
       - job: job_create_revision_bump_pr
         displayName: Job - Create revision bump PR
@@ -49,7 +49,7 @@ stages:
 
         condition: |
           and(
-            succeeded('job_test_formulae'),
+            failed('job_test_formulae'),
             ne(dependencies.job_test_formulae.outputs['test_formulae.failing_formulae'], '')
           )
 
