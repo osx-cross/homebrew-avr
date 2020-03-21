@@ -24,7 +24,7 @@ stages:
         displayName: Job - Scheduled Test on master
 
         pool:
-          vmImage: macOS-10.14
+          vmImage: macOS-latest
 
         steps:
 
@@ -41,7 +41,7 @@ stages:
         displayName: Job - Create revision bump PR
 
         pool:
-          vmImage: macOS-10.14
+          vmImage: macOS-latest
 
         dependsOn: job_scheduled_test
 

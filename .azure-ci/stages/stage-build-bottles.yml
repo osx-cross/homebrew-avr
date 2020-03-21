@@ -19,6 +19,12 @@ stages:
 
       - template: /.azure-ci/jobs/bottles-build.yml
         parameters:
+          name: brew_test_bot_macOS_10_15
+          displayName: Job - For macOS Catalina (10.15)
+          vmImage: macOS-latest
+
+      - template: /.azure-ci/jobs/bottles-build.yml
+        parameters:
           name: brew_test_bot_macOS_10_14
           displayName: Job - For macOS Mojave (10.14)
           vmImage: macOS-10.14
