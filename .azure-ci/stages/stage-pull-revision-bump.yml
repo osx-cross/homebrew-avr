@@ -24,7 +24,7 @@ stages:
         displayName: Job - Pull revision bump
 
         pool:
-          vmImage: macOS-10.14
+          vmImage: macOS-latest
 
         steps:
 
