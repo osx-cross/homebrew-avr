@@ -2,10 +2,9 @@ class AvrGcc < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.2.0/gcc-9.2.0.tar.xz"
-  sha256 "ea6ef08f121239da5695f76c9b33637a118dcf63e24164422231917fa61fb206"
-  revision 1
+  url "https://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
+  sha256 "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
 
   head "https://gcc.gnu.org/git/gcc.git"
 
@@ -24,9 +23,6 @@ class AvrGcc < Formula
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
-
   depends_on "avr-binutils"
 
   depends_on "gmp"
@@ -37,14 +33,14 @@ class AvrGcc < Formula
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
 
-  local_build = build
+  current_build = build
 
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
 
-    if local_build.with? "ATMega168pbSupport"
+    if current_build.with? "ATMega168pbSupport"
       patch do
         url "https://dl.bintray.com/osx-cross/avr-patches/avr-libc-2.0.0-atmega168pb.patch"
         sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
@@ -54,7 +50,7 @@ class AvrGcc < Formula
 
   def version_suffix
     if build.head?
-      (stable.version.to_s.slice(/\d/).to_i + 1).to_s
+      "HEAD"
     else
       version.to_s.slice(/\d/)
     end
@@ -63,31 +59,38 @@ class AvrGcc < Formula
   def install
     # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
-    ENV["gcc_cv_prog_makeinfo_modern"] = "no" # pretend that make info is too old to build documentation and avoid errors
+    ENV["gcc_cv_prog_makeinfo_modern"] = "no" # avoid building documentation and related errors
 
     languages = ["c", "c++"]
 
-    args = [
-      "--target=avr",
-      "--prefix=#{prefix}",
-      "--libdir=#{lib}/avr-gcc/#{version_suffix}",
+    pkgversion = "Homebrew AVR GCC #{pkg_version} #{build.used_options*" "}".strip
 
-      "--enable-languages=#{languages.join(",")}",
-      "--with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}",
-      "--with-as=#{Formula["avr-binutils"].opt_bin/"avr-as"}",
+    args = %W[
+      --target=avr
+      --prefix=#{prefix}
+      --libdir=#{lib}/avr-gcc/#{version_suffix}
 
-      "--disable-nls",
-      "--disable-libssp",
-      "--disable-shared",
-      "--disable-threads",
-      "--disable-libgomp",
-      "--with-dwarf2",
+      --enable-languages=#{languages.join(",")}
+      --with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}
+      --with-as=#{Formula["avr-binutils"].opt_bin/"avr-as"}
+
+      --disable-nls
+      --disable-libssp
+      --disable-shared
+      --disable-threads
+      --disable-libgomp
+      --disable-multilib
+
+      --with-dwarf2
+      --with-avrlibc
+
+      --with-pkgversion=#{pkgversion}
+      --with-bugurl=https://github.com/osx-cross/homebrew-avr/issues
     ]
 
     mkdir "build" do
       system "../configure", *args
       system "make"
-
       system "make", "install"
     end
 
@@ -95,7 +98,7 @@ class AvrGcc < Formula
     info.rmtree
     man7.rmtree
 
-    local_build = build
+    current_build = build
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
@@ -106,10 +109,10 @@ class AvrGcc < Formula
       ENV.delete "CC"
       ENV.delete "CXX"
 
-      build = `./config.guess`.chomp
+      build_config = `./config.guess`.chomp
 
-      system "./bootstrap" if local_build.with? "ATMega168pbSupport"
-      system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
+      system "./bootstrap" if current_build.with? "ATMega168pbSupport"
+      system "./configure", "--build=#{build_config}", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
   end
