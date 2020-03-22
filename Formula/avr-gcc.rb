@@ -26,6 +26,8 @@ class AvrGcc < Formula
 
   depends_on "avr-binutils"
 
+  depends_on "automake" => :build
+  depends_on "autoconf" => :build
   depends_on "gmp"
   depends_on "isl"
   depends_on "libmpc"
