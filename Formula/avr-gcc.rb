@@ -24,6 +24,11 @@ class AvrGcc < Formula
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
+  # automake & autoconf are needed to build from source 
+  # with the ATMega168pbSupport option.
+  depends_on "automake" => :build
+  depends_on "autoconf" => :build
+
   depends_on "avr-binutils"
 
   depends_on "gmp"
