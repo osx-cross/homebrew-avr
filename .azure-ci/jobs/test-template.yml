@@ -8,6 +8,8 @@ jobs:
   - job: ${{ parameters.name }}
     displayName: Job - ${{ parameters.message }}
 
+    timeoutInMinutes: 0
+
     pool:
       vmImage: macOS-10.14
     steps:
