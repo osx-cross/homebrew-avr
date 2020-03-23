@@ -42,13 +42,17 @@ class AvrGdb < Formula
     end
   end
 
-  def caveats; <<~EOS
-    avr-gdb requires special privileges to access Mach ports.
-    You will need to codesign the binary. For instructions, see:
-      https://sourceware.org/gdb/wiki/BuildingOnDarwin
-    On 10.12 (Sierra) or later with SIP, you need to run this:
-      echo "set startup-with-shell off" >> ~/.gdbinit
-  EOS
+  def caveats
+    <<~EOS
+      gdb requires special privileges to access Mach ports.
+      You will need to codesign the binary. For instructions, see:
+
+        https://sourceware.org/gdb/wiki/BuildingOnDarwin
+
+      On 10.12 (Sierra) or later with SIP, you need to run this:
+
+        echo "set startup-with-shell off" >> ~/.gdbinit
+    EOS
   end
 
   test do

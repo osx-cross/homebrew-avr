@@ -21,12 +21,16 @@ class AvrGccAT5 < Formula
     satisfy { MacOS::CLT.installed? }
   end
 
-  keg_only "it might interfere with other version of avr-gcc. This is useful if you want to have multiple version of avr-gcc installed on the same machine"
+  keg_only "it might interfere with other version of avr-gcc. " \
+           "This is useful if you want to have multiple version of avr-gcc " \
+           "installed on the same machine"
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
-  depends_on "autoconf" => :build
+  # automake & autoconf are needed to build from source
+  # with the ATMega168pbSupport option.
   depends_on "automake" => :build
+  depends_on "autoconf" => :build181
 
   depends_on "avr-binutils"
 
@@ -92,7 +96,7 @@ class AvrGccAT5 < Formula
     # Build ISL 0.14 from source during bootstrap
     resource("isl").stage buildpath/"isl"
 
-    # pretend that make info is too old to build documentation and avoid errors
+    # Prevent building documentation to avoid related errors
     ENV["gcc_cv_prog_makeinfo_modern"] = "no"
 
     languages = ["c", "c++"]

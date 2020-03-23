@@ -24,7 +24,7 @@ class AvrGcc < Formula
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
-  # automake & autoconf are needed to build from source 
+  # automake & autoconf are needed to build from source
   # with the ATMega168pbSupport option.
   depends_on "automake" => :build
   depends_on "autoconf" => :build
@@ -65,7 +65,9 @@ class AvrGcc < Formula
   def install
     # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
-    ENV["gcc_cv_prog_makeinfo_modern"] = "no" # avoid building documentation and related errors
+
+    # Prevent building documentation to avoid related errors
+    ENV["gcc_cv_prog_makeinfo_modern"] = "no"
 
     languages = ["c", "c++"]
 
