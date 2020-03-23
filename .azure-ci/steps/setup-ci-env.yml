@@ -1,10 +1,5 @@
 # File: /.azure-ci/steps/setup-ci-env.yml
 
-parameters:
-  - name: xcode_version
-    type: string
-    default: "Xcode_11.3"
-
 steps:
 
   - bash: |
@@ -13,11 +8,5 @@ steps:
 
   - bash: |
       set -ex
-      os_ver=${1:-$(sw_vers -productVersion)}
-      if [[ "$os_ver" != 10.13.* ]]; then
-        sudo xcode-select --switch /Applications/$XCODE_VERSION.app/Contents/Developer
-      fi
       brew update
     displayName: Setup CI Environment
-    env:
-      XCODE_VERSION: ${{ parameters.xcode_version }}
