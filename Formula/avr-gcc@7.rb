@@ -31,7 +31,7 @@ class AvrGccAT7 < Formula
   # automake & autoconf are needed to build from source
   # with the ATMega168pbSupport option.
   depends_on "automake" => :build
-  depends_on "autoconf" => :build181
+  depends_on "autoconf" => :build
 
   depends_on "avr-binutils"
 
@@ -91,7 +91,6 @@ class AvrGccAT7 < Formula
       --disable-shared
       --disable-threads
       --disable-libgomp
-      --disable-multilib
 
       --with-dwarf2
       --with-avrlibc
