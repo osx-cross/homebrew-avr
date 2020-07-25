@@ -2,10 +2,8 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/binutils.html"
 
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.34.tar.xz"
-  sha256 "f00b0e8803dc9bab1e2165bd568528135be734df3fabf8d0161828cd56028952"
-
-  depends_on "gpatch" => :build if OS.linux?
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.xz"
+  sha256 "1b11659fb49e20e18db460d44485f09442c8c56d5df165de9461eb09c8302f85"
 
   bottle do
     root_url "https://dl.bintray.com/osx-cross/bottles-avr"
@@ -14,6 +12,10 @@ class AvrBinutils < Formula
   end
 
   uses_from_macos "zlib"
+
+  on_linux do
+    depends_on "gpatch" => :build
+  end
 
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
@@ -48,7 +50,7 @@ class AvrBinutils < Formula
 
   test do
     version_output = <<~EOS
-      GNU ar (GNU Binutils) 2.34
+      GNU ar (GNU Binutils) #{version}
       Copyright (C) 2020 Free Software Foundation, Inc.
       This program is free software; you may redistribute it under the terms of
       the GNU General Public License version 3 or (at your option) any later version.
