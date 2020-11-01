@@ -1,19 +1,19 @@
-class AvrGcc < Formula
+class AvrGccAT9 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  sha256 "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
+  sha256 "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
 
-  head "https://gcc.gnu.org/git/gcc.git"
+  head "https://github.com/gcc-mirror/gcc.git", :branch => "gcc-9-branch"
 
-  # bottle do
-  #   root_url "https://dl.bintray.com/osx-cross/bottles-avr"
-  #   rebuild 1
-  #   sha256 "aaf39cac6784b9d9ecb59ca599201144e4cdb11659d5b3799e811ce710296e2d" => :catalina
-  #   sha256 "d9a67510da4bfe62827c57238ef506ab8513a6b0fbafa51fd26ea5c9e8c35ab5" => :mojave
-  # end
+  bottle do
+    root_url "https://dl.bintray.com/osx-cross/bottles-avr"
+    rebuild 1
+    sha256 "aaf39cac6784b9d9ecb59ca599201144e4cdb11659d5b3799e811ce710296e2d" => :catalina
+    sha256 "d9a67510da4bfe62827c57238ef506ab8513a6b0fbafa51fd26ea5c9e8c35ab5" => :mojave
+  end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -21,6 +21,10 @@ class AvrGcc < Formula
     reason "The bottle needs the Xcode CLT to be installed."
     satisfy { MacOS::CLT.installed? }
   end
+
+  keg_only "it might interfere with other version of avr-gcc. " \
+           "This is useful if you want to have multiple version of avr-gcc " \
+           "installed on the same machine"
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
