@@ -1,10 +1,10 @@
-class AvrGcc < Formula
+class AvrGccAT9 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  sha256 "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
+  sha256 "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
 
   head "https://gcc.gnu.org/git/gcc.git"
 
