@@ -1,4 +1,4 @@
-# homebrew-avr [![Build Status](https://dev.azure.com/osx-cross/homebrew-avr/_apis/build/status/osx-cross.homebrew-avr?branchName=master)](https://dev.azure.com/osx-cross/homebrew-avr/_build/latest?definitionId=1&branchName=master)
+# homebrew-avr
 
 This repository contains the GNU AVR Toolchain as formulae for [Homebrew].
 
