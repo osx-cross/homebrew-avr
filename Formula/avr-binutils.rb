@@ -11,6 +11,11 @@ class AvrBinutils < Formula
     url :stable
   end
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.35.1"
+    sha256 "9988b879c8366710f5d2e908b8859fc1ef38b72e82b230f842fac3c53679f199" => :catalina
+  end
+
   depends_on "gpatch" => :build if OS.linux?
 
   uses_from_macos "zlib"
