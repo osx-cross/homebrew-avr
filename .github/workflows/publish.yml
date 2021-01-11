@@ -31,7 +31,7 @@ jobs:
         uses: Homebrew/actions/git-try-push@master
         with:
           token: $${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}
-          branch: main
+          branch: master
 
       - name: Delete branch
         if: github.event.pull_request.head.repo.fork == false
