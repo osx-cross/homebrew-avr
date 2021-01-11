@@ -21,7 +21,7 @@ jobs:
       - name: Set up git
         uses: Homebrew/actions/git-user-config@master
         with:
-          username: osx-crossTestBot
+          username: "osx-crossTestBot"
           token: ${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}
 
       - name: Pull bottles
