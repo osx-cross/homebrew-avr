@@ -13,6 +13,12 @@ class AvrGccAT8 < Formula
     regex(%r{href=.*?gcc[._-]v?(8(?:\.\d+)+)(?:/?["' >]|\.t)}i)
   end
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@8-8.4.0"
+    rebuild 2
+    sha256 "84dc6c557be2d1c287dd8f4f81fc76667dccb5f3e3b59a260f3f05a22773d461" => :catalina
+  end
+
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? do
