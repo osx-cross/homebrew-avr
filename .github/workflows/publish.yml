@@ -17,6 +17,8 @@ jobs:
 
       - name: Set up git
         uses: Homebrew/actions/git-user-config@master
+        with:
+          username: osx-crossTestBot
 
       - name: Pull bottles
         env:
