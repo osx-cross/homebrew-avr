@@ -6,18 +6,12 @@ AVR is a popular family of micro-controllers, used for example in the [Arduino] 
 
 ## Current Versions
 
--   `gcc 9.2.0`
--   `binutils 2.33.1`
+-   `gcc 9.3.0`
+-   `binutils 2.35.1`
 -   `avr-libc 2.0.0`
 -   `gdb 8.3.1`
 
-Other GCC versions available:
-
-- `8.3.0`
-- `7.4.0`
-- `6.5.0`
-- `5.5.0`
-- `4.9.4`
+Older GCC version have been removed. Please, raise an issue if you need one back.
 
 ## Installing homebrew-avr formulae
 
@@ -34,13 +28,13 @@ $ brew tap osx-cross/avr
 $ brew install avr-gcc
 ```
 
-If you want to install an older version: 
+If you want to install an older version:
 
 ```console
 $ brew install avr-gcc@X
 ```
 
-Where `X` being the version number such as `avr-gcc@6`
+Where `X` being the version number such as `avr-gcc@8`
 
 **Note**: only the latest version will be available in your `$PATH`. The older ones are `keg-only` and thus won't be availble in `/usr/local/bin`.
 
