@@ -5,11 +5,6 @@ class AvrBinutils < Formula
   url "https://ftp.gnu.org/gnu/binutils/binutils-2.35.1.tar.xz"
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.xz"
   sha256 "3ced91db9bf01182b7e420eab68039f2083aed0a214c0424e257eae3ddee8607"
-  license all_of: ["GPL-2.0-or-later", "GPL-3.0-or-later", "LGPL-2.0-or-later", "LGPL-3.0-only"]
-
-  livecheck do
-    url :stable
-  end
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.35.1"
@@ -50,5 +45,10 @@ class AvrBinutils < Formula
     end
 
     info.rmtree # info files conflict with native binutils
+  end
+
+  test do
+    version_output = "GNU ld (GNU Binutils) 2.35.1\n"
+    assert_equal `avr-ld -v`, version_output
   end
 end
