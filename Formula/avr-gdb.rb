@@ -6,6 +6,11 @@ class AvrGdb < Formula
   mirror "https://ftpmirror.gnu.org/gdb/gdb-10.1.tar.xz"
   sha256 "f82f1eceeec14a3afa2de8d9b0d3c91d5a3820e23e0a01bbb70ef9f0276b62c0"
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-10.1"
+    sha256 "f922c47325dca55abf04a7af4000595793727d3e0ce495b452f672e5ac2e8aa0" => :catalina
+  end
+
   depends_on "avr-binutils"
 
   depends_on "python@3.9"
