@@ -92,7 +92,6 @@ class AvrGcc < Formula
       --disable-shared
       --disable-threads
       --disable-libgomp
-      --disable-multilib
 
       --with-dwarf2
       --with-avrlibc
