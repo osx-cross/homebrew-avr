@@ -6,6 +6,12 @@ class AvrGcc < Formula
   mirror "https://ftpmirror.gnu.org/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
   sha256 "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc-9.3.0"
+    rebuild 3
+    sha256 "660bbea8a10de8adbf72b3d5ebaf356dad88f103d9b5ecfb424a162f8dc5d618" => :catalina
+  end
+
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? do
