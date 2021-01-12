@@ -6,12 +6,14 @@ AVR is a popular family of micro-controllers, used for example in the [Arduino] 
 
 ## Current Versions
 
--   `gcc 9.3.0`
--   `binutils 2.35.1`
--   `avr-libc 2.0.0`
--   `gdb 8.3.1`
+- GCC 9.3.0 - **default**, provided as `avr-gcc` or `avr-gcc@9`
+- GCC 8.4.0 - provided as `avr-gcc@8`
+- GCC 10.2.0 - provided as `avr-gcc@10`
+- Binutils 2.35.1 - provided as `avr-binutils`
+- AVR Libc 2.0.0 - provided as a ressource for each GCC formula
+- GDB 10.1 - provided as `avr-gdb`
 
-Older GCC version have been removed. Please, raise an issue if you need one back.
+Support for older GCC versions (4, 5, 6, 7) has been removed. Please, raise an issue if you need one back.
 
 ## Installing homebrew-avr formulae
 
@@ -28,21 +30,21 @@ $ brew tap osx-cross/avr
 $ brew install avr-gcc
 ```
 
-If you want to install an older version:
+If you want to install a different version:
 
 ```console
-$ brew install avr-gcc@X
+$ brew install avr-gcc@{x}
 ```
 
-Where `X` being the version number such as `avr-gcc@8`
+Where `{x}` being the version number such as `avr-gcc@8` or `avr-gcc@10`
 
-**Note**: only the latest version will be available in your `$PATH`. The older ones are `keg-only` and thus won't be availble in `/usr/local/bin`.
+**Note**: only the default version will be available in your `$PATH`. The other ones are `keg-only` and thus won't be available in `/usr/local/bin`.
 
-You can run `brew info avr-gcc` for more information on the flags available.
+You can run `brew info avr-gcc` or `brew info avr-gcc@{x}` for more information on the flags available.
 
 ## Docs
 
-`brew info avr-gcc`, `brew help`, `man brew`, or the Homebrew [wiki].
+`brew info avr-gcc`, `brew help`, `man brew`, or the Homebrew [documentation].
 
 ## Thanks
 
@@ -55,7 +57,7 @@ This repository is based on the works of:
 
 [Homebrew]: http://brew.sh
 [Arduino]: http://arduino.cc
-[wiki]: http://wiki.github.com/mxcl/homebrew
+[documentation]: https://docs.brew.sh/
 [Leka]: https://github.com/Leka/homebrew-avr
 [larsimmisch]: https://github.com/larsimmisch/homebrew-avr
 [plietar]: https://github.com/plietar/homebrew-avr/
