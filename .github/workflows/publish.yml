@@ -13,8 +13,13 @@ env:
 jobs:
   pr-pull:
     if: contains(github.event.pull_request.labels.*.name, 'pr-pull')
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          token: "${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}"
+
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@master
 
@@ -31,10 +36,9 @@ jobs:
         run: brew install-bundler-gems
 
       - name: Set up git
-        uses: Homebrew/actions/git-user-config@master
-        with:
-          username: "osx-crossTestBot"
-          token: ${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}
+        run: |
+          git config --global user.name "osxCrossTestBot"
+          git config --global user.email "osxCrossTestBot@leka.io"
 
       - name: Pull bottles
         run: brew pr-pull --debug --tap=$GITHUB_REPOSITORY $PULL_REQUEST
@@ -42,7 +46,7 @@ jobs:
       - name: Push commits
         uses: Homebrew/actions/git-try-push@master
         with:
-          token: $${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}
+          token: ${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}
           branch: master
 
       - name: Delete branch
