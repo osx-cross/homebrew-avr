@@ -6,19 +6,6 @@ class AvrGcc < Formula
   mirror "https://ftpmirror.gnu.org/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
   sha256 "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
 
-  head "https://gcc.gnu.org/git/gcc.git"
-
-  livecheck do
-    url :stable
-    regex(%r{href=.*?gcc[._-]v?(9(?:\.\d+)+)(?:/?["' >]|\.t)}i)
-  end
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc-9.3.0"
-    rebuild 2
-    sha256 "1e79620eeb46921f3106ea0062c430d7db700e42fc9b37dedfe2bd56b76028db" => :catalina
-  end
-
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? do
@@ -92,7 +79,6 @@ class AvrGcc < Formula
       --disable-shared
       --disable-threads
       --disable-libgomp
-      --disable-multilib
 
       --with-dwarf2
       --with-avrlibc
@@ -138,5 +124,92 @@ class AvrGcc < Formula
       system "./configure", "--build=#{build_config}", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
+  end
+
+  test do
+    ENV.clear
+
+    hello_c = <<~EOS
+      #define F_CPU 8000000UL
+
+      #include <avr/io.h>
+      #include <util/delay.h>
+
+      int main (void) {
+
+        DDRB |= (1 << PB0);
+
+        while(1) {
+          PORTB ^= (1 << PB0);
+          _delay_ms(500);
+        }
+
+        return 0;
+      }
+    EOS
+
+    hello_c_hex = <<~EOS
+      :10000000209A91E085B1892785B92FEF34E38CE000
+      :0E001000215030408040E1F700C00000F3CFE7
+      :00000001FF
+    EOS
+
+    hello_c_hex.gsub!(/\n/, "\r\n")
+
+    (testpath/"hello.c").write(hello_c)
+
+    system "#{bin}/avr-gcc", "-mmcu=atmega328p", "-Os", "-c", "hello.c", "-o", "hello.c.o", "--verbose"
+    system "#{bin}/avr-gcc", "hello.c.o", "-o", "hello.c.elf"
+    system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.c.elf", "hello.c.hex"
+
+    assert_equal `cat hello.c.hex`, hello_c_hex
+
+    hello_cpp = <<~EOS
+      #define F_CPU 8000000UL
+
+      #include <avr/io.h>
+      #include <util/delay.h>
+
+      int main (void) {
+
+        DDRB |= (1 << PB0);
+
+        uint8_t array[] = {1, 2, 3, 4};
+
+        for (auto n : array) {
+          uint8_t m = n;
+          while (m > 0) {
+            _delay_ms(500);
+            PORTB ^= (1 << PB0);
+            m--;
+          }
+        }
+
+        return 0;
+      }
+    EOS
+
+    hello_cpp_hex = <<~EOS
+      :1000000010E0A0E6B0E0ECE7F0E003C0C895319660
+      :100010000D92A636B107D1F700D000D0CDB7DEB72C
+      :10002000209A8091600090916100A0916200B0914F
+      :10003000630089839A83AB83BC83FE0131969E0162
+      :100040002B5F3F4F41E08191882371F05FEF64E3C4
+      :100050009CE0515060409040E1F700C0000095B135
+      :10006000942795B98150F0CFE217F30761F790E03C
+      :0C00700080E00F900F900F900F9008950B
+      :06007C0001020304000074
+      :00000001FF
+    EOS
+
+    hello_cpp_hex.gsub!(/\n/, "\r\n")
+
+    (testpath/"hello.cpp").write(hello_cpp)
+
+    system "#{bin}/avr-g++", "-mmcu=atmega328p", "-Os", "-c", "hello.cpp", "-o", "hello.cpp.o", "--verbose"
+    system "#{bin}/avr-g++", "hello.cpp.o", "-o", "hello.cpp.elf"
+    system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.cpp.elf", "hello.cpp.hex"
+
+    assert_equal `cat hello.cpp.hex`, hello_cpp_hex
   end
 end
