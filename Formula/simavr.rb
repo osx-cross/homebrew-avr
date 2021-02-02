@@ -7,6 +7,11 @@ class Simavr < Formula
 
   head "https://github.com/buserror/simavr.git"
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/simavr-1.6"
+    sha256 cellar: :any_skip_relocation, catalina: "2040a34f2d283aaa8398b23f2bc4c08f0f7192275df5c4957661fc56d7c62866"
+  end
+
   depends_on "avr-gcc"
   depends_on "libelf"
 
