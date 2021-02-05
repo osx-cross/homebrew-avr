@@ -8,7 +8,7 @@ class AvrGdb < Formula
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-10.1"
-    sha256 "f922c47325dca55abf04a7af4000595793727d3e0ce495b452f672e5ac2e8aa0" => :catalina
+    sha256 catalina: "f922c47325dca55abf04a7af4000595793727d3e0ce495b452f672e5ac2e8aa0"
   end
 
   depends_on "avr-binutils"
