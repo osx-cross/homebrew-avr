@@ -12,7 +12,7 @@ jobs:
   test-bot:
     strategy:
       matrix:
-        os: [macOS-latest]
+        os: [macOS-latest, macos-11.0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
@@ -45,4 +45,4 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: bottles
-          path: '*.bottle.*'
+          path: "*.bottle.*"
