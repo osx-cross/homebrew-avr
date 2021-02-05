@@ -1,4 +1,4 @@
-class AvrGcc < Formula
+class AvrGccAT9 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
