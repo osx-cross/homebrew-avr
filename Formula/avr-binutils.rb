@@ -8,8 +8,9 @@ class AvrBinutils < Formula
   revision 1
 
   bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.35.1"
-    sha256 catalina: "9988b879c8366710f5d2e908b8859fc1ef38b72e82b230f842fac3c53679f199"
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.35.1_1"
+    sha256 big_sur:  "47c2e9fa72868024992a22ebfee34895bdbe99aec35fffd8ab028d5c9fbb6ecb"
+    sha256 catalina: "2246efb5bb09699b1456154737453f667e5415c91a27b6089b2f52ceec6601d0"
   end
 
   depends_on "gpatch" => :build if OS.linux?
