@@ -5,6 +5,7 @@ class AvrBinutils < Formula
   url "https://ftp.gnu.org/gnu/binutils/binutils-2.35.1.tar.xz"
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.xz"
   sha256 "3ced91db9bf01182b7e420eab68039f2083aed0a214c0424e257eae3ddee8607"
+  revision 1
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.35.1"
