@@ -99,9 +99,6 @@ class AvrGccAT9 < Formula
       --with-bugurl=https://github.com/osx-cross/homebrew-avr/issues
     ]
 
-    # Avoid reference to sed shim
-    args << "SED=/usr/bin/sed"
-
     mkdir "build" do
       system "../configure", *args
 
