@@ -222,4 +222,12 @@ class AvrGccAT9 < Formula
 
     assert_equal `cat hello.cpp.hex`, hello_cpp_hex
   end
+
+  def caveats
+    <<~EOS
+      For Mac computers with Apple silicon, avr-gcc might need Rosetta 2 to work properly.
+      You can learn more about Rosetta 2 here:
+          > https://support.apple.com/en-us/HT211861
+    EOS
+  end
 end
