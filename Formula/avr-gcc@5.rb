@@ -137,6 +137,14 @@ class AvrGccAT5 < Formula
     end
   end
 
+  def caveats
+    <<~EOS
+      For Mac computers with Apple silicon, avr-gcc might need Rosetta 2 to work properly.
+      You can learn more about Rosetta 2 here:
+          > https://support.apple.com/en-us/HT211861
+    EOS
+  end
+
   test do
     ENV.clear
 
@@ -216,13 +224,5 @@ class AvrGccAT5 < Formula
     system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.cpp.elf", "hello.cpp.hex"
 
     assert_equal `cat hello.cpp.hex`, hello_cpp_hex
-  end
-
-  def caveats
-    <<~EOS
-      For Mac computers with Apple silicon, avr-gcc might need Rosetta 2 to work properly.
-      You can learn more about Rosetta 2 here:
-          > https://support.apple.com/en-us/HT211861
-    EOS
   end
 end
