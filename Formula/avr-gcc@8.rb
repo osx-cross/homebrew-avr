@@ -6,7 +6,7 @@ class AvrGccAT8 < Formula
   mirror "https://ftpmirror.gnu.org/gcc/gcc-8.4.0/gcc-8.4.0.tar.xz"
   sha256 "e30a6e52d10e1f27ed55104ad233c30bd1e99cfb5ff98ab022dc941edd1b2dd4"
 
-  revision 1
+  revision 2
 
   head "https://github.com/gcc-mirror/gcc.git", branch: "releases/gcc-8"
 
