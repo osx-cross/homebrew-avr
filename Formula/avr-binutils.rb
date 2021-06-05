@@ -6,12 +6,6 @@ class AvrBinutils < Formula
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.36.1.tar.xz"
   sha256 "e81d9edf373f193af428a0f256674aea62a9d74dfe93f65192d4eae030b0f3b0"
 
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.36.1"
-    sha256 big_sur:  "511cb9e1dac08acc9fe58f4bc0b79cb2c38494e2d06dd05c8bdd51b1c1a18327"
-    sha256 catalina: "07a05e81e265ffce7d6e781191ae087ded50080e0116232f5f5895d8c3a302d6"
-  end
-
   depends_on "gpatch" => :build if OS.linux?
 
   uses_from_macos "zlib"
@@ -26,6 +20,7 @@ class AvrBinutils < Formula
   def install
     args = [
       "--prefix=#{prefix}",
+      "--libdir=#{prefix}/#{name}",
       "--infodir=#{info}",
       "--mandir=#{man}",
 
