@@ -6,6 +6,13 @@ class AvrBinutils < Formula
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.36.1.tar.xz"
   sha256 "e81d9edf373f193af428a0f256674aea62a9d74dfe93f65192d4eae030b0f3b0"
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.36.1"
+    rebuild 1
+    sha256 big_sur:  "ea144685173b62d28ddf560107c8dd617379c46f0ed09224b0284544ff515ddb"
+    sha256 catalina: "9820f8e01eb979916be1dda9afd8ba2e7b1261fddd69af087a336bb8140e5c58"
+  end
+
   depends_on "gpatch" => :build if OS.linux?
 
   uses_from_macos "zlib"
