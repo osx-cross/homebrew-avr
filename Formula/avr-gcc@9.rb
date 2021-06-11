@@ -53,7 +53,7 @@ class AvrGccAT9 < Formula
 
     if current_build.with? "ATMega168pbSupport"
       patch do
-        url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/master/Patch/avr-libc-add-mcu-atmega168pb.patch"
+        url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/d2e2566b06b90355952ed996707a0a1a24673cd3/Patch/avr-libc-add-mcu-atmega168pb.patch"
         sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
       end
     end
