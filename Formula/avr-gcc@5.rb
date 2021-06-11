@@ -24,8 +24,6 @@ class AvrGccAT5 < Formula
            "This is useful if you want to have multiple version of avr-gcc\n" \
            "installed on the same machine"
 
-  option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
-
   # automake & autoconf are needed to build from source
   # with the ATMega168pbSupport option.
   depends_on "autoconf" => :build
@@ -43,19 +41,10 @@ class AvrGccAT5 < Formula
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
 
-  current_build = build
-
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
-
-    if current_build.with? "ATMega168pbSupport"
-      patch do
-        url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/master/Patch/avr-libc-add-mcu-atmega168pb.patch"
-        sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
-      end
-    end
   end
 
   # This patch fixes a GCC compilation error on Apple ARM systems by adding
@@ -124,8 +113,6 @@ class AvrGccAT5 < Formula
     info.rmtree
     man7.rmtree
 
-    current_build = build
-
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
 
@@ -142,7 +129,6 @@ class AvrGccAT5 < Formula
         puts "Forcing build system to aarch64-apple-darwin."
       end
 
-      system "./bootstrap" if current_build.with? "ATMega168pbSupport"
       system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
