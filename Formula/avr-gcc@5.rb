@@ -43,8 +43,6 @@ class AvrGccAT5 < Formula
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
 
-  current_build = build
-
   resource "avr-libc" do
     url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
@@ -108,8 +106,6 @@ class AvrGccAT5 < Formula
     # info and man7 files conflict with native gcc
     info.rmtree
     man7.rmtree
-
-    current_build = build
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
