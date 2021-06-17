@@ -140,10 +140,9 @@ class AvrGccAT11 < Formula
 
       # avr-libc ships with outdated config.guess and config.sub scripts that
       # do not support Apple ARM systems, causing the configure script to fail.
-      build_config = `./config.guess`.chomp
-      if build_config.start_with?("-")
-        ENV["ac_cv_build"] = "unknown-apple-darwin"
-        puts "Forcing build system to unknown-apple-darwin."
+      if OS.mac? && Hardware::CPU.arm?
+        ENV["ac_cv_build"] = "aarch64-apple-darwin"
+        puts "Forcing build system to aarch64-apple-darwin."
       end
 
       system "./bootstrap" if current_build.with? "ATMega168pbSupport"
