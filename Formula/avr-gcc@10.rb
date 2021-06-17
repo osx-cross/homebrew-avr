@@ -34,8 +34,6 @@ class AvrGccAT10 < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
-  depends_on arch: :x86_64
-
   depends_on "avr-binutils"
 
   depends_on "gmp"
@@ -61,6 +59,14 @@ class AvrGccAT10 < Formula
         sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
       end
     end
+  end
+
+  # This patch fixes a GCC compilation error on Apple ARM systems by adding
+  # a defintion for host_hooks.  Patch comes from
+  # https://github.com/riscv/riscv-gnu-toolchain/issues/800#issuecomment-808722775
+  patch do
+    url "https://gist.githubusercontent.com/DavidEGrayson/88bceb3f4e62f45725ecbb9248366300/raw/c1f515475aff1e1e3985569d9b715edb0f317648/gcc-11-arm-darwin.patch"
+    sha256 "c4e9df9802772ddecb71aa675bb9403ad34c085d1359cb0e45b308ab6db551c6"
   end
 
   def install
@@ -132,20 +138,17 @@ class AvrGccAT10 < Formula
       ENV.delete "CC"
       ENV.delete "CXX"
 
-      build_config = `./config.guess`.chomp
+      # avr-libc ships with outdated config.guess and config.sub scripts that
+      # do not support Apple ARM systems, causing the configure script to fail.
+      if OS.mac? && Hardware::CPU.arm?
+        ENV["ac_cv_build"] = "aarch64-apple-darwin"
+        puts "Forcing build system to aarch64-apple-darwin."
+      end
 
       system "./bootstrap" if current_build.with? "ATMega168pbSupport"
-      system "./configure", "--build=#{build_config}", "--prefix=#{prefix}", "--host=avr"
+      system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
-  end
-
-  def caveats
-    <<~EOS
-      For Mac computers with Apple silicon, avr-gcc might need Rosetta 2 to work properly.
-      You can learn more about Rosetta 2 here:
-          > https://support.apple.com/en-us/HT211861
-    EOS
   end
 
   test do
@@ -177,7 +180,8 @@ class AvrGccAT10 < Formula
 
     system "#{bin}/avr-gcc", "-mmcu=atmega328p", "-Os", "-c", "hello.c", "-o", "hello.c.o", "--verbose"
     system "#{bin}/avr-gcc", "hello.c.o", "-o", "hello.c.elf"
-    system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.c.elf", "hello.c.hex"
+    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", \
+      "hello.c.elf", "hello.c.hex"
 
     assert_equal `cat hello.c.hex`, hello_c_hex
 
@@ -219,7 +223,8 @@ class AvrGccAT10 < Formula
 
     system "#{bin}/avr-g++", "-mmcu=atmega328p", "-Os", "-c", "hello.cpp", "-o", "hello.cpp.o", "--verbose"
     system "#{bin}/avr-g++", "hello.cpp.o", "-o", "hello.cpp.elf"
-    system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.cpp.elf", "hello.cpp.hex"
+    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", \
+      "hello.cpp.elf", "hello.cpp.hex"
 
     assert_equal `cat hello.cpp.hex`, hello_cpp_hex
   end
