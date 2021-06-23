@@ -8,7 +8,7 @@ class AvrBinutils < Formula
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.36.1"
-    rebuild 1
+    rebuild 2
     sha256 big_sur:  "ea144685173b62d28ddf560107c8dd617379c46f0ed09224b0284544ff515ddb"
     sha256 catalina: "9820f8e01eb979916be1dda9afd8ba2e7b1261fddd69af087a336bb8140e5c58"
   end
@@ -27,7 +27,7 @@ class AvrBinutils < Formula
   def install
     args = [
       "--prefix=#{prefix}",
-      "--libdir=#{prefix}/#{name}",
+      "--libdir=#{lib}/avr",
       "--infodir=#{info}",
       "--mandir=#{man}",
 
