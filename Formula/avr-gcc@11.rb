@@ -12,8 +12,9 @@ class AvrGccAT11 < Formula
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@11-11.1.0_1"
-    sha256 big_sur:  "464e8ec8913654d85c7da6d7bfb17ff7b358f37c8b6a10395c48d571c2540213"
-    sha256 catalina: "b31ab44ee1082383c7f174dc19dceb593c5ee324d6e07009de25832dc15f0d5d"
+    rebuild 1
+    sha256 big_sur:  "f555f34b2f72cdf8c713a9f5ad963192064405179e77770336b8e2c46aa73130"
+    sha256 catalina: "c4279a6afeccc01852a1976d80d00b54a8798912e2049d8d00141bbf259908eb"
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
@@ -33,8 +34,6 @@ class AvrGccAT11 < Formula
   # with the ATMega168pbSupport option.
   depends_on "autoconf" => :build
   depends_on "automake" => :build
-
-  depends_on arch: :x86_64
 
   depends_on "avr-binutils"
 
@@ -61,6 +60,14 @@ class AvrGccAT11 < Formula
         sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
       end
     end
+  end
+
+  # This patch fixes a GCC compilation error on Apple ARM systems by adding
+  # a defintion for host_hooks.  Patch comes from
+  # https://github.com/riscv/riscv-gnu-toolchain/issues/800#issuecomment-808722775
+  patch do
+    url "https://gist.githubusercontent.com/DavidEGrayson/88bceb3f4e62f45725ecbb9248366300/raw/c1f515475aff1e1e3985569d9b715edb0f317648/gcc-11-arm-darwin.patch"
+    sha256 "c4e9df9802772ddecb71aa675bb9403ad34c085d1359cb0e45b308ab6db551c6"
   end
 
   def install
@@ -132,20 +139,17 @@ class AvrGccAT11 < Formula
       ENV.delete "CC"
       ENV.delete "CXX"
 
-      build_config = `./config.guess`.chomp
+      # avr-libc ships with outdated config.guess and config.sub scripts that
+      # do not support Apple ARM systems, causing the configure script to fail.
+      if OS.mac? && Hardware::CPU.arm?
+        ENV["ac_cv_build"] = "aarch64-apple-darwin"
+        puts "Forcing build system to aarch64-apple-darwin."
+      end
 
       system "./bootstrap" if current_build.with? "ATMega168pbSupport"
-      system "./configure", "--build=#{build_config}", "--prefix=#{prefix}", "--host=avr"
+      system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
-  end
-
-  def caveats
-    <<~EOS
-      For Mac computers with Apple silicon, avr-gcc might need Rosetta 2 to work properly.
-      You can learn more about Rosetta 2 here:
-          > https://support.apple.com/en-us/HT211861
-    EOS
   end
 
   test do
@@ -177,7 +181,8 @@ class AvrGccAT11 < Formula
 
     system "#{bin}/avr-gcc", "-mmcu=atmega328p", "-Os", "-c", "hello.c", "-o", "hello.c.o", "--verbose"
     system "#{bin}/avr-gcc", "hello.c.o", "-o", "hello.c.elf"
-    system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.c.elf", "hello.c.hex"
+    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", \
+      "hello.c.elf", "hello.c.hex"
 
     assert_equal `cat hello.c.hex`, hello_c_hex
 
@@ -219,7 +224,8 @@ class AvrGccAT11 < Formula
 
     system "#{bin}/avr-g++", "-mmcu=atmega328p", "-Os", "-c", "hello.cpp", "-o", "hello.cpp.o", "--verbose"
     system "#{bin}/avr-g++", "hello.cpp.o", "-o", "hello.cpp.elf"
-    system "avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", "hello.cpp.elf", "hello.cpp.hex"
+    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", \
+      "hello.cpp.elf", "hello.cpp.hex"
 
     assert_equal `cat hello.cpp.hex`, hello_cpp_hex
   end

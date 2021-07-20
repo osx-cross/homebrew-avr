@@ -8,9 +8,9 @@ class AvrBinutils < Formula
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.36.1"
-    rebuild 1
-    sha256 big_sur:  "ea144685173b62d28ddf560107c8dd617379c46f0ed09224b0284544ff515ddb"
-    sha256 catalina: "9820f8e01eb979916be1dda9afd8ba2e7b1261fddd69af087a336bb8140e5c58"
+    rebuild 2
+    sha256 big_sur:  "c5bcec01e05b740ebdae63d03f8b0ee75a5109277fbd15f2c85ee8d84b53e9b8"
+    sha256 catalina: "16a939f75f0e6843849c74c3a36ebdbe475e06ed40d55e515886e9857efd2ed2"
   end
 
   depends_on "gpatch" => :build if OS.linux?
@@ -20,14 +20,14 @@ class AvrBinutils < Formula
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
   patch do
-    url "https://git.archlinux.org/svntogit/community.git/plain/avr-binutils/trunk/avr-size.patch"
+    url "https://raw.githubusercontent.com/archlinux/svntogit-community/c3efadcb76f4d8b1a3784015e7c472f59dbfa7de/avr-binutils/repos/community-x86_64/avr-size.patch"
     sha256 "7aed303887a8541feba008943d0331dc95dd90a309575f81b7a195650e4cba1e"
   end
 
   def install
     args = [
       "--prefix=#{prefix}",
-      "--libdir=#{prefix}/#{name}",
+      "--libdir=#{lib}/avr",
       "--infodir=#{info}",
       "--mandir=#{man}",
 
