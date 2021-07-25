@@ -1,0 +1,14 @@
+Fix avr-gdb issue with elf32-avr file format reading
+
+Source: 
+===========================================================
+--- bfd/elf-bfd.h
++++ bfd/elf-bfd.h
+@@ -21,7 +21,6 @@
+
+ #ifndef _LIBELF_H_
+ #define _LIBELF_H_ 1
++#include <string.h>
+
+ #include "elf/common.h"
+ #include "elf/external.h"
