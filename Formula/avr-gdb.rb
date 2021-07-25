@@ -21,7 +21,7 @@ class AvrGdb < Formula
   # Fix symbol formate elf32-avr unknown in gdb
   patch do
     url "https://raw.githubusercontent.com/failsafe89/homebrew-avr/master/Patch/avr-binutils-elf-bfd-gdb-fix.patch"
-    sha256 "4c72bad2d4935feeecb2febf3435ad7df3a176f82e6520ea79b4b281bf8a381c"
+    sha256 "7954f85d2e0f628c261bdd486df8e1a229bc5bacc6ea4a0da003913cb96543f6"
   end
 
   def install
