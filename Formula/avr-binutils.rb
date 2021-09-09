@@ -8,9 +8,9 @@ class AvrBinutils < Formula
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.36.1"
-    rebuild 2
-    sha256 big_sur:  "c5bcec01e05b740ebdae63d03f8b0ee75a5109277fbd15f2c85ee8d84b53e9b8"
-    sha256 catalina: "16a939f75f0e6843849c74c3a36ebdbe475e06ed40d55e515886e9857efd2ed2"
+    rebuild 3
+    sha256 big_sur:  "30d602d2ab76ce8834068f8bfae0864f9b952be962496a6e33976f89ea9f4465"
+    sha256 catalina: "c777870799184d37aa5928d74fb6dac2da872f874c40340f17a0a7529f60d75c"
   end
 
   uses_from_macos "zlib"
