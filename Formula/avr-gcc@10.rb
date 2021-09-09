@@ -12,9 +12,9 @@ class AvrGccAT10 < Formula
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@10-10.2.0_2"
-    rebuild 1
-    sha256 big_sur:  "78720c0aa7f82ab356ed12ddafc8d8fd2fb3cb80b3f9cba2b2a1e336c49fe3b4"
-    sha256 catalina: "d93d9b6f3a1690fec56cec42364fd5068bc63322fce0f669fa5ad3adc3ee9de6"
+    rebuild 2
+    sha256 big_sur:  "0bd772f619583a8eab2f99ba10e64f0733281a757f8e3ba39c517f8264de5c69"
+    sha256 catalina: "c546f1c3962ae38ee9fbd11817c7c8212b1c917195388cd508a408ee753342b4"
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
