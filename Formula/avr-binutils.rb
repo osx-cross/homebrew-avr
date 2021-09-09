@@ -13,9 +13,11 @@ class AvrBinutils < Formula
     sha256 catalina: "16a939f75f0e6843849c74c3a36ebdbe475e06ed40d55e515886e9857efd2ed2"
   end
 
-  depends_on "gpatch" => :build if OS.linux?
-
   uses_from_macos "zlib"
+
+  on_linux do
+    depends_on "gpatch" => :build
+  end
 
   # Support for -C in avr-size. See issue
   # https://github.com/larsimmisch/homebrew-avr/issues/9
