@@ -1,0 +1,12 @@
+diff --git a/bfd/elf-bfd.h b/bfd/elf-bfd.h
+index 15206b4..63dcf99 100644
+--- a/bfd/elf-bfd.h
++++ b/bfd/elf-bfd.h
+@@ -21,6 +21,7 @@
+
+ #ifndef _LIBELF_H_
+ #define _LIBELF_H_ 1
++#include <string.h>
+
+ #include "elf/common.h"
+ #include "elf/external.h"
