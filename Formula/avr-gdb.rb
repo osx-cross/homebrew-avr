@@ -18,6 +18,12 @@ class AvrGdb < Formula
   uses_from_macos "expat"
   uses_from_macos "ncurses"
 
+  # Fix symbol format elf32-avr unknown in gdb
+  patch do
+    url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/master/Patch/avr-binutils-elf-bfd-gdb-fix.patch"
+    sha256 "7954f85d2e0f628c261bdd486df8e1a229bc5bacc6ea4a0da003913cb96543f6"
+  end
+
   def install
     args = %W[
       --target=avr
