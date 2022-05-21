@@ -40,9 +40,9 @@ class AvrGccAT9 < Formula
   current_build = build
 
   resource "avr-libc" do
-    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
+    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
+    sha256 "0b84cee5c08b5d5cba67c36125e5aaa85251bc9accfba5773bfa87bc34b654e8"
 
     if current_build.with? "ATMega168pbSupport"
       patch do
