@@ -1,28 +1,16 @@
 class AvrGccAT9 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
-  homepage "https://www.gnu.org/software/gcc/gcc.html"
+  homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.3.0/gcc-9.3.0.tar.xz"
-  sha256 "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz"
+  sha256 "c95da32f440378d7751dd95533186f7fc05ceb4fb65eb5b85234e6299eb9838e"
 
-  revision 3
-
-  head "https://github.com/gcc-mirror/gcc.git", branch: "releases/gcc-9"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@9-9.3.0_3"
-    rebuild 2
-    sha256 big_sur:  "8302a8068fceb24461f23abcf26480c966a9fc4ec3e9211ef6889bd260b3be0f"
-    sha256 catalina: "8021802eea1d363cf5de7205a474141812026577766c6bcf898ef0c84681ce94"
-  end
+  license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
-  pour_bottle? do
-    reason "The bottle needs the Xcode CLT to be installed."
-    satisfy { MacOS::CLT.installed? }
-  end
+  pour_bottle? only_if: :clt_installed
 
   option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
@@ -108,6 +96,10 @@ class AvrGccAT9 < Formula
 
     # Avoid reference to sed shim
     args << "SED=/usr/bin/sed"
+
+    # Workaround for Xcode 12.5 bug on Intel
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100340
+    args << "--without-build-config" if Hardware::CPU.intel? && DevelopmentTools.clang_build_version >= 1205
 
     mkdir "build" do
       system "../configure", *args
