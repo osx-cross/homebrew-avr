@@ -6,6 +6,8 @@ class AvrBinutils < Formula
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.38.tar.xz"
   sha256 "e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048ecfe024"
 
+  revision 1
+
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.38"
     sha256 big_sur: "8ed9970fd47d6f0877c5dc70f6ce68fe59b23923cf666247b969dbe7ab143f63"
