@@ -8,6 +8,12 @@ class AvrGccAT9 < Formula
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@9-9.4.0"
+    sha256 big_sur:  "f5d2c6f4b9da3a521523f6109e1672502167541b77064d7a15b516a696ace9fc"
+    sha256 catalina: "24cdba5d14df4173369aff2a13f0902b59af512d4d966f1c59c216eb48a58ba1"
+  end
+
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? only_if: :clt_installed
