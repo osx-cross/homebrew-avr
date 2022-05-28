@@ -1,28 +1,16 @@
 class AvrGccAT10 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
-  homepage "https://www.gnu.org/software/gcc/gcc.html"
+  homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz"
-  sha256 "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-10.3.0/gcc-10.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.3.0/gcc-10.3.0.tar.xz"
+  sha256 "64f404c1a650f27fc33da242e1f2df54952e3963a49e06e73f6940f3223ac344"
 
-  revision 2
-
-  head "https://gcc.gnu.org/git/gcc.git"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@10-10.2.0_2"
-    rebuild 2
-    sha256 big_sur:  "0bd772f619583a8eab2f99ba10e64f0733281a757f8e3ba39c517f8264de5c69"
-    sha256 catalina: "c546f1c3962ae38ee9fbd11817c7c8212b1c917195388cd508a408ee753342b4"
-  end
+  license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
-  pour_bottle? do
-    reason "The bottle needs the Xcode CLT to be installed."
-    satisfy { MacOS::CLT.installed? }
-  end
+  pour_bottle? only_if: :clt_installed
 
   keg_only "it might interfere with other version of avr-gcc.\n" \
            "This is useful if you want to have multiple version of avr-gcc\n" \
