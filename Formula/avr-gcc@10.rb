@@ -8,6 +8,8 @@ class AvrGccAT10 < Formula
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
+  revision 1
+
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@10-10.3.0"
     sha256 big_sur:  "6593df909da81127b461709646a37783088d782486357bd622f8f57173aeff30"
@@ -44,9 +46,8 @@ class AvrGccAT10 < Formula
   current_build = build
 
   resource "avr-libc" do
-    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.0.0.tar.bz2"
-    sha256 "b2dd7fd2eefd8d8646ef6a325f6f0665537e2f604ed02828ced748d49dc85b97"
+    url "https://github.com/avrdudes/avr-libc/archive/refs/tags/avr-libc-2_1_0-release.tar.gz"
+    sha256 "97a5ffb25ad7ca0a241e8a73167fed8cbef6a2472822ccb697cb0df70f51e836"
 
     if current_build.with? "ATMega168pbSupport"
       patch do
