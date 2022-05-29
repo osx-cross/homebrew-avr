@@ -11,6 +11,7 @@ on:
 jobs:
   test-bot:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-10.15, macos-11]
     runs-on: ${{ matrix.os }}
