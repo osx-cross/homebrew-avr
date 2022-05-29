@@ -1,28 +1,18 @@
 class AvrGccAT11 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
-  homepage "https://www.gnu.org/software/gcc/gcc.html"
+  homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-11.1.0/gcc-11.1.0.tar.xz"
-  sha256 "4c4a6fb8a8396059241c2e674b85b351c26a5d678274007f076957afa1cc9ddf"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
+  sha256 "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
 
-  revision 1
+  license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   head "https://gcc.gnu.org/git/gcc.git"
 
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@11-11.1.0_1"
-    rebuild 2
-    sha256 big_sur:  "fb168ae42fb3d9569b18439b68b41c394006f8f5196e04e0a9cf97410ba08fac"
-    sha256 catalina: "b134a4d1c1e112437ba96b77c6df280223aaba69b65498c68b1b10c8c3255294"
-  end
-
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
-  pour_bottle? do
-    reason "The bottle needs the Xcode CLT to be installed."
-    satisfy { MacOS::CLT.installed? }
-  end
+  pour_bottle? only_if: :clt_installed
 
   keg_only "it might interfere with other version of avr-gcc.\n" \
            "This is useful if you want to have multiple version of avr-gcc\n" \
@@ -62,19 +52,26 @@ class AvrGccAT11 < Formula
     end
   end
 
-  # This patch fixes a GCC compilation error on Apple ARM systems by adding
-  # a defintion for host_hooks.  Patch comes from
-  # https://github.com/riscv/riscv-gnu-toolchain/issues/800#issuecomment-808722775
-  patch do
-    url "https://gist.githubusercontent.com/DavidEGrayson/88bceb3f4e62f45725ecbb9248366300/raw/c1f515475aff1e1e3985569d9b715edb0f317648/gcc-11-arm-darwin.patch"
-    sha256 "c4e9df9802772ddecb71aa675bb9403ad34c085d1359cb0e45b308ab6db551c6"
+  # Branch from the Darwin maintainer of GCC, with a few generic fixes and
+  # Apple Silicon support, located at https://github.com/iains/gcc-11-branch
+  if Hardware::CPU.arm?
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/22dec3fc/gcc/gcc-11.3.0-arm.diff"
+      sha256 "e02006b7ec917cc1390645d95735a6a866caed0dfe506d5bef742f7862cab218"
+    end
+  end
+
+  def version_suffix
+    if build.head?
+      "HEAD"
+    else
+      version.major.to_s
+    end
   end
 
   def install
     # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
-
-    version_suffix = version.major.to_s
 
     # Even when suffixes are appended, the info pages conflict when
     # install-info is run so pretend we have an outdated makeinfo
