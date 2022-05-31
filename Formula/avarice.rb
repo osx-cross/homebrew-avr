@@ -6,6 +6,8 @@ class Avarice < Formula
   mirror "https://netix.dl.sourceforge.net/project/avarice/avarice/avarice-2.13/avarice-2.13.tar.bz2"
   sha256 "a14738fe78e1a0a9321abcca7e685a00ce3ced207622ccbcd881ac32030c104a"
 
+  revision 1
+
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avarice-2.13"
     rebuild 1
@@ -15,6 +17,7 @@ class Avarice < Formula
   depends_on "automake"
   depends_on "avr-binutils"
   depends_on "hidapi"
+  depends_on "libusb-compat"
 
   def install
     system "./Bootstrap" if build.head?
