@@ -46,7 +46,7 @@ class AvrGccAT10 < Formula
   current_build = build
 
   resource "avr-libc" do
-    url "http://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
+    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
     mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
     sha256 "0b84cee5c08b5d5cba67c36125e5aaa85251bc9accfba5773bfa87bc34b654e8"
 
