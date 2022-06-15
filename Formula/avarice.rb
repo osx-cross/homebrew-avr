@@ -9,9 +9,9 @@ class Avarice < Formula
   revision 1
 
   bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avarice-2.13"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, catalina: "0b89f6caad256fa89f658069eec9201780579bf76df32214b41933f95d697213"
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avarice-2.13_1"
+    sha256 cellar: :any, big_sur:  "3ce7578e8298eabe2077292bfbde416f4eb2674cfdc5d180fbef4f5c0df4eac4"
+    sha256 cellar: :any, catalina: "e9deab78e9d7f09279216b19d3704025699d14209a909e3d9cb162c59610e9f0"
   end
 
   depends_on "automake"
