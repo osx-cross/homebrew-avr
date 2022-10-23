@@ -41,7 +41,7 @@ class AvrGdb < Formula
       --disable-install-libbfd
       --disable-install-libiberty
 
-      --with-python=#{Formula["python@3.9"].opt_bin}/python3
+      --with-python=#{Formula["python@3.9"].opt_bin}/python3.9
     ]
 
     mkdir "build" do
