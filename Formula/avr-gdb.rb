@@ -16,7 +16,11 @@ class AvrGdb < Formula
   depends_on "avr-binutils"
 
   depends_on "python@3.9"
-
+  
+  on_ventura do
+    depends_on "texinfo" => :build
+  end
+  
   uses_from_macos "expat"
   uses_from_macos "ncurses"
 
