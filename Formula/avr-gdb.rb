@@ -20,6 +20,10 @@ class AvrGdb < Formula
   uses_from_macos "expat"
   uses_from_macos "ncurses"
 
+  on_ventura do
+    depends_on "texinfo" => :build
+  end
+
   # Fix symbol format elf32-avr unknown in gdb
   patch do
     url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/18d50ba2a168a3b90a25c96e4bc4c053df77d7dc/Patch/avr-binutils-elf-bfd-gdb-fix.patch"
