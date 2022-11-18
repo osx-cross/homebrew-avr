@@ -16,13 +16,13 @@ class AvrGdb < Formula
   depends_on "avr-binutils"
 
   depends_on "python@3.9"
-  
+
+  uses_from_macos "expat"
+  uses_from_macos "ncurses"
+
   on_ventura do
     depends_on "texinfo" => :build
   end
-  
-  uses_from_macos "expat"
-  uses_from_macos "ncurses"
 
   # Fix symbol format elf32-avr unknown in gdb
   patch do
