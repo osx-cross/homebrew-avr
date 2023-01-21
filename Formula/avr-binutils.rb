@@ -2,18 +2,9 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/binutils.html"
 
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.xz"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.38.tar.xz"
-  sha256 "e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048ecfe024"
-
-  revision 1
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.38_1"
-    rebuild 1
-    sha256 big_sur:  "466e8577ed528d3ad8020fae88c7e0d2462fb537955cccc005da5d63effc7c67"
-    sha256 catalina: "6fd22d8b1bd4606ae3daa7f13be1eb7ba0393c9bc35b9806e165306972d5bf11"
-  end
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.40.tar.xz"
+  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.40.tar.xz"
+  sha256 "0f8a4c272d7f17f369ded10a4aca28b8e304828e95526da482b0ccc4dfc9d8e1"
 
   uses_from_macos "zlib"
 
@@ -73,7 +64,7 @@ class AvrBinutils < Formula
   end
 
   test do
-    version_output = "GNU ld (GNU Binutils) 2.38\n"
+    version_output = "GNU ld (GNU Binutils) 2.40\n"
     assert_equal `avr-ld -v`, version_output
   end
 end
