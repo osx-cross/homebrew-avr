@@ -65,6 +65,12 @@ class AvrGccAT11 < Formula
       url "https://raw.githubusercontent.com/Homebrew/formula-patches/22dec3fc/gcc/gcc-11.3.0-arm.diff"
       sha256 "e02006b7ec917cc1390645d95735a6a866caed0dfe506d5bef742f7862cab218"
     end
+
+    # Fix argument type mismatch error
+    patch do
+      url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/e80a6b8/Patch/avr-gcc-11-fix-argument-type-mismatch.patch"
+      sha256 "79232a7dcbe71bcf4a0cc52e84cd509553d7b40b887771eec06ac340f5f502f6"
+    end
   end
 
   def version_suffix
