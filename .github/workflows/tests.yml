@@ -6,9 +6,17 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.OSX_CROSS_AVR_HOMEBREW_GITHUB_API_TOKEN }}
+
 jobs:
   test-bot:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-11, macos-12]
 
