@@ -4,17 +4,16 @@ on:
   push:
     branches:
       - main
-      - master
-
   pull_request:
 
 jobs:
   test-bot:
     strategy:
-      fail-fast: false
       matrix:
-        os: [macos-10.15, macos-11]
+        os: [macos-11, macos-12]
+
     runs-on: ${{ matrix.os }}
+
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
@@ -22,7 +21,7 @@ jobs:
 
       - name: Cache Homebrew Bundler RubyGems
         id: cache
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ steps.set-up-homebrew.outputs.gems-path }}
           key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
