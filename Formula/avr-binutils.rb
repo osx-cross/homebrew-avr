@@ -5,6 +5,7 @@ class AvrBinutils < Formula
   url "https://ftp.gnu.org/gnu/binutils/binutils-2.40.tar.xz"
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.40.tar.xz"
   sha256 "0f8a4c272d7f17f369ded10a4aca28b8e304828e95526da482b0ccc4dfc9d8e1"
+  revision 1
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.40"
@@ -22,8 +23,7 @@ class AvrBinutils < Formula
     depends_on "gpatch" => :build
   end
 
-  # Support for -C in avr-size. See issue
-  # https://github.com/larsimmisch/homebrew-avr/issues/9
+  # Support for -C in avr-size
   patch do
     url "https://raw.githubusercontent.com/archlinux/svntogit-community/c3efadcb76f4d8b1a3784015e7c472f59dbfa7de/avr-binutils/repos/community-x86_64/avr-size.patch"
     sha256 "7aed303887a8541feba008943d0331dc95dd90a309575f81b7a195650e4cba1e"
