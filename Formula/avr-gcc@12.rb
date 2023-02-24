@@ -157,7 +157,7 @@ class AvrGccAT12 < Formula
   end
 
   test do
-    ENV.clear
+    ENV.delete "CPATH"
 
     version_output = "gcc version 12.2.0 (Homebrew AVR GCC 12.2.0)"
     assert_match version_output, `#{bin}/avr-gcc -v 2>&1`
