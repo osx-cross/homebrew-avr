@@ -60,8 +60,7 @@ class AvrGccAT8 < Formula
   end
 
   # This patch fixes a GCC compilation error on Apple ARM systems by adding
-  # a defintion for host_hooks.  Patch comes from
-  # https://github.com/riscv/riscv-gnu-toolchain/issues/800#issuecomment-808722775
+  # a defintion for host_hooks
   patch do
     url "https://gist.githubusercontent.com/DavidEGrayson/88bceb3f4e62f45725ecbb9248366300/raw/c1f515475aff1e1e3985569d9b715edb0f317648/gcc-11-arm-darwin.patch"
     sha256 "c4e9df9802772ddecb71aa675bb9403ad34c085d1359cb0e45b308ab6db551c6"
