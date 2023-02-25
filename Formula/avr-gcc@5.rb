@@ -135,7 +135,7 @@ class AvrGccAT5 < Formula
   end
 
   test do
-    ENV.clear
+    ENV.delete "CPATH"
 
     hello_c = <<~EOS
       #define F_CPU 8000000UL
