@@ -23,8 +23,7 @@ class AvrBinutils < Formula
     depends_on "gpatch" => :build
   end
 
-  # Support for -C in avr-size. See issue
-  # https://github.com/larsimmisch/homebrew-avr/issues/9
+  # Support for -C in avr-size
   patch do
     url "https://raw.githubusercontent.com/archlinux/svntogit-community/c3efadcb76f4d8b1a3784015e7c472f59dbfa7de/avr-binutils/repos/community-x86_64/avr-size.patch"
     sha256 "7aed303887a8541feba008943d0331dc95dd90a309575f81b7a195650e4cba1e"
