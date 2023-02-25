@@ -10,6 +10,8 @@ class AvrGccAT10 < Formula
 
   revision 1
 
+  head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-10"
+
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@10-10.3.0_1"
     sha256 big_sur:  "4481c4273ae3336d7aa1b990a55d14d9ce6c77835498fc5d6083194ad98b08cd"

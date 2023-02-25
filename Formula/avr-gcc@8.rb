@@ -6,7 +6,9 @@ class AvrGccAT8 < Formula
   mirror "https://ftpmirror.gnu.org/gcc/gcc-8.5.0/gcc-8.5.0.tar.xz"
   sha256 "d308841a511bb830a6100397b0042db24ce11f642dab6ea6ee44842e5325ed50"
 
-  head "https://github.com/gcc-mirror/gcc.git", branch: "releases/gcc-8"
+  license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
+
+  head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-8"
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@8-8.5.0"
