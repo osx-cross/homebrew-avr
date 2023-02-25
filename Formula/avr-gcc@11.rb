@@ -8,7 +8,7 @@ class AvrGccAT11 < Formula
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
-  head "https://gcc.gnu.org/git/gcc.git"
+  head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-11"
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@11-11.3.0"
