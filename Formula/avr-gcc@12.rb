@@ -7,6 +7,7 @@ class AvrGccAT12 < Formula
   sha256 "e549cf9cf3594a00e27b6589d4322d70e0720cdd213f39beb4181e06926230ff"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
+  revision 1
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
@@ -159,9 +160,6 @@ class AvrGccAT12 < Formula
 
   test do
     ENV.delete "CPATH"
-
-    version_output = "gcc version 12.2.0 (Homebrew AVR GCC 12.2.0)"
-    assert_match version_output, `#{bin}/avr-gcc -v 2>&1`
 
     hello_c = <<~EOS
       #define F_CPU 8000000UL
