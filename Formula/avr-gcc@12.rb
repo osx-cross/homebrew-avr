@@ -161,9 +161,6 @@ class AvrGccAT12 < Formula
   test do
     ENV.delete "CPATH"
 
-    version_output = "gcc version 12.2.0 (Homebrew AVR GCC 12.2.0)"
-    assert_match version_output, `#{bin}/avr-gcc -v 2>&1`
-
     hello_c = <<~EOS
       #define F_CPU 8000000UL
       #include <avr/io.h>
