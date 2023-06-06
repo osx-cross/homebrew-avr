@@ -1,6 +1,6 @@
 class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
-  homepage "https://www.gnu.org/software/binutils/binutils.html"
+  homepage "https://www.gnu.org/software/binutils"
 
   url "https://ftp.gnu.org/gnu/binutils/binutils-2.40.tar.xz"
   mirror "https://ftpmirror.gnu.org/binutils/binutils-2.40.tar.xz"
