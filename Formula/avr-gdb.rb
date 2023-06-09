@@ -20,7 +20,7 @@ class AvrGdb < Formula
   uses_from_macos "expat"
   uses_from_macos "ncurses"
 
-  on_ventura do
+  on_ventura :or_newer do
     depends_on "texinfo" => :build
   end
 
