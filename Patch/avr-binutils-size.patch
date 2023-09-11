@@ -1,58 +1,21 @@
-AVR only; support -C for AVR memory usage - Rev1
-
-Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_plain;f=mhvavrtools/patches/binutils-001-avr-size.patch;h=e80d28eae46217551d996a2253256c97d10aa4b5;hb=refs/heads/master
-===========================================================
---- binutils/size.c
-+++ binutils/size.c
-@@ -34,10 +34,31 @@
- #include "getopt.h"
- #include "bucomm.h"
- 
--#ifndef BSD_DEFAULT
--#define BSD_DEFAULT 1
-+typedef enum
-+{
-+    format_sysv = 0,
-+    format_bsd = 1,
-+    format_avr = 2,
-+} format_type_t;
-+
-+
-+/* Set the default format. */
-+#define FORMAT_DEFAULT_SYSV 0
-+#define FORMAT_DEFAULT_BSD 1
-+#define FORMAT_DEFAULT_AVR 0
-+
-+#if FORMAT_DEFAULT_SYSV
-+    #define FORMAT_DEFAULT format_sysv
-+    #define FORMAT_NAME "sysv"
-+#elif FORMAT_DEFAULT_BSD
-+    #define FORMAT_DEFAULT format_bsd
-+    #define FORMAT_NAME "berkeley"
-+#elif FORMAT_DEFAULT_AVR
-+    #define FORMAT_DEFAULT format_avr
-+    #define FORMAT_NAME "avr"
- #endif
- 
-+
- /* Program options.  */
- 
- static enum
-@@ -46,9 +67,8 @@ static enum
-   }
- radix = decimal;
- 
--/* 0 means use AT&T-style output.  */
--static int berkeley_format = BSD_DEFAULT;
- 
-+format_type_t format = FORMAT_DEFAULT;
- static int show_version = 0;
- static int show_help = 0;
- static int show_totals = 0;
-@@ -62,6 +82,246 @@ static bfd_size_type total_textsize;
+diff --git a/binutils/size.c b/binutils/size.c
+index 3697087714..f99d45a6bf 100644
+--- a/binutils/size.c
++++ b/binutils/size.c
+@@ -51,7 +51,8 @@ enum output_format
+   {
+    FORMAT_BERKLEY,
+    FORMAT_SYSV,
+-   FORMAT_GNU
++   FORMAT_GNU,
++   FORMAT_AVR
+   };
+ static enum output_format selected_output_format =
+ #if BSD_DEFAULT
+@@ -74,6 +75,326 @@ static bfd_size_type total_textsize;
  /* Program exit status.  */
  static int return_code = 0;
- 
+
 +
 +/* AVR Size specific stuff */
 +
@@ -288,46 +251,113 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +
 +	{"attiny4",       AVR512,  32UL,   0UL},
 +	{"attiny5",       AVR512,  32UL,   0UL},
++
++	{"attiny202",     AVR2K,   AVR128, AVR64},
++	{"attiny204",     AVR2K,   AVR128, AVR64},
++	{"attiny212",     AVR2K,   AVR128, AVR64},
++	{"attiny214",     AVR2K,   AVR128, AVR64},
++	{"attiny402",     AVR4K,   AVR256, AVR128},
++	{"attiny404",     AVR4K,   AVR256, AVR128},
++	{"attiny406",     AVR4K,   AVR256, AVR128},
++	{"attiny412",     AVR4K,   AVR256, AVR128},
++	{"attiny414",     AVR4K,   AVR256, AVR128},
++	{"attiny416",     AVR4K,   AVR256, AVR128},
++	{"attiny417",     AVR4K,   AVR256, AVR128},
++	{"attiny424",     AVR4K,   AVR512, AVR128},
++	{"attiny426",     AVR4K,   AVR512, AVR128},
++	{"attiny427",     AVR4K,   AVR512, AVR128},
++	{"attiny804",     AVR8K,   AVR512, AVR128},
++	{"attiny806",     AVR8K,   AVR512, AVR128},
++	{"attiny807",     AVR8K,   AVR512, AVR128},
++	{"attiny814",     AVR8K,   AVR512, AVR128},
++	{"attiny816",     AVR8K,   AVR512, AVR128},
++	{"attiny817",     AVR8K,   AVR512, AVR128},
++	{"attiny824",     AVR8K,   AVR1K,  AVR128},
++	{"attiny826",     AVR8K,   AVR1K,  AVR128},
++	{"attiny827",     AVR8K,   AVR1K,  AVR128},
++	{"attiny1604",    AVR16K,  AVR1K,  AVR256},
++	{"attiny1606",    AVR16K,  AVR1K,  AVR256},
++	{"attiny1607",    AVR16K,  AVR1K,  AVR256},
++	{"attiny1614",    AVR16K,  AVR2K,  AVR256},
++	{"attiny1616",    AVR16K,  AVR2K,  AVR256},
++	{"attiny1617",    AVR16K,  AVR2K,  AVR256},
++	{"attiny1624",    AVR16K,  AVR2K,  AVR256},
++	{"attiny1626",    AVR16K,  AVR2K,  AVR256},
++	{"attiny1627",    AVR16K,  AVR2K,  AVR256},
++	{"attiny3216",    AVR32K,  AVR2K,  AVR256},
++	{"attiny3217",    AVR32K,  AVR2K,  AVR256},
++	{"attiny3224",    AVR32K,  3072UL, AVR256},
++	{"attiny3226",    AVR32K,  3072UL, AVR256},
++	{"attiny3227",    AVR32K,  3072UL, AVR256},
++	{"atmega808",     AVR8K,   AVR1K,  AVR256},
++	{"atmega809",     AVR8K,   AVR1K,  AVR256},
++	{"atmega1608",    AVR16K,  AVR2K,  AVR256},
++	{"atmega1609",    AVR16K,  AVR2K,  AVR256},
++	{"atmega3208",    AVR32K,  AVR4K,  AVR256},
++	{"atmega3209",    AVR32K,  AVR4K,  AVR256},
++	{"atmega4808",    49152UL, 6144UL, AVR256},
++	{"atmega4809",    49152UL, 6144UL, AVR256},
++	{"avr32da28",     AVR32K,  AVR4K,  AVR512},
++	{"avr32da32",     AVR32K,  AVR4K,  AVR512},
++	{"avr32da48",     AVR32K,  AVR4K,  AVR512},
++	{"avr64da28",     AVR64K,  AVR8K,  AVR512},
++	{"avr64da32",     AVR64K,  AVR8K,  AVR512},
++	{"avr64da48",     AVR64K,  AVR8K,  AVR512},
++	{"avr64da64",     AVR64K,  AVR8K,  AVR512},
++	{"avr128da28",    AVR128K, AVR16K, AVR512},
++	{"avr128da32",    AVR128K, AVR16K, AVR512},
++	{"avr128da48",    AVR128K, AVR16K, AVR512},
++	{"avr128da64",    AVR128K, AVR16K, AVR512},
++	{"avr32db28",     AVR32K,  AVR4K,  AVR512},
++	{"avr32db32",     AVR32K,  AVR4K,  AVR512},
++	{"avr32db48",     AVR32K,  AVR4K,  AVR512},
++	{"avr64db28",     AVR64K,  AVR8K,  AVR512},
++	{"avr64db32",     AVR64K,  AVR8K,  AVR512},
++	{"avr64db48",     AVR64K,  AVR8K,  AVR512},
++	{"avr64db64",     AVR64K,  AVR8K,  AVR512},
++	{"avr128db28",    AVR128K, AVR16K, AVR512},
++	{"avr128db32",    AVR128K, AVR16K, AVR512},
++	{"avr128db48",    AVR128K, AVR16K, AVR512},
++	{"avr128db64",    AVR128K, AVR16K, AVR512},
++	{"avr16dd14",     AVR16K,  AVR2K,  AVR256},
++	{"avr16dd20",     AVR16K,  AVR2K,  AVR256},
++	{"avr16dd28",     AVR16K,  AVR2K,  AVR256},
++	{"avr16dd32",     AVR16K,  AVR2K,  AVR256},
++	{"avr32dd14",     AVR32K,  AVR4K,  AVR256},
++	{"avr32dd20",     AVR32K,  AVR4K,  AVR256},
++	{"avr32dd28",     AVR32K,  AVR4K,  AVR256},
++	{"avr32dd32",     AVR32K,  AVR4K,  AVR256},
++	{"avr64dd14",     AVR64K,  AVR8K,  AVR256},
++	{"avr64dd20",     AVR64K,  AVR8K,  AVR256},
++	{"avr64dd28",     AVR64K,  AVR8K,  AVR256},
++	{"avr64dd32",     AVR64K,  AVR8K,  AVR256},
 +};
 +
 +static char *avrmcu = NULL;
 +
 +
  static char *target = NULL;
- 
+
  /* Forward declarations.  */
-@@ -77,7 +337,8 @@ usage (FILE *stream, int status)
+@@ -89,7 +330,8 @@ usage (FILE *stream, int status)
    fprintf (stream, _(" Displays the sizes of sections inside binary files\n"));
    fprintf (stream, _(" If no input file(s) are specified, a.out is assumed\n"));
    fprintf (stream, _(" The options are:\n\
--  -A|-B     --format={sysv|berkeley}  Select output style (default is %s)\n\
-+  -A|-B|-C  --format={sysv|berkeley|avr}  Select output style (default is %s)\n\
+-  -A|-B|-G  --format={sysv|berkeley|gnu}  Select output style (default is %s)\n\
++  -A|-B|-G|-C  --format={sysv|berkeley|gnu|avr}  Select output style (default is %s)\n\
 +            --mcu=<avrmcu>            MCU name for AVR format only\n\
    -o|-d|-x  --radix={8|10|16}         Display numbers in octal, decimal or hex\n\
    -t        --totals                  Display the total sizes (Berkeley only)\n\
              --common                  Display total size for *COM* syms\n\
-@@ -86,11 +347,7 @@ usage (FILE *stream, int status)
-   -h        --help                    Display this information\n\
-   -v        --version                 Display the program's version\n\
- \n"),
--#if BSD_DEFAULT
--  "berkeley"
--#else
--  "sysv"
--#endif
-+FORMAT_NAME
- );
-   list_supported_targets (program_name, stream);
-   if (REPORT_BUGS_TO[0] && status == 0)
-@@ -101,6 +358,7 @@ usage (FILE *stream, int status)
+@@ -113,6 +355,7 @@ usage (FILE *stream, int status)
  #define OPTION_FORMAT (200)
  #define OPTION_RADIX (OPTION_FORMAT + 1)
  #define OPTION_TARGET (OPTION_RADIX + 1)
-+#define OPTION_MCU (OPTION_TARGET + 1) 
- 
++#define OPTION_MCU (OPTION_TARGET + 1)
+
  static struct option long_options[] =
  {
-@@ -108,6 +366,7 @@ static struct option long_options[] =
+@@ -120,6 +363,7 @@ static struct option long_options[] =
    {"format", required_argument, 0, OPTION_FORMAT},
    {"radix", required_argument, 0, OPTION_RADIX},
    {"target", required_argument, 0, OPTION_TARGET},
@@ -335,37 +365,29 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
    {"totals", no_argument, &show_totals, 1},
    {"version", no_argument, &show_version, 1},
    {"help", no_argument, &show_help, 1},
-@@ -141,7 +400,7 @@ main (int argc, char **argv)
+@@ -153,7 +397,7 @@ main (int argc, char **argv)
      fatal (_("fatal error: libbfd ABI mismatch"));
    set_default_bfd_target ();
- 
--  while ((c = getopt_long (argc, argv, "ABHhVvdfotx", long_options,
-+  while ((c = getopt_long (argc, argv, "ABCHhVvdfotx", long_options,
+
+-  while ((c = getopt_long (argc, argv, "ABGHhVvdfotx", long_options,
++  while ((c = getopt_long (argc, argv, "ABCGHhVvdfotx", long_options,
  			   (int *) 0)) != EOF)
      switch (c)
        {
-@@ -150,11 +409,15 @@ main (int argc, char **argv)
- 	  {
- 	  case 'B':
- 	  case 'b':
--	    berkeley_format = 1;
-+	    format = format_bsd;
+@@ -172,12 +416,20 @@ main (int argc, char **argv)
+ 	  case 'g':
+ 	    selected_output_format = FORMAT_GNU;
  	    break;
- 	  case 'S':
- 	  case 's':
--	    berkeley_format = 0;
-+	    format = format_sysv;
-+	    break;
 +	  case 'A':
 +	  case 'a':
-+	    format = format_avr;
- 	    break;
++	    selected_output_format = FORMAT_AVR;
++	    break;
  	  default:
  	    non_fatal (_("invalid argument to --format: %s"), optarg);
-@@ -162,6 +425,10 @@ main (int argc, char **argv)
+ 	    usage (stderr, 1);
  	  }
  	break;
- 
+
 +      case OPTION_MCU:
 +	avrmcu = optarg;
 +	break;
@@ -373,37 +395,20 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
        case OPTION_TARGET:
  	target = optarg;
  	break;
-@@ -190,11 +457,14 @@ main (int argc, char **argv)
- 	break;
- 
-       case 'A':
--	berkeley_format = 0;
-+	format = format_sysv;
- 	break;
-       case 'B':
--	berkeley_format = 1;
-+	format = format_bsd;
+@@ -214,6 +466,9 @@ main (int argc, char **argv)
+       case 'G':
+ 	selected_output_format = FORMAT_GNU;
  	break;
 +      case 'C':
-+    format = format_avr;
++	selected_output_format = FORMAT_AVR;
 +    break;
        case 'v':
        case 'V':
  	show_version = 1;
-@@ -240,7 +510,7 @@ main (int argc, char **argv)
-     for (; optind < argc;)
-       display_file (argv[optind++]);
- 
--  if (show_totals && berkeley_format)
-+  if (show_totals && format == format_bsd)
-     {
-       bfd_size_type total = total_textsize + total_datasize + total_bsssize;
- 
-@@ -606,13 +876,117 @@ print_sysv_format (bfd *file)
+@@ -656,6 +911,98 @@ print_sysv_format (bfd *file)
    printf ("\n\n");
  }
- 
-+
+
 +static avr_device_t *
 +avr_find_device (void)
 +{
@@ -422,8 +427,6 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +  return (NULL);
 +}
 +
-+
-+
 +static void
 +print_avr_format (bfd *file)
 +{
@@ -431,7 +434,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +  int flashmax = 0;
 +  int rammax = 0;
 +  int eeprommax = 0;
-+  asection *section; 
++  asection *section;
 +  bfd_size_type my_datasize = 0;
 +  bfd_size_type my_textsize = 0;
 +  bfd_size_type my_bsssize = 0;
@@ -449,26 +452,26 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +  }
 +
 +  if ((section = bfd_get_section_by_name (file, ".data")) != NULL)
-+    my_datasize = bfd_section_size (file, section);
++    my_datasize = bfd_section_size (section);
 +  if ((section = bfd_get_section_by_name (file, ".text")) != NULL)
-+    my_textsize = bfd_section_size (file, section);
++    my_textsize = bfd_section_size (section);
 +  if ((section = bfd_get_section_by_name (file, ".bss")) != NULL)
-+    my_bsssize = bfd_section_size (file, section);
++    my_bsssize = bfd_section_size (section);
 +  if ((section = bfd_get_section_by_name (file, ".bootloader")) != NULL)
-+    bootloadersize = bfd_section_size (file, section);
++    bootloadersize = bfd_section_size (section);
 +  if ((section = bfd_get_section_by_name (file, ".noinit")) != NULL)
-+    noinitsize = bfd_section_size (file, section);
++    noinitsize = bfd_section_size (section);
 +  if ((section = bfd_get_section_by_name (file, ".eeprom")) != NULL)
-+    eepromsize = bfd_section_size (file, section);
-+  
++    eepromsize = bfd_section_size (section);
++
 +  bfd_size_type text = my_textsize + my_datasize + bootloadersize;
 +  bfd_size_type data = my_datasize + my_bsssize + noinitsize;
 +  bfd_size_type eeprom = eepromsize;
-+  
++
 +  printf ("AVR Memory Usage\n"
 +          "----------------\n"
 +          "Device: %s\n\n", avr_name);
-+  
++
 +  /* Text size */
 +  printf ("Program:%8ld bytes", text);
 +  if (flashmax > 0)
@@ -476,7 +479,7 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +    printf (" (%2.1f%% Full)", ((float)text / flashmax) * 100);
 +  }
 +  printf ("\n(.text + .data + .bootloader)\n\n");
-+  
++
 +  /* Data size */
 +  printf ("Data:   %8ld bytes", data);
 +  if (rammax > 0)
@@ -484,10 +487,10 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
 +    printf (" (%2.1f%% Full)", ((float)data / rammax) * 100);
 +  }
 +  printf ("\n(.data + .bss + .noinit)\n\n");
-+  
++
 +  /* EEPROM size */
-+  if (eeprom > 0) 
-+  { 
++  if (eeprom > 0)
++  {
 +    printf ("EEPROM: %8ld bytes", eeprom);
 +    if (eeprommax > 0)
 +    {
@@ -501,23 +504,12 @@ Source: http://git.makehackvoid.com/cgi-bin/gitweb.cgi?p=mhvavrtools.git;a=blob_
  static void
  print_sizes (bfd *file)
  {
-   if (show_common)
+@@ -663,6 +1010,8 @@ print_sizes (bfd *file)
      calculate_common_size (file);
--  if (berkeley_format)
--    print_berkeley_format (file);
--  else
--    print_sysv_format (file);
-+  switch (format)
-+  {
-+    case format_sysv:
-+      print_sysv_format (file);
-+      break;
-+    case format_bsd:
-+      print_berkeley_format (file);
-+      break;
-+    case format_avr:
-+    default:
-+      print_avr_format (file);
-+      break;
-+  }
+   if (selected_output_format == FORMAT_SYSV)
+     print_sysv_format (file);
++  else if (selected_output_format == FORMAT_AVR)
++    print_avr_format (file);
+   else
+     print_berkeley_or_gnu_format (file);
  }
