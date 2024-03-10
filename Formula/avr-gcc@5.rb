@@ -161,7 +161,7 @@ class AvrGccAT5 < Formula
       :00000001FF
     EOS
 
-    hello_c_hex.gsub!(/\n/, "\r\n")
+    hello_c_hex.gsub!("\n", "\r\n")
 
     (testpath/"hello.c").write(hello_c)
 
@@ -204,7 +204,7 @@ class AvrGccAT5 < Formula
       :00000001FF
     EOS
 
-    hello_cpp_hex.gsub!(/\n/, "\r\n")
+    hello_cpp_hex.gsub!("\n", "\r\n")
 
     (testpath/"hello.cpp").write(hello_cpp)
 
