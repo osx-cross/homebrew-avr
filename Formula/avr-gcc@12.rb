@@ -42,6 +42,19 @@ class AvrGccAT12 < Formula
 
   uses_from_macos "zlib"
 
+  # Branch from the Darwin maintainer of GCC, with a few generic fixes and
+  # Apple Silicon support, located at https://github.com/iains/gcc-12-branch
+  # macOS 13 with CLT 14.2 installed will fail due to missing support for
+  # -nodefaultrpath in clang. The patch seems to not be needed however.
+  on_macos do
+    if Hardware::CPU.arm? && (MacOS.version < :ventura)
+      patch do
+        url "https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff"
+        sha256 "a7843b5c6bf1401e40c20c72af69c8f6fc9754ae980bb4a5f0540220b3dcb62d"
+      end
+    end
+  end
+
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
 
@@ -57,17 +70,6 @@ class AvrGccAT12 < Formula
         url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/d2e2566b06b90355952ed996707a0a1a24673cd3/Patch/avr-libc-add-mcu-atmega168pb.patch"
         sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
       end
-    end
-  end
-
-  # Branch from the Darwin maintainer of GCC, with a few generic fixes and
-  # Apple Silicon support, located at https://github.com/iains/gcc-12-branch
-  # macOS 13 with CLT 14.2 installed will fail due to missing support for
-  # -nodefaultrpath in clang. The patch seems to not be needed however.
-  if OS.mac? && Hardware::CPU.arm? && MacOS.version < :ventura
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff"
-      sha256 "a7843b5c6bf1401e40c20c72af69c8f6fc9754ae980bb4a5f0540220b3dcb62d"
     end
   end
 
