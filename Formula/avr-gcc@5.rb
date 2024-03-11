@@ -16,8 +16,10 @@ class AvrGccAT5 < Formula
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? do
-    reason "The bottle needs the Xcode CLT to be installed."
-    satisfy { MacOS::CLT.installed? }
+    on_macos do
+      reason "The bottle needs the Xcode CLT to be installed."
+      satisfy { MacOS::CLT.installed? }
+    end
   end
 
   keg_only "it might interfere with other version of avr-gcc.\n" \
@@ -161,7 +163,7 @@ class AvrGccAT5 < Formula
       :00000001FF
     EOS
 
-    hello_c_hex.gsub!(/\n/, "\r\n")
+    hello_c_hex.gsub!("\n", "\r\n")
 
     (testpath/"hello.c").write(hello_c)
 
@@ -204,7 +206,7 @@ class AvrGccAT5 < Formula
       :00000001FF
     EOS
 
-    hello_cpp_hex.gsub!(/\n/, "\r\n")
+    hello_cpp_hex.gsub!("\n", "\r\n")
 
     (testpath/"hello.cpp").write(hello_cpp)
 
