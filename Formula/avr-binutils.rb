@@ -2,10 +2,9 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils"
 
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.40.tar.xz"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.40.tar.xz"
-  sha256 "0f8a4c272d7f17f369ded10a4aca28b8e304828e95526da482b0ccc4dfc9d8e1"
-  revision 2
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
+  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.42.tar.xz"
+  sha256 "f6e4d41fd5fc778b06b7891457b3620da5ecea1006c6a4a41ae998109f85a800"
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.40_2"
@@ -63,16 +62,8 @@ class AvrBinutils < Formula
     info.rmtree # info files conflict with native binutils
   end
 
-  def caveats
-    <<~EOS
-      For Mac computers with Apple silicon, avr-binutils might need Rosetta 2 to work properly.
-      You can learn more about Rosetta 2 here:
-          > https://support.apple.com/en-us/HT211861
-    EOS
-  end
-
   test do
-    version_output = "GNU ld (GNU Binutils) 2.40\n"
+    version_output = "GNU ld (GNU Binutils) 2.42\n"
     assert_equal `avr-ld -v`, version_output
   end
 end
