@@ -12,8 +12,8 @@ class Simavr < Formula
     sha256 cellar: :any_skip_relocation, catalina: "2040a34f2d283aaa8398b23f2bc4c08f0f7192275df5c4957661fc56d7c62866"
   end
 
-  depends_on "avr-gcc"
   depends_on "libelf"
+  depends_on "osx-cross/avr/avr-gcc"
 
   def install
     ENV.deparallelize
