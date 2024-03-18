@@ -14,7 +14,7 @@ class AvrGdb < Formula
     sha256 big_sur:  "8768ff3f7ef4c90864a18b1dc15817adc251304b4e74ef3ff6ac3b2595e9f6af"
   end
 
-  depends_on "avr-binutils"
+  depends_on "osx-cross/avr/avr-binutils"
 
   depends_on "python@3.9"
 

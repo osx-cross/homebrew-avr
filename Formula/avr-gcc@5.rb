@@ -31,12 +31,11 @@ class AvrGccAT5 < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
-  depends_on "avr-binutils"
-
   depends_on "gmp"
   depends_on "isl@0.18"
   depends_on "libmpc"
   depends_on "mpfr"
+  depends_on "osx-cross/avr/avr-binutils"
 
   uses_from_macos "zlib"
 

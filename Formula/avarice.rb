@@ -14,9 +14,9 @@ class Avarice < Formula
   end
 
   depends_on "automake"
-  depends_on "avr-binutils"
   depends_on "hidapi"
   depends_on "libusb-compat"
+  depends_on "osx-cross/avr/avr-binutils"
 
   def install
     system "./Bootstrap" if build.head?
