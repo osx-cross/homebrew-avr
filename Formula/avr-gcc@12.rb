@@ -133,8 +133,8 @@ class AvrGccAT12 < Formula
     end
 
     # info and man7 files conflict with native gcc
-    info.rmtree
-    man7.rmtree
+    rm_r(info)
+    rm_r(man7)
 
     current_build = build
 
