@@ -7,6 +7,13 @@ class AvrBinutils < Formula
   sha256 "becaac5d295e037587b63a42fad57fe3d9d7b83f478eb24b67f9eec5d0f1872f"
   license all_of: ["GPL-2.0-or-later", "GPL-3.0-or-later", "LGPL-2.0-or-later", "LGPL-3.0-only"]
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.43.1"
+    sha256 arm64_sequoia: "2d743962b338269f170aabf4ae2e65a0d49328ad94bccfabb8a00be26837a061"
+    sha256 arm64_sonoma:  "468910d458b982e5a8e20c8401cb6c19e7128ae645042b1b6fbc9d16bbdfda66"
+    sha256 ventura:       "aed052952cc2b4413b8b54aed25eaaa3997c7ea2be002931c278efff9061ae15"
+  end
+
   uses_from_macos "zlib"
 
   on_ventura :or_newer do
