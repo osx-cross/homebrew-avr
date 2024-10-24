@@ -56,7 +56,7 @@ class AvrBinutils < Formula
   end
 
   test do
-    version_output = "GNU ld (GNU Binutils) 2.42\n"
+    version_output = "GNU ld (GNU Binutils) 2.43.1\n"
     assert_equal `avr-ld -v`, version_output
   end
 end
