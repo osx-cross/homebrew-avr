@@ -2,16 +2,10 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils"
 
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.42.tar.xz"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.42.tar.xz"
-  sha256 "f6e4d41fd5fc778b06b7891457b3620da5ecea1006c6a4a41ae998109f85a800"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.42"
-    sha256 arm64_sonoma: "a74c714c901cd6c80b52b9e343a4ca4060134809f82d525ed03f1304b97e278e"
-    sha256 ventura:      "ba1fd0553364e2f3645fdd9cb87d157cd4e362a672525f72988813959a895164"
-    sha256 monterey:     "5e8d329a51fdad43e47e7834b850b55e60dc539f0c28ca75deca848dbd0dc86a"
-  end
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.43.1.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.43.1.tar.bz2"
+  sha256 "becaac5d295e037587b63a42fad57fe3d9d7b83f478eb24b67f9eec5d0f1872f"
+  license all_of: ["GPL-2.0-or-later", "GPL-3.0-or-later", "LGPL-2.0-or-later", "LGPL-3.0-only"]
 
   uses_from_macos "zlib"
 
