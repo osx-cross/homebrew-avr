@@ -12,11 +12,10 @@ class AvrGccAT14 < Formula
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@14-14.1.0"
-    rebuild 1
-    sha256 arm64_sequoia: "4e15804df40cbc8619bd0602de3d917346dd7a0aaa191a3c941532adcf08c95a"
-    sha256 arm64_sonoma:  "c967b2e6e4d0484df79d371fadb5ff98b57b2a0cf28ec3257fe0c11153bc3012"
-    sha256 ventura:       "d7581a5f59a4083749ac341ce5fecde59b45fe200f2e9572e20944b7e39a6f98"
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@14-14.1.0_1"
+    sha256 arm64_sequoia: "5461295f41f541ef410b3323e1e22492fd01c68a3b86029f8a0e3eaa05026a18"
+    sha256 arm64_sonoma:  "cff46bdc05e30b1ac8c832dea47af3b45acf4ec40fe5056b274c115caf83001e"
+    sha256 ventura:       "01109715228b7f2f20f1acaac33eeaaf45ffda7fb3180a17b0f2e4074c24ddca"
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
