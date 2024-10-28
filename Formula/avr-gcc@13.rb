@@ -2,20 +2,12 @@ class AvrGccAT13 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz"
-  sha256 "e275e76442a6067341a27f04c5c6b83d8613144004c0413528863dc6b5c743da"
-
+  url "https://ftp.gnu.org/gnu/gcc/gcc-13.3.0/gcc-13.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-13.3.0/gcc-13.3.0.tar.xz"
+  sha256 "0845e9621c9543a13f484e94584a49ffc0129970e9914624235fc1d061a0c083"
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@13-13.2.0"
-    sha256 arm64_sonoma: "0ea039826134d45886718e7ef434ef265986f330135b284ab93d62f2e5957ac5"
-    sha256 ventura:      "9054c0ab841de8d757d1e8c2acd3b7fecafe056c5ae3484962c30a4a3ddb5c49"
-    sha256 monterey:     "bb681f6958778a5671ae3ef3d6456f4dcb5b779c95e5f792cc52e833d1ef84bf"
-  end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -38,52 +30,25 @@ class AvrGccAT13 < Formula
   depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
+  depends_on "zstd"
 
   uses_from_macos "zlib"
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
 
-  current_build = build
+  build
 
   resource "avr-libc" do
-    url "https://download.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
-    mirror "https://download-mirror.savannah.gnu.org/releases/avr-libc/avr-libc-2.1.0.tar.bz2"
-    sha256 "0b84cee5c08b5d5cba67c36125e5aaa85251bc9accfba5773bfa87bc34b654e8"
-
-    if current_build.with? "ATMega168pbSupport"
-      patch do
-        url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/d2e2566b06b90355952ed996707a0a1a24673cd3/Patch/avr-libc-add-mcu-atmega168pb.patch"
-        sha256 "7a2bf2e11cfd9335e8e143eecb94480b4871e8e1ac54392c2ee2d89010b43711"
-      end
-    end
+    url "https://github.com/avrdudes/avr-libc/releases/download/avr-libc-2_2_1-release/avr-libc-2.2.1.tar.bz2"
+    sha256 "006a6306cbbc938c3bdb583ac54f93fe7d7c8cf97f9cde91f91c6fb0273ab465"
   end
 
-  if Hardware::CPU.arm?
-    # Branch from the Darwin maintainer of GCC, with a few generic fixes and
-    # Apple Silicon support, located at https://github.com/iains/gcc-13-branch
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/formula-patches/3c5cbc8e/gcc/gcc-13.2.0.diff"
-      sha256 "2df7ef067871a30b2531a2013b3db661ec9e61037341977bfc451e30bf2c1035"
-    end
-
-    # Fix a warning with Xcode 15's linker, remove in GCC 13.3
-    # https://github.com/iains/gcc-13-branch/issues/11
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/formula-patches/e923a0cd6c0e60bb388e8a5b8cd1dcf9c3bf7758/gcc/gcc-xcode15-warnings.diff"
-      sha256 "dcfec5f2209def06678fa9cf91bc7bbe38237f9f3a356a23ab66b84e88142b91"
-    end
-  end
-
-  # Upstream fixes for building against recent libc++, remove in GCC 13.3
-  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111632
+  # Branch from the Darwin maintainer of GCC, with a few generic fixes and
+  # Apple Silicon support, located at https://github.com/iains/gcc-13-branch
   patch do
-    url "https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff_plain;h=68057560ff1fc0fb2df38c2f9627a20c9a8da5c5"
-    sha256 "4cb92b1b91ab9ef14f5aa440d17478b924e1b826e23ceb6a66262d3cc59081a8"
-  end
-  patch do
-    url "https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff_plain;h=e95ab9e60ce1d9aa7751d79291133fd5af9209d7"
-    sha256 "d3fc6ed5ed1024e2765e02cc5ff3cf1f0be63659f1e588cfc36725c9a377d3cc"
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/bda0faddfbfb392e7b9c9101056b2c5ab2500508/gcc/gcc-13.3.0.diff"
+    sha256 "c5e9236430ef6edbdda7de9ac70bf79e21628077a48322cec7f3f064ccfc243d"
   end
 
   def version_suffix
