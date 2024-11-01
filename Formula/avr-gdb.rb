@@ -12,11 +12,10 @@ class AvrGdb < Formula
   end
 
   bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-10.1"
-    rebuild 4
-    sha256 ventura:  "6608c9577c0fda68a60f72eac68a51d789d2413eb3401bd72b2e16122db3aa44"
-    sha256 monterey: "37c58d61aff83d7c72deb12a1116c57eb795661dfe0ac3e9470767e4c4555ef5"
-    sha256 big_sur:  "8768ff3f7ef4c90864a18b1dc15817adc251304b4e74ef3ff6ac3b2595e9f6af"
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-15.2"
+    sha256 arm64_sequoia: "f661344b26bafca4db032882591009eb86274f1742718d5678313dbae94f6f97"
+    sha256 arm64_sonoma:  "8b745f7a3747f276f7544479a045a018664db06e371b1ed537e1d14fa51fd9b8"
+    sha256 ventura:       "290d51abfc06bb33ada39560f737b659bc387c76cfc4d3ca25b789780034f74a"
   end
 
   depends_on "avr-gcc@14" => :test
