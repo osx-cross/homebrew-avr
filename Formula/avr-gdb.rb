@@ -1,10 +1,15 @@
 class AvrGdb < Formula
-  desc "GDB lets you to see what is going on inside a program while it executes"
+  desc "GNU debugger for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gdb/"
+  url "https://ftp.gnu.org/gnu/gdb/gdb-15.2.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gdb/gdb-15.2.tar.xz"
+  sha256 "83350ccd35b5b5a0cba6b334c41294ea968158c573940904f00b92f76345314d"
+  license "GPL-3.0-or-later"
+  head "https://sourceware.org/git/binutils-gdb.git", branch: "master"
 
-  url "https://ftp.gnu.org/gnu/gdb/gdb-10.1.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gdb/gdb-10.1.tar.xz"
-  sha256 "f82f1eceeec14a3afa2de8d9b0d3c91d5a3820e23e0a01bbb70ef9f0276b62c0"
+  livecheck do
+    formula "gdb"
+  end
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-10.1"
@@ -14,43 +19,37 @@ class AvrGdb < Formula
     sha256 big_sur:  "8768ff3f7ef4c90864a18b1dc15817adc251304b4e74ef3ff6ac3b2595e9f6af"
   end
 
-  depends_on "osx-cross/avr/avr-binutils"
-
-  depends_on "python@3.9"
+  depends_on "avr-gcc@14" => :test
+  depends_on "gmp"
+  depends_on "mpfr"
+  depends_on "python@3.12"
+  depends_on "xz" # required for lzma support
 
   uses_from_macos "expat"
   uses_from_macos "ncurses"
+  uses_from_macos "zlib"
 
-  on_ventura :or_newer do
+  on_system :linux, macos: :ventura_or_newer do
     depends_on "texinfo" => :build
   end
 
-  # Fix symbol format elf32-avr unknown in gdb
-  patch do
-    url "https://raw.githubusercontent.com/osx-cross/homebrew-avr/18d50ba2a168a3b90a25c96e4bc4c053df77d7dc/Patch/avr-binutils-elf-bfd-gdb-fix.patch"
-    sha256 "7954f85d2e0f628c261bdd486df8e1a229bc5bacc6ea4a0da003913cb96543f6"
-  end
-
   def install
+    target = "avr"
     args = %W[
-      --target=avr
-      --prefix=#{prefix}
-
-      --disable-debug
-      --disable-dependency-tracking
-
+      --target=#{target}
+      --datarootdir=#{share}/#{target}
+      --includedir=#{include}/#{target}
+      --infodir=#{info}/#{target}
+      --mandir=#{man}
+      --with-lzma
+      --with-python=#{Formula["python@3.12"].opt_bin}/python3.12
+      --with-system-zlib
       --disable-binutils
-
-      --disable-nls
-      --disable-libssp
-      --disable-install-libbfd
-      --disable-install-libiberty
-
-      --with-python=#{Formula["python@3.9"].opt_bin}/python3.9
     ]
 
     mkdir "build" do
-      system "../configure", *args
+      system "../configure", *args, *std_configure_args
+      ENV.deparallelize # Error: common/version.c-stamp.tmp: No such file or directory
       system "make"
 
       # Don't install bfd or opcodes, as they are provided by binutils
@@ -58,16 +57,11 @@ class AvrGdb < Formula
     end
   end
 
-  def caveats
-    <<~EOS
-      gdb requires special privileges to access Mach ports.
-      You will need to codesign the binary. For instructions, see:
+  test do
+    (testpath/"test.c").write "void _start(void) {}"
+    system "#{Formula["avr-gcc@14"].bin}/avr-gcc", "-g", "-nostdlib", "test.c"
 
-        https://sourceware.org/gdb/wiki/BuildingOnDarwin
-
-      On 10.12 (Sierra) or later with SIP, you need to run this:
-
-        echo "set startup-with-shell off" >> ~/.gdbinit
-    EOS
+    output = shell_output("#{bin}/avr-gdb -batch -ex 'info address _start' a.out")
+    assert_match "Symbol \"_start\" is a function at address 0x", output
   end
 end
