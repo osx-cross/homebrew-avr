@@ -7,18 +7,17 @@ AVR is a popular family of micro-controllers, used for example in the [Arduino] 
 ## Current Versions
 
 - GCC 9.4.0 - **default**, provided as `avr-gcc` or `avr-gcc@9`
-- GCC 5.5.0 - provided as `avr-gcc@5`
 - GCC 8.5.0 - provided as `avr-gcc@8`
 - GCC 10.3.0 - provided as `avr-gcc@10`
 - GCC 11.3.0 - provided as `avr-gcc@11`
 - GCC 12.2.0 - provided as `avr-gcc@12`
-- GCC 13.2.0 - provided as `avr-gcc@13`
-- GCC 14.1.0 - provided as `avr-gcc@14`
-- Binutils 2.40.0 - provided as `avr-binutils`
-- AVR Libc 2.1.0 - provided as a resource for each GCC formula
-- GDB 10.1 - provided as `avr-gdb`
+- GCC 13.3.0 - provided as `avr-gcc@13`
+- GCC 14.2.0 - provided as `avr-gcc@14`
+- Binutils 2.43.1 - provided as `avr-binutils`
+- AVR Libc 2.2.1 - provided as a resource for each GCC formula
+- GDB 15.2 - provided as `avr-gdb`
 
-Support for older GCC versions (4, 6, 7) has been removed. Please, raise an issue if you need one back.
+Support for older GCC versions (4, 5, 6, 7) has been removed. Please, raise an issue if you need one back.
 
 ## Installing homebrew-avr formulae
 
