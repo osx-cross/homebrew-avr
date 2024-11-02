@@ -2,21 +2,13 @@ class AvrGccAT14 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-14.1.0/gcc-14.1.0.tar.xz"
-  sha256 "e283c654987afe3de9d8080bc0bd79534b5ca0d681a73a11ff2b5d3767426840"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz"
+  sha256 "a7b39bc69cbf9e25826c5a60ab26477001f7c08d85cec04bc0e29cabed6f3cc9"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
-  revision 1
 
-  head "https://gcc.gnu.org/git/gcc.git", branch: "master"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@14-14.1.0_1"
-    sha256 arm64_sequoia: "5461295f41f541ef410b3323e1e22492fd01c68a3b86029f8a0e3eaa05026a18"
-    sha256 arm64_sonoma:  "cff46bdc05e30b1ac8c832dea47af3b45acf4ec40fe5056b274c115caf83001e"
-    sha256 ventura:       "01109715228b7f2f20f1acaac33eeaaf45ffda7fb3180a17b0f2e4074c24ddca"
-  end
+  head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-14"
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -25,13 +17,6 @@ class AvrGccAT14 < Formula
   keg_only "it might interfere with other version of avr-gcc.\n" \
            "This is useful if you want to have multiple version of avr-gcc\n" \
            "installed on the same machine"
-
-  option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
-
-  # automake & autoconf are needed to build from source
-  # with the ATMega168pbSupport option.
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
 
   depends_on "avr-binutils"
 
@@ -52,11 +37,9 @@ class AvrGccAT14 < Formula
 
   # Branch from the Darwin maintainer of GCC, with a few generic fixes and
   # Apple Silicon support, located at https://github.com/iains/gcc-14-branch
-  if Hardware::CPU.arm?
-    patch do
-      url "https://raw.githubusercontent.com/Homebrew/formula-patches/82b5c1cd38826ab67ac7fc498a8fe74376a40f4a/gcc/gcc-14.1.0.diff"
-      sha256 "1529cff128792fe197ede301a81b02036c8168cb0338df21e4bc7aafe755305a"
-    end
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/f30c3094/gcc/gcc-14.2.0-r2.diff"
+    sha256 "6c0a4708f35ccf2275e6401197a491e3ad77f9f0f9ef5761860768fa6da14d3d"
   end
 
   def version_suffix
@@ -123,8 +106,6 @@ class AvrGccAT14 < Formula
     rm_r(info)
     rm_r(man7)
 
-    current_build = build
-
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
 
@@ -141,7 +122,6 @@ class AvrGccAT14 < Formula
         puts "Forcing build system to aarch64-apple-darwin."
       end
 
-      system "./bootstrap" if current_build.with? "ATMega168pbSupport"
       system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
