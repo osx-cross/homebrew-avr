@@ -37,19 +37,21 @@ class AvrBinutils < Formula
   end
 
   def install
-    args = [
-      "--prefix=#{prefix}",
-      "--libdir=#{lib}/avr",
-      "--infodir=#{info}",
-      "--mandir=#{man}",
+    args = %W[
+      --prefix=#{prefix}
+      --libdir=#{lib}/avr
+      --infodir=#{info}
+      --mandir=#{man}
 
-      "--target=avr",
+      --target=avr
 
-      "--disable-nls",
-      "--disable-debug",
-      "--disable-werror",
-      "--disable-dependency-tracking",
-      "--enable-deterministic-archives",
+      --disable-nls
+      --disable-debug
+      --disable-werror
+      --disable-dependency-tracking
+      --enable-deterministic-archives
+
+      --with-system-zlib
     ]
 
     mkdir "build" do
