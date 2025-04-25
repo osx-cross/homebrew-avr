@@ -10,6 +10,13 @@ class AvrBinutils < Formula
 
   head "https://sourceware.org/git/binutils-gdb.git", branch: "master"
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.44"
+    sha256 arm64_sequoia: "0743b4a3cd09382b72eded859b1c4e9bcdf5f3cf622903d48c072ebb4e775d17"
+    sha256 arm64_sonoma:  "7f3f6549d247f6b7da4c226673901f0dbe566f2da73a3262dad0a34f3a5457cf"
+    sha256 ventura:       "026e057cdc38bc4a6d10627ed23f753a8ecd480fece6887400cb3780f1ae9c6b"
+  end
+
   uses_from_macos "zlib"
 
   on_ventura :or_newer do
