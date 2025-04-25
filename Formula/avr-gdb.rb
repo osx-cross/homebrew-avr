@@ -1,21 +1,17 @@
 class AvrGdb < Formula
   desc "GNU debugger for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://www.gnu.org/software/gdb/"
-  url "https://ftp.gnu.org/gnu/gdb/gdb-15.2.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gdb/gdb-15.2.tar.xz"
-  sha256 "83350ccd35b5b5a0cba6b334c41294ea968158c573940904f00b92f76345314d"
+
+  url "https://ftp.gnu.org/gnu/gdb/gdb-16.3.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gdb/gdb-16.3.tar.xz"
+  sha256 "bcfcd095528a987917acf9fff3f1672181694926cc18d609c99d0042c00224c5"
+
   license "GPL-3.0-or-later"
+
   head "https://sourceware.org/git/binutils-gdb.git", branch: "master"
 
   livecheck do
     formula "gdb"
-  end
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-15.2"
-    sha256 arm64_sequoia: "f661344b26bafca4db032882591009eb86274f1742718d5678313dbae94f6f97"
-    sha256 arm64_sonoma:  "8b745f7a3747f276f7544479a045a018664db06e371b1ed537e1d14fa51fd9b8"
-    sha256 ventura:       "290d51abfc06bb33ada39560f737b659bc387c76cfc4d3ca25b789780034f74a"
   end
 
   depends_on "avr-gcc@14" => :test
