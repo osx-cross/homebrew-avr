@@ -15,7 +15,7 @@ AVR is a popular family of micro-controllers, used for example in the [Arduino] 
 - GCC 14.2.0 - provided as `avr-gcc@14`
 - Binutils 2.44 - provided as `avr-binutils`
 - AVR Libc 2.2.1 - provided as a resource for each GCC formula
-- GDB 15.2 - provided as `avr-gdb`
+- GDB 16.3 - provided as `avr-gdb`
 
 Support for older GCC versions (4, 5, 6, 7) has been removed. Please, raise an issue if you need one back.
 
