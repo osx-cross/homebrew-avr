@@ -14,6 +14,13 @@ class AvrGdb < Formula
     formula "gdb"
   end
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gdb-16.3"
+    sha256 arm64_sequoia: "f5eeb26b1dadd9f23db311aba4d85588da92f15ed61274b6aadcd5e2e7ae02cf"
+    sha256 arm64_sonoma:  "61eb2b3d243f2d6487f2262bd6f4506aa42a8a4571752cf1e460989464a39e76"
+    sha256 ventura:       "ca966c101bdd29ba82ce410b768b2a367812b52b8d5800a44571b4388e54b241"
+  end
+
   depends_on "avr-gcc@14" => :test
   depends_on "gmp"
   depends_on "mpfr"
