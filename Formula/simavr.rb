@@ -2,8 +2,8 @@ class Simavr < Formula
   desc "Lean, mean and hackable AVR simulator for Linux & macOS"
   homepage "https://github.com/buserror/simavr"
 
-  url "https://github.com/buserror/simavr/releases/tag/v1.6"
-  sha256 "a55ad04d055eef5656c49f78bc089968b059c6efb6a831618b8d7e67a840936d"
+  url "https://api.github.com/repos/buserror/simavr/tarball/refs/tags/v1.6"
+  sha256 "f62914ca1443b31eaa5dca34e94ac8e192df5d9d6bd80d64c6845aade7ab9f58"
 
   head "https://github.com/buserror/simavr.git"
 
@@ -17,6 +17,12 @@ class Simavr < Formula
 
   def install
     ENV.deparallelize
+
+    # Patch Makefile.common to work with versioned avr-gcc
+    inreplace "Makefile.common" do |s|
+      s.gsub! "$(HOMEBREW_PREFIX)/Cellar/avr-gcc/", "$(HOMEBREW_PREFIX)/Cellar/avr-gcc@*/"
+    end
+
     system "make", "all", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
     system "make", "install", "DESTDIR=#{prefix}", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
     prefix.install "examples"
