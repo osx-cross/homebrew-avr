@@ -7,16 +7,8 @@ class AvrGccAT12 < Formula
   sha256 "e549cf9cf3594a00e27b6589d4322d70e0720cdd213f39beb4181e06926230ff"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
-  revision 3
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@12-12.2.0_3"
-    sha256 arm64_sonoma: "ba0c8596203f126e5acb5795fe14180799b192920abd77c3c4f3962296e380dd"
-    sha256 ventura:      "b87620c6e9d5fc0dc5b39e0ed0342e012b3a88a44c801c3be4ae11d918c4382f"
-    sha256 monterey:     "484339713793087bd20767adb522fba3848423b3c407fd6ae8ae67e1afe63653"
-  end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -25,8 +17,6 @@ class AvrGccAT12 < Formula
   keg_only "it might interfere with other version of avr-gcc.\n" \
            "This is useful if you want to have multiple version of avr-gcc\n" \
            "installed on the same machine"
-
-  option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
 
   # automake & autoconf are needed to build from source
   # with the ATMega168pbSupport option.
@@ -56,8 +46,6 @@ class AvrGccAT12 < Formula
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip
-
-  current_build = build
 
   resource "avr-libc" do
     url "https://github.com/avrdudes/avr-libc/releases/download/avr-libc-2_2_1-release/avr-libc-2.2.1.tar.bz2"
@@ -128,8 +116,6 @@ class AvrGccAT12 < Formula
     rm_r(info)
     rm_r(man7)
 
-    current_build = build
-
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
 
@@ -146,7 +132,6 @@ class AvrGccAT12 < Formula
         puts "Forcing build system to aarch64-apple-darwin."
       end
 
-      system "./bootstrap" if current_build.with? "ATMega168pbSupport"
       system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
