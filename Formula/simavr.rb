@@ -3,7 +3,7 @@ class Simavr < Formula
   homepage "https://github.com/buserror/simavr"
 
   url "https://github.com/buserror/simavr/archive/refs/tags/v1.7.tar.gz"
-  sha256 "de0165871133261446b0dc17765ca0f237ff869bc71cb099e3fe1515b39ab656"
+  sha256 "e7b3d5f0946e84fbe76a37519d0f146d162bbf88641ee91883b3970b02c77093"
 
   head "https://github.com/buserror/simavr.git"
 
