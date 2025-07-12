@@ -2,20 +2,13 @@ class AvrGccAT14 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftpmirror.gnu.org/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz"
-  sha256 "a7b39bc69cbf9e25826c5a60ab26477001f7c08d85cec04bc0e29cabed6f3cc9"
+  url "https://ftpmirror.gnu.org/gcc/gcc-14.3.0/gcc-14.3.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-14.3.0/gcc-14.3.0.tar.xz"
+  sha256 "e0dc77297625631ac8e50fa92fffefe899a4eb702592da5c32ef04e2293aca3a"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
-  head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-14"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@14-14.2.0"
-    sha256 arm64_sequoia: "645a5856b0a870b194a8d2fd379bac8072f912be181c5c2796e56e6b548d22ae"
-    sha256 arm64_sonoma:  "36d1cd02bd83fa90dbba967bff769b4a6a7ed4e5b73f8a1bc6bff72e46004fa5"
-    sha256 ventura:       "a9f1bc2f5d3f010ff7e599d56b7864c9fb8dca758f1e47fed6dfaa0002fbecc4"
-  end
+  head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -42,8 +35,8 @@ class AvrGccAT14 < Formula
   # Branch from the Darwin maintainer of GCC, with a few generic fixes and
   # Apple Silicon support, located at https://github.com/iains/gcc-14-branch
   patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/f30c3094/gcc/gcc-14.2.0-r2.diff"
-    sha256 "6c0a4708f35ccf2275e6401197a491e3ad77f9f0f9ef5761860768fa6da14d3d"
+    url "https://raw.githubusercontent.com/Homebrew/homebrew-core/1cf441a0/Patches/gcc/gcc-14.3.0.diff"
+    sha256 "b8611362ae43a5644ab908d6e4d9bfc90346a914c3ba851197086d54148b1289"
   end
 
   def version_suffix
@@ -118,13 +111,6 @@ class AvrGccAT14 < Formula
       ENV.delete "LD"
       ENV.delete "CC"
       ENV.delete "CXX"
-
-      # avr-libc ships with outdated config.guess and config.sub scripts that
-      # do not support Apple ARM systems, causing the configure script to fail.
-      if OS.mac? && Hardware::CPU.arm?
-        ENV["ac_cv_build"] = "aarch64-apple-darwin"
-        puts "Forcing build system to aarch64-apple-darwin."
-      end
 
       system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
