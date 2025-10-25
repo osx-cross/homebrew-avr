@@ -2,8 +2,8 @@ class AvrGccAT9 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz"
+  url "https://ftpmirror.gnu.org/gnu/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz"
+  mirror "https://ftp.gnu.org/gcc/gcc-9.4.0/gcc-9.4.0.tar.xz"
   sha256 "c95da32f440378d7751dd95533186f7fc05ceb4fb65eb5b85234e6299eb9838e"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
