@@ -2,8 +2,8 @@ class AvrGccAT11 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
+  url "https://ftpmirror.gnu.org/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
   sha256 "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
@@ -188,7 +188,7 @@ class AvrGccAT11 < Formula
 
     system "#{bin}/avr-gcc", "-mmcu=atmega328p", "-Os", "-c", "hello.c", "-o", "hello.c.o", "--verbose"
     system "#{bin}/avr-gcc", "hello.c.o", "-o", "hello.c.elf"
-    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", \
+    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data",
       "hello.c.elf", "hello.c.hex"
 
     assert_equal `cat hello.c.hex`, hello_c_hex
@@ -231,7 +231,7 @@ class AvrGccAT11 < Formula
 
     system "#{bin}/avr-g++", "-mmcu=atmega328p", "-Os", "-c", "hello.cpp", "-o", "hello.cpp.o", "--verbose"
     system "#{bin}/avr-g++", "hello.cpp.o", "-o", "hello.cpp.elf"
-    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data", \
+    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data",
       "hello.cpp.elf", "hello.cpp.hex"
 
     assert_equal `cat hello.cpp.hex`, hello_cpp_hex
