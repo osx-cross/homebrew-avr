@@ -3,7 +3,7 @@ class AvrGccAT8 < Formula
   homepage "https://www.gnu.org/software/gcc/gcc.html"
 
   url "https://ftpmirror.gnu.org/gcc/gcc-8.5.0/gcc-8.5.0.tar.xz"
-  mirror  "https://ftp.gnu.org/gnu/gcc/gcc-8.5.0/gcc-8.5.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-8.5.0/gcc-8.5.0.tar.xz"
   sha256 "d308841a511bb830a6100397b0042db24ce11f642dab6ea6ee44842e5325ed50"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
