@@ -19,10 +19,6 @@ class AvrBinutils < Formula
 
   uses_from_macos "zlib"
 
-  on_ventura :or_newer do
-    depends_on "texinfo" => :build
-  end
-
   on_linux do
     depends_on "gpatch" => :build
   end
