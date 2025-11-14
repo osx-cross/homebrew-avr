@@ -2,19 +2,13 @@ class AvrGccAT13 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftpmirror.gnu.org/gcc/gcc-13.3.0/gcc-13.3.0.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/gcc/gcc-13.3.0/gcc-13.3.0.tar.xz"
-  sha256 "0845e9621c9543a13f484e94584a49ffc0129970e9914624235fc1d061a0c083"
+  url "https://ftpmirror.gnu.org/gcc/gcc-13.4.0/gcc-13.4.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-13.4.0/gcc-13.4.0.tar.xz"
+  sha256 "9c4ce6dbb040568fdc545588ac03c5cbc95a8dbf0c7aa490170843afb59ca8f5"
+
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@13-13.3.0"
-    sha256 arm64_sequoia: "97d791fe57e8b2bc41348d2c88bfa1d59274bca96dad8a517e2042c17545a309"
-    sha256 arm64_sonoma:  "3da375d40a116a15baaaeaf9304cb45ab4ea918b1a46c2891ed4fa96331d7d76"
-    sha256 ventura:       "e2da3903783d304cf2cfc39529c3467a9527b37c0a2d26c655c20172cdc0af74"
-  end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -23,13 +17,6 @@ class AvrGccAT13 < Formula
   keg_only "it might interfere with other version of avr-gcc.\n" \
            "This is useful if you want to have multiple version of avr-gcc\n" \
            "installed on the same machine"
-
-  option "with-ATMega168pbSupport", "Add ATMega168pb Support to avr-gcc"
-
-  # automake & autoconf are needed to build from source
-  # with the ATMega168pbSupport option.
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
 
   depends_on "avr-binutils"
 
@@ -51,8 +38,8 @@ class AvrGccAT13 < Formula
   # Branch from the Darwin maintainer of GCC, with a few generic fixes and
   # Apple Silicon support, located at https://github.com/iains/gcc-13-branch
   patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/bda0faddfbfb392e7b9c9101056b2c5ab2500508/gcc/gcc-13.3.0.diff"
-    sha256 "c5e9236430ef6edbdda7de9ac70bf79e21628077a48322cec7f3f064ccfc243d"
+    url "https://raw.githubusercontent.com/Homebrew/homebrew-core/1cf441a0/Patches/gcc/gcc-13.4.0.diff"
+    sha256 "60b22ae7f5f78b41e12c51d8c6e99ba933a7e124454fe8cdbff7200505167949"
   end
 
   def version_suffix
@@ -119,7 +106,7 @@ class AvrGccAT13 < Formula
     rm_r(info)
     rm_r(man7)
 
-    current_build = build
+    build
 
     resource("avr-libc").stage do
       ENV.prepend_path "PATH", bin
@@ -130,14 +117,6 @@ class AvrGccAT13 < Formula
       ENV.delete "CC"
       ENV.delete "CXX"
 
-      # avr-libc ships with outdated config.guess and config.sub scripts that
-      # do not support Apple ARM systems, causing the configure script to fail.
-      if OS.mac? && Hardware::CPU.arm?
-        ENV["ac_cv_build"] = "aarch64-apple-darwin"
-        puts "Forcing build system to aarch64-apple-darwin."
-      end
-
-      system "./bootstrap" if current_build.with? "ATMega168pbSupport"
       system "./configure", "--prefix=#{prefix}", "--host=avr"
       system "make", "install"
     end
