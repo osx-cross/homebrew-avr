@@ -2,9 +2,9 @@ class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils"
 
-  url "https://ftpmirror.gnu.org/binutils/binutils-2.44.tar.bz2"
-  mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.44.tar.bz2"
-  sha256 "f66390a661faa117d00fab2e79cf2dc9d097b42cc296bf3f8677d1e7b452dc3a"
+  url "https://ftpmirror.gnu.org/binutils/binutils-2.45.1.tar.bz2"
+  mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.45.1.tar.bz2"
+  sha256 "860daddec9085cb4011279136fc8ad29eb533e9446d7524af7f517dd18f00224"
 
   license all_of: ["GPL-2.0-or-later", "GPL-3.0-or-later", "LGPL-2.0-or-later", "LGPL-3.0-only"]
 
@@ -68,7 +68,7 @@ class AvrBinutils < Formula
   end
 
   test do
-    version_output = "GNU ld (GNU Binutils) 2.44\n"
+    version_output = "GNU ld (GNU Binutils) 2.45.1\n"
     assert_equal `avr-ld -v`, version_output
   end
 end
