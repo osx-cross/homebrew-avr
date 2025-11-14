@@ -39,19 +39,6 @@ class AvrGccAT12 < Formula
 
   uses_from_macos "zlib"
 
-  # Branch from the Darwin maintainer of GCC, with a few generic fixes and
-  # Apple Silicon support, located at https://github.com/iains/gcc-12-branch
-  # macOS 13 with CLT 14.2 installed will fail due to missing support for
-  # -nodefaultrpath in clang. The patch seems to not be needed however.
-  on_macos do
-    if Hardware::CPU.arm? && (MacOS.version < :ventura)
-      patch do
-        url "https://raw.githubusercontent.com/Homebrew/formula-patches/1d184289/gcc/gcc-12.2.0-arm.diff"
-        sha256 "a7843b5c6bf1401e40c20c72af69c8f6fc9754ae980bb4a5f0540220b3dcb62d"
-      end
-    end
-  end
-
   build
 
   resource "avr-libc" do
