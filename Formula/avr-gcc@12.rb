@@ -2,13 +2,12 @@ class AvrGccAT12 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftpmirror.gnu.org/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz"
-  sha256 "e549cf9cf3594a00e27b6589d4322d70e0720cdd213f39beb4181e06926230ff"
+  url "https://ftpmirror.gnu.org/gcc/gcc-12.4.0/gcc-12.4.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-12.4.0/gcc-12.4.0.tar.xz"
+  sha256 "704f652604ccbccb14bdabf3478c9511c89788b12cb3bbffded37341916a9175"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
-  revision 4
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
   bottle do
