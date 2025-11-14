@@ -46,6 +46,22 @@ class AvrGccAT12 < Formula
     sha256 "006a6306cbbc938c3bdb583ac54f93fe7d7c8cf97f9cde91f91c6fb0273ab465"
   end
 
+  # Branch from the Darwin maintainer of GCC, with a few generic fixes and
+  # Apple Silicon support, located at https://github.com/iains/gcc-12-branch
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/homebrew-core/1cf441a0/Patches/gcc/gcc-12.4.0.diff"
+    sha256 "c0e8e94fbf65a6ce13286e7f13beb5a1d84b182a610489026ce3e2420fc3d45c"
+  end
+
+  # Backport commits to build on Sonoma/Sequoia to allow rebottling.
+  # TODO: merge into above patch when updating to 12.5.0.
+  patch do
+    on_macos do
+      url "https://github.com/iains/gcc-12-branch/compare/e300c1337a48cf772b09e7136601fd7f9f09d6f1..99533d94172ed7a24c0e54c4ea97e6ae2260409e.patch"
+      sha256 "f01bf173c1980cef680e407a5cc4f34af13a3e54cd644138735ec35adc5c6e40"
+    end
+  end
+
   def version_suffix
     if build.head?
       "HEAD"
