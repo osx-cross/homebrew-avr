@@ -2,21 +2,13 @@ class AvrGccAT11 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftpmirror.gnu.org/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz"
-  sha256 "b47cf2818691f5b1e21df2bb38c795fac2cfbd640ede2d0a5e1c89e338a3ac39"
+  url "https://ftpmirror.gnu.org/gcc/gcc-11.5.0/gcc-11.5.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-11.5.0/gcc-11.5.0.tar.xz"
+  sha256 "a6e21868ead545cf87f0c01f84276e4b5281d672098591c1c896241f09363478"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
-  revision 2
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-11"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@11-11.3.0_2"
-    sha256 arm64_sonoma: "33ac86d868a1cb875e94a9d33a51269a75f94c7e54c106c549e58571e4f1ccef"
-    sha256 ventura:      "c368474e738577d7e0267d55b395ae0462cc2c09c5bea6438f4f63d7b0a774c2"
-    sha256 monterey:     "40318710c03906b08c7d68965d05faf9bc82e896723cc815cdcb2e443429d479"
-  end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -60,8 +52,8 @@ class AvrGccAT11 < Formula
   # Apple Silicon support, located at https://github.com/iains/gcc-11-branch
   if Hardware::CPU.arm?
     patch do
-      url "https://raw.githubusercontent.com/Homebrew/formula-patches/22dec3fc/gcc/gcc-11.3.0-arm.diff"
-      sha256 "e02006b7ec917cc1390645d95735a6a866caed0dfe506d5bef742f7862cab218"
+      url "https://raw.githubusercontent.com/Homebrew/homebrew-core/1cf441a0/Patches/gcc/gcc-11.5.0.diff"
+      sha256 "213b332bd09452e0cf081f874f32d028911fa871875f85b200b55c5b588ce193"
     end
 
     # Fix argument type mismatch error
