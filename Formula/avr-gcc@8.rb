@@ -7,16 +7,9 @@ class AvrGccAT8 < Formula
   sha256 "d308841a511bb830a6100397b0042db24ce11f642dab6ea6ee44842e5325ed50"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
-  revision 2
+  revision 3
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-8"
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@8-8.5.0_2"
-    sha256 arm64_sonoma: "e83a6abfe3325d48095b12e66b211bbad5d1f97b3741329745e7d6a2b39b124a"
-    sha256 ventura:      "e0461aa32e2c6e9f4a26e16bf58c46e2a68c11bb660585ccfae4ce8ed56c5328"
-    sha256 monterey:     "00188e6a36f4375908e83b8812448ecfca6049aaee204ecaa07a2b23899432f3"
-  end
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -66,6 +59,13 @@ class AvrGccAT8 < Formula
   patch do
     url "https://gist.githubusercontent.com/DavidEGrayson/88bceb3f4e62f45725ecbb9248366300/raw/c1f515475aff1e1e3985569d9b715edb0f317648/gcc-11-arm-darwin.patch"
     sha256 "c4e9df9802772ddecb71aa675bb9403ad34c085d1359cb0e45b308ab6db551c6"
+  end
+
+  # Backport upstream GCC commit to avoid an include poisoning issue in the
+  # libc++ version included in more recent macOS SDKs.
+  patch do
+    url "https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=9970b576b7e4ae337af1268395ff221348c4b34a"
+    sha256 "aa67dbab17af5e8396c05d866bf871ac07c444fe9e684241710ecc6b5de90bfd"
   end
 
   def install
