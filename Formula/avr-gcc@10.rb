@@ -12,13 +12,6 @@ class AvrGccAT10 < Formula
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-10"
 
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-gcc@10-10.3.0_3"
-    sha256 arm64_sonoma: "a3389faf9a2ddfb9f2177300f2ac016f845105de60fecdadee1f59392ee4d034"
-    sha256 ventura:      "e84948abf83aaac9733d6ddde8d295e41abdcf42e2bb4c7d5ec66f016c5ecca1"
-    sha256 monterey:     "8d3975f45f96600e3a5fa44c5aafa361d6a9cf87f383ea8abbcc884cb896d7c0"
-  end
-
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
   pour_bottle? only_if: :clt_installed
@@ -62,6 +55,13 @@ class AvrGccAT10 < Formula
   patch do
     url "https://gist.githubusercontent.com/DavidEGrayson/88bceb3f4e62f45725ecbb9248366300/raw/c1f515475aff1e1e3985569d9b715edb0f317648/gcc-11-arm-darwin.patch"
     sha256 "c4e9df9802772ddecb71aa675bb9403ad34c085d1359cb0e45b308ab6db551c6"
+  end
+
+  # Backport upstream GCC commit to avoid an include poisoning issue in the
+  # libc++ version included in more recent macOS SDKs.
+  patch do
+    url "https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=9970b576b7e4ae337af1268395ff221348c4b34a"
+    sha256 "aa67dbab17af5e8396c05d866bf871ac07c444fe9e684241710ecc6b5de90bfd"
   end
 
   def install
