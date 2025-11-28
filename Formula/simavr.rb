@@ -21,9 +21,26 @@ class Simavr < Formula
     ENV.deparallelize
 
     # Patch Makefile.common to work with versioned avr-gcc
-    inreplace "Makefile.common" do |s|
-      s.gsub! "ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/avr-gcc* && echo Exists}, Exists)",
-          "AVR_GCC_DIR := $(firstword $(wildcard $(HOMEBREW_PREFIX)/Cellar/avr-gcc*/))\n   ifeq ($(AVR_GCC_DIR),)"
+    # Patch Makefile.common to work with versioned avr-gcc
+    makefile = File.read("Makefile.common")
+
+    replacement = <<~EOS.chomp
+      AVR_GCC_DIR := $(firstword $(wildcard $(HOMEBREW_PREFIX)/Cellar/avr-gcc*/))
+      ifeq ($(AVR_GCC_DIR),)
+    EOS
+
+    if makefile.include?("Cellar/avr-gcc*")
+      # HEAD version
+      inreplace "Makefile.common",
+                "   ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/avr-gcc* && echo Exists}, Exists)",
+                replacement
+    elsif makefile.include?("Cellar/avr-gcc/")
+      # v1.7 version
+      inreplace "Makefile.common",
+                "   ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/avr-gcc/ && echo Exists}, Exists)",
+                replacement
+    else
+      odie "avr-gcc Homebrew check not found in Makefile.common"
     end
 
     system "make", "all", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
