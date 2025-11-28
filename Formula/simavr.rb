@@ -5,7 +5,7 @@ class Simavr < Formula
   url "https://github.com/buserror/simavr/archive/refs/tags/v1.7.tar.gz"
   sha256 "e7b3d5f0946e84fbe76a37519d0f146d162bbf88641ee91883b3970b02c77093"
 
-  head "https://github.com/buserror/simavr.git"
+  head "https://github.com/buserror/simavr.git", branch: "master"
 
   bottle do
     root_url "https://github.com/osx-cross/homebrew-avr/releases/download/simavr-1.7"
@@ -21,7 +21,8 @@ class Simavr < Formula
 
     # Patch Makefile.common to work with versioned avr-gcc
     inreplace "Makefile.common" do |s|
-      s.gsub! "$(HOMEBREW_PREFIX)/Cellar/avr-gcc/", "$(HOMEBREW_PREFIX)/Cellar/avr-gcc@*/"
+      s.gsub! "ifneq (${shell test -d $(HOMEBREW_PREFIX)/Cellar/avr-gcc* && echo Exists}, Exists)",
+          "AVR_GCC_DIR := $(firstword $(wildcard $(HOMEBREW_PREFIX)/Cellar/avr-gcc*/))\n   ifeq ($(AVR_GCC_DIR),)"
     end
 
     system "make", "all", "HOMEBREW_PREFIX=#{HOMEBREW_PREFIX}", "RELEASE=1"
