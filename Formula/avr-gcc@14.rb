@@ -2,12 +2,11 @@ class AvrGccAT14 < Formula
   desc "GNU compiler collection for AVR 8-bit and 32-bit Microcontrollers"
   homepage "https://gcc.gnu.org/"
 
-  url "https://ftpmirror.gnu.org/gcc/gcc-14.3.0/gcc-14.3.0.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/gcc/gcc-14.3.0/gcc-14.3.0.tar.xz"
-  sha256 "e0dc77297625631ac8e50fa92fffefe899a4eb702592da5c32ef04e2293aca3a"
+  url "https://ftpmirror.gnu.org/gcc/gcc-14.4.0/gcc-14.4.0.tar.xz"
+  mirror "https://ftp.gnu.org/gnu/gcc/gcc-14.4.0/gcc-14.4.0.tar.xz"
+  sha256 "752b6f567beac83159c77a7680b1316bdd784738bff9a9d070112c09da90f6d9"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
-  revision 2
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
@@ -44,8 +43,8 @@ class AvrGccAT14 < Formula
   # Branch from the Darwin maintainer of GCC, with a few generic fixes and
   # Apple Silicon support, located at https://github.com/iains/gcc-14-branch
   patch do
-    url "https://raw.githubusercontent.com/Homebrew/homebrew-core/1cf441a0/Patches/gcc/gcc-14.3.0.diff"
-    sha256 "b8611362ae43a5644ab908d6e4d9bfc90346a914c3ba851197086d54148b1289"
+    url "https://raw.githubusercontent.com/Homebrew/homebrew-core/d23df58f/Patches/gcc/gcc-14.4.0.diff"
+    sha256 "c0c5ebd7c64fd20af78f516a1daf8dc543b44c170c766c583e02b11735e55678"
   end
 
   def version_suffix
