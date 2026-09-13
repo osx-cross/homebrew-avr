@@ -1,20 +1,13 @@
 class AvrBinutils < Formula
   desc "GNU Binutils for the AVR target"
   homepage "https://www.gnu.org/software/binutils/"
-  url "https://ftpmirror.gnu.org/gnu/binutils/binutils-2.46.0.tar.bz2"
-  mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.46.0.tar.bz2"
-  sha256 "0f3152632a2a9ce066f20963e9bb40af7cf85b9b6c409ed892fd0676e84ecd12"
+  url "https://ftpmirror.gnu.org/gnu/binutils/binutils-2.47.tar.bz2"
+  mirror "https://ftp.gnu.org/gnu/binutils/binutils-2.47.tar.bz2"
+  sha256 "3068128c75cda9f898ccb4211d360246e8e195ffcc9dfb655b23ae23a54800e8"
   license "GPL-3.0-or-later"
 
   livecheck do
     formula "binutils"
-  end
-
-  bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.46.0"
-    sha256 arm64_tahoe:   "8f4796d36e5ee4729688053a2c3724594d010429bfebebfb088f10af451fba05"
-    sha256 arm64_sequoia: "a8e08c285667e6da7809caaacf1f47f78d96dec753c7b66bd36d454347251e84"
-    sha256 arm64_sonoma:  "6402fef9cf6f3edcbb8f42de5c8d1d6226613a8ca42b800d6129771736023998"
   end
 
   depends_on "pkgconf" => :build
