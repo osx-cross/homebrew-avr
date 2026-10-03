@@ -36,7 +36,17 @@ jobs:
 
       - run: brew test-bot --only-setup
 
-      - run: brew test-bot --only-tap-syntax
+      # Skip tap-wide style checks by calling other checks (readall and audit)
+      # of `brew test-bot --only-tap-syntax` directly.
+      - run: brew readall --aliases --os=all --arch=all "$GITHUB_REPOSITORY"
+        env:
+          HOMEBREW_DEVELOPER: 1
+          HOMEBREW_SORBET_RUNTIME: 1
+
+      - run: brew audit --except=installed --tap="$GITHUB_REPOSITORY"
+        env:
+          HOMEBREW_DEVELOPER: 1
+          HOMEBREW_SORBET_RUNTIME: 1
 
       - run: brew test-bot --only-formulae
         if: github.event_name == 'pull_request'
