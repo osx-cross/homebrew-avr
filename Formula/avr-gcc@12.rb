@@ -7,7 +7,7 @@ class AvrGccAT12 < Formula
   sha256 "71cd373d0f04615e66c5b5b14d49c1a4c1a08efa7b30625cd240b11bab4062b3"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
-  revision 1
+  revision 2
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
