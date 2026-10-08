@@ -7,6 +7,7 @@ class AvrGccAT14 < Formula
   sha256 "e0dc77297625631ac8e50fa92fffefe899a4eb702592da5c32ef04e2293aca3a"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
+  revision 1
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "master"
 
@@ -31,6 +32,7 @@ class AvrGccAT14 < Formula
   depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
+  depends_on "zstd"
 
   uses_from_macos "zlib"
 
