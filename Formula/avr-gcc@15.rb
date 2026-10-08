@@ -75,8 +75,8 @@ class AvrGccAT15 < Formula
 
       --enable-languages=#{languages.join(",")}
 
-      --with-ld=#{Formula["avr-binutils"].opt_bin/"avr-ld"}
-      --with-as=#{Formula["avr-binutils"].opt_bin/"avr-as"}
+      --with-ld=#{formula_opt_bin("avr-binutils")/"avr-ld"}
+      --with-as=#{formula_opt_bin("avr-binutils")/"avr-as"}
 
       --disable-nls
       --disable-libssp
@@ -154,7 +154,7 @@ class AvrGccAT15 < Formula
 
     system "#{bin}/avr-gcc", "-mmcu=atmega328p", "-Os", "-c", "hello.c", "-o", "hello.c.o", "--verbose"
     system "#{bin}/avr-gcc", "hello.c.o", "-o", "hello.c.elf"
-    system "#{Formula["avr-binutils"].opt_bin}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data",
+    system "#{formula_opt_bin("avr-binutils")}/avr-objcopy", "-O", "ihex", "-j", ".text", "-j", ".data",
       "hello.c.elf", "hello.c.hex"
 
     assert_equal `cat hello.c.hex`, hello_c_hex
