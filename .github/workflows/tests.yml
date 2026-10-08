@@ -18,12 +18,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-15, macos-26]
+        os: [macos-15, macos-26, xcode-27]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Verify xcode-27 still targets macOS 27
+        if: matrix.os == 'xcode-27'
+        run: |
+          brew ruby -e 'abort "xcode-27 runner is macOS #{MacOS.version}, expected macOS 27" unless MacOS.version == 27'
 
       - name: Cache Homebrew Bundler RubyGems
         uses: actions/cache@v4
