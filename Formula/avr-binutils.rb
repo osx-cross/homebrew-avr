@@ -10,6 +10,12 @@ class AvrBinutils < Formula
     formula "binutils"
   end
 
+  bottle do
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.47"
+    sha256 arm64_tahoe:   "be7278a9d754bdb85612b0604c328d5d88b5edb6eeaadeb8bfe4025fd797a8aa"
+    sha256 arm64_sequoia: "7cbc5eb5796e333c4d8113139702155ed5faa14100d58465ed9403ede998814c"
+  end
+
   depends_on "pkgconf" => :build
   depends_on "zstd"
 
