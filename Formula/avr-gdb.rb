@@ -5,6 +5,7 @@ class AvrGdb < Formula
   mirror "https://ftp.gnu.org/gnu/gdb/gdb-17.2.tar.xz"
   sha256 "1c036c0d72e4b3d1fb5c94c88632add6f9d76f4d7c4d2ea793c12a9f19a3228c"
   license "GPL-3.0-or-later"
+  revision 1
   head "https://sourceware.org/git/binutils-gdb.git", branch: "master"
 
   livecheck do
