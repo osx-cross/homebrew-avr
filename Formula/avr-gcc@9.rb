@@ -7,6 +7,7 @@ class AvrGccAT9 < Formula
   sha256 "27769f64ef1d4cd5e2be8682c0c93f9887983e6cfd1a927ce5a0a2915a95cf8f"
 
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
+  revision 1
 
   head "https://gcc.gnu.org/git/gcc.git", branch: "releases/gcc-9"
 
@@ -28,11 +29,13 @@ class AvrGccAT9 < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
+  depends_on "avr-binutils"
+
   depends_on "gmp"
   depends_on "isl"
   depends_on "libmpc"
   depends_on "mpfr"
-  depends_on "osx-cross/avr/avr-binutils"
+  depends_on "zstd"
 
   uses_from_macos "zlib"
 
