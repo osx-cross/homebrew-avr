@@ -10,10 +10,10 @@ class Simavr < Formula
   head "https://github.com/buserror/simavr.git", branch: "master"
 
   bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/simavr-1.7_2"
-    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "8cbad788c0f27435d9364489ed32ad177cff70bbd27eae655f705c2f9bfe2bdf"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "4649446a2bb60ea22d456938d26a52258358e7e84b9f50d7aaebb84be7d91a23"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "15a77fc6459c57ec11d2b244c4a892fc40ec4121c558c873cb990c80576a79f5"
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/simavr-1.8"
+    sha256 cellar: :any_skip_relocation, arm64_golden_gate: "71131412656205b5947f56544816e7f68324324c7d49c29d779ffa2518c27a66"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:       "24d72bd15f1a71a9d3f1784a2d36a97759d084273f29e042dc63daee5adbe3a4"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia:     "83a59ab04fbaf9d88b179cdb87c880b3206b2ebb9caf8abdc6abe71393c8cb4c"
   end
 
   depends_on "pkgconf" => :build
