@@ -52,6 +52,8 @@ You can run `brew info avr-gcc` or `brew info avr-gcc@{x}` for more information 
 
 `brew info avr-gcc`, `brew help`, `man brew`, or the Homebrew [documentation].
 
+Contributors and maintainers: see the [formula update and bottle publishing guide](CONTRIBUTING.md).
+
 ## Thanks
 
 This repository is based on the works of:
