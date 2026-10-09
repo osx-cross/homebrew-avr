@@ -19,6 +19,15 @@ class Avarice < Formula
   depends_on "osx-cross/avr/avr-binutils"
 
   def install
+    inreplace "src/devdescr.cc" do |s|
+      %w[atmega32m1 atmega32c1].each do |device|
+        s.gsub! "\tNULL,\t// registers not yet defined\n\t#{device}_io_registers,",
+                "\t#{device}_io_registers,\n\tfalse,"
+      end
+    end
+    inreplace "src/jtagrw.cc", "if (numLocations > 256)\n\t    return false;",
+                             "if (numLocations > 256)\n\t    return NULL;"
+
     system "./Bootstrap" if build.head?
     system "./configure",
       "--disable-debug",
