@@ -12,9 +12,10 @@ class AvrBinutils < Formula
   end
 
   bottle do
-    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.47"
-    sha256 arm64_tahoe:   "be7278a9d754bdb85612b0604c328d5d88b5edb6eeaadeb8bfe4025fd797a8aa"
-    sha256 arm64_sequoia: "7cbc5eb5796e333c4d8113139702155ed5faa14100d58465ed9403ede998814c"
+    root_url "https://github.com/osx-cross/homebrew-avr/releases/download/avr-binutils-2.47_1"
+    sha256 arm64_golden_gate: "21dc371bbabb784a93b5db4c41b0b37ed767988fc10c0552861fa4c1c07347cd"
+    sha256 arm64_tahoe:       "7b2111070b90c1fb7b9a18e9c97b14933546f322f86010ffa315de5941aa9b15"
+    sha256 arm64_sequoia:     "6341e01e36a49335d001d4104fc82439c7bc02b793382706652273e0692bf6b5"
   end
 
   depends_on "pkgconf" => :build
